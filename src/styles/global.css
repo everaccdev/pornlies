@@ -72,9 +72,9 @@
   --color-white:       #ffffff;
   --color-banner-bg:   #DB0F00;
 
-  /* Lie card colors — Figma exact */
-  --card-cream:  #F1F1F1;
-  --card-red:    #C0392B;
+  /* Lie card colors — exact Figma values */
+  --card-cream:  #F5EDD7;   /* PornLies Tan */
+  --card-red:    #DB0F00;   /* PornLies Red */
   --card-yellow: #FFBE00;
   --card-dark:   #593230;
 
@@ -638,35 +638,63 @@ em, i {
   overflow: hidden;
 }
 
+/*
+  Figma card colors (exact):
+  cream  → #F5EDD7 bg, #DB0F00 text  ("PornLies Tan")
+  red    → #DB0F00 bg, #FFBE00 text  ("PornLies Red")
+  dark   → #593230 bg, #F1F1F1 text
+  yellow → #FFBE00 bg, #593230 text
+
+  Texture: the Figma uses a linear gradient overlay (#F1F1F1→#616161)
+  blended with the grain PNG. We achieve this by stacking both as
+  multiple backgrounds with multiply blend mode.
+*/
+
+/* ── cream / tan card ── */
 .lie-card__front {
-  background-color: #F1F1F1;
-  background-image: url('/images/textures/texture-grain.png');
-  background-size: 520px 520px;
-  background-repeat: repeat;
-  background-blend-mode: multiply;
-}
-.lie-card--red .lie-card__front {
-  background-color: #C0392B;
-  background-image: url('/images/textures/texture-grain.png');
-  background-size: 520px 520px;
-  background-repeat: repeat;
-  background-blend-mode: multiply;
-}
-.lie-card--yellow .lie-card__front {
-  background-color: #FFBE00;
-  background-image: url('/images/textures/texture-grain.png');
-  background-size: 520px 520px;
-  background-repeat: repeat;
-  background-blend-mode: multiply;
-}
-.lie-card--dark .lie-card__front {
-  background-color: #593230;
-  background-image: url('/images/textures/texture-grain.png');
-  background-size: 520px 520px;
-  background-repeat: repeat;
-  background-blend-mode: multiply;
+  background-color: #F5EDD7;
+  background-image:
+    url('/images/textures/texture-grain.png'),
+    linear-gradient(160deg, #F1F1F1 0%, #c8c0b0 100%);
+  background-size: 520px 520px, cover;
+  background-repeat: repeat, no-repeat;
+  background-blend-mode: multiply, normal;
 }
 
+/* ── red card ── */
+.lie-card--red .lie-card__front {
+  background-color: #DB0F00;
+  background-image:
+    url('/images/textures/texture-grain.png'),
+    linear-gradient(160deg, rgba(241,241,241,0.25) 0%, rgba(97,97,97,0.35) 100%);
+  background-size: 520px 520px, cover;
+  background-repeat: repeat, no-repeat;
+  background-blend-mode: multiply, normal;
+}
+
+/* ── yellow card ── */
+.lie-card--yellow .lie-card__front {
+  background-color: #FFBE00;
+  background-image:
+    url('/images/textures/texture-grain.png'),
+    linear-gradient(160deg, rgba(241,241,241,0.3) 0%, rgba(97,97,97,0.3) 100%);
+  background-size: 520px 520px, cover;
+  background-repeat: repeat, no-repeat;
+  background-blend-mode: multiply, normal;
+}
+
+/* ── dark / brown card ── */
+.lie-card--dark .lie-card__front {
+  background-color: #593230;
+  background-image:
+    url('/images/textures/texture-grain.png'),
+    linear-gradient(160deg, rgba(241,241,241,0.15) 0%, rgba(97,97,97,0.4) 100%);
+  background-size: 520px 520px, cover;
+  background-repeat: repeat, no-repeat;
+  background-blend-mode: multiply, normal;
+}
+
+/* Number — top-left, small italic serif */
 .lie-card__number {
   font-family: var(--font-serif);
   font-style: italic;
@@ -675,11 +703,12 @@ em, i {
   line-height: 1;
   align-self: flex-start;
 }
-.lie-card--cream .lie-card__number  { color: rgba(89, 50, 48, 0.6); }
-.lie-card--red .lie-card__number    { color: rgba(255, 220, 210, 0.7); }
-.lie-card--yellow .lie-card__number { color: rgba(26, 10, 10, 0.5); }
-.lie-card--dark .lie-card__number   { color: rgba(241, 220, 210, 0.6); }
+.lie-card--cream .lie-card__number  { color: rgba(89, 50, 48, 0.65); }
+.lie-card--red .lie-card__number    { color: rgba(255, 235, 210, 0.75); }
+.lie-card--yellow .lie-card__number { color: rgba(89, 50, 48, 0.6); }
+.lie-card--dark .lie-card__number   { color: rgba(245, 237, 224, 0.6); }
 
+/* Title — bottom-left, large bold italic serif */
 .lie-card__title {
   font-family: var(--font-serif);
   font-size: clamp(1.4rem, 2vw, 1.85rem);
@@ -691,7 +720,7 @@ em, i {
 }
 .lie-card--cream .lie-card__title  { color: #DB0F00; }
 .lie-card--red .lie-card__title    { color: #FFBE00; }
-.lie-card--yellow .lie-card__title { color: #1a0a0a; }
+.lie-card--yellow .lie-card__title { color: #593230; }
 .lie-card--dark .lie-card__title   { color: #F1F1F1; }
 
 .lie-card__back {
