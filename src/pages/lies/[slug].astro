@@ -1,0 +1,374 @@
+---
+// src/pages/lies/[slug].astro
+// Astro static site generation — one page built per lie at build time.
+// To add a new lie: add it to the `lies` array below (and to the CMS config).
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import LeadForm from '../../components/LeadForm.astro';
+import TestimonialCard from '../../components/TestimonialCard.astro';
+
+// ─── All Lie Data ────────────────────────────────────────────────────────────
+// This is the single source of truth for all lie detail pages.
+// Keep this in sync with: /src/content/lies/lies.md (used by CMS + index page)
+// ─────────────────────────────────────────────────────────────────────────────
+export const lies = [
+  {
+    slug: 'wont-hurt',
+    number: '291',
+    title: "A little porn won't hurt you",
+    color: 'cream',
+    excerpt: "Porn promises it's harmless—just entertainment, just a little stress relief. But science tells a very different story.",
+    paragraphs: [
+      "Porn promises it's harmless—just entertainment, just a little stress relief. But science tells a very different story. Studies show that even occasional use rewires the brain's reward system, building tolerance that demands more and more extreme content over time.",
+      "Users find themselves needing harder material to feel the same effect, often escalating to content they would have found repulsive before. This isn't weakness—it's neuroscience. The same dopamine pathways hijacked by drugs and alcohol are hijacked by pornography.",
+      "Relationships suffer. Real intimacy loses its appeal. Performance anxiety spikes. The 'little' use almost never stays little. What begins as occasional curiosity can quietly become compulsion—not because you're weak, but because porn is engineered to be addictive.",
+      "The good news: the brain is plastic. It can be rewired in the other direction too. Freedom is possible, and it begins with seeing this lie for what it is.",
+    ],
+    prev: null,
+    next: 'nobody-will-ever-know',
+  },
+  {
+    slug: 'nobody-will-ever-know',
+    number: '421',
+    title: "No one will ever know",
+    color: 'red',
+    excerpt: "Secrecy is one of porn's most powerful tools. It whispers that what happens in private stays private.",
+    paragraphs: [
+      "Secrecy is one of porn's most powerful tools. It whispers that what happens in private stays private—that your viewing habits have no effect on the people around you. But the truth is, secrets change us from the inside out.",
+      "Partners notice emotional distance, reduced intimacy, unexplained irritability. Children notice when a parent is distracted, ashamed, or absent even while present. The shame of secrecy compounds the damage.",
+      "People who use porn secretly report higher rates of depression, anxiety, and relationship dissatisfaction than those who are open about their struggles. The lie of secrecy doesn't just hide the behavior—it prevents the healing.",
+      "Someone always knows. And even when they don't, you know. That awareness shapes every relationship, every decision, every moment of real intimacy. The path out starts with honesty—with yourself, and with someone you trust.",
+    ],
+    prev: 'wont-hurt',
+    next: 'better-in-bed',
+  },
+  {
+    slug: 'better-in-bed',
+    number: '1025',
+    title: "Porn makes you better in bed",
+    color: 'dark',
+    excerpt: "Far from being a sex-ed tool, pornography consistently produces worse real-world sexual outcomes.",
+    paragraphs: [
+      "This is one of porn's most damaging lies. Far from being a sex-ed tool, pornography consistently produces worse real-world sexual outcomes. It sets unrealistic expectations about bodies, performance, and what partners want.",
+      "Men who regularly use porn report higher rates of erectile dysfunction with real partners—a phenomenon researchers now call 'porn-induced ED.' Both men and women report less satisfaction with real partners after regular use.",
+      "Porn depicts scenarios engineered for the camera, not for genuine intimacy. Learning from it is like learning to drive from a Fast & Furious movie. It trains you for a fantasy that leaves real connection feeling inadequate.",
+      "Real intimacy is built on trust, communication, vulnerability, and mutual care—things porn never shows and actively trains you to devalue. The best thing you can do for your real relationship is to stop watching the fake one.",
+    ],
+    prev: 'nobody-will-ever-know',
+    next: 'everyone-does-it',
+  },
+  {
+    slug: 'everyone-does-it',
+    number: '332',
+    title: "Everyone does it",
+    color: 'yellow',
+    excerpt: "Porn normalizes itself by claiming universality. 'Everyone does it' is both factually wrong and morally irrelevant.",
+    paragraphs: [
+      "Porn normalizes itself by claiming universality. 'Everyone does it' is both factually wrong and morally irrelevant. But when you're isolated in shame, the lie feels true—and it's designed to.",
+      "In reality, a significant portion of the population doesn't use pornography, and many who have used it have walked away for good. Universality doesn't equal rightness—plenty of harmful things are common.",
+      "But more importantly, the 'everyone does it' framing is designed to cut off your instinct that something is wrong. It silences the voice that says 'this isn't who I want to be.'",
+      "You are not everyone. Your choices are your own. The people who have found freedom from porn aren't exceptional—they're ordinary people who decided the lie wasn't worth listening to anymore.",
+    ],
+    prev: 'better-in-bed',
+    next: 'quit-when-married',
+  },
+  {
+    slug: 'quit-when-married',
+    number: '54',
+    title: "I'll quit when I get married",
+    color: 'cream',
+    excerpt: "This is one of the most hopeful-sounding lies porn tells—and one of the cruelest.",
+    paragraphs: [
+      "This is one of the most hopeful-sounding lies porn tells—and one of the cruelest. It promises that a future event will solve a present problem, letting you off the hook from the hard work of change right now.",
+      "But habits and neural pathways don't automatically reset at the altar. Research consistently shows that porn use before marriage strongly predicts porn use during marriage—and marital dissatisfaction.",
+      "Partners often discover the secret and feel devastated, betrayed, and inadequate. The intimacy problems porn creates don't disappear with a wedding ring—they show up on the honeymoon.",
+      "Marriage doesn't fix porn addiction any more than moving cities fixes alcoholism. Freedom requires doing the work now, not outsourcing it to a future relationship. The good news: every day you start the work, you're building toward something real.",
+    ],
+    prev: 'everyone-does-it',
+    next: 'only-men-watch',
+  },
+  {
+    slug: 'only-men-watch',
+    number: '87',
+    title: "Only men watch porn",
+    color: 'red',
+    excerpt: "Pornography is not a male problem. Women are one of the fastest-growing demographics in porn consumption.",
+    paragraphs: [
+      "Pornography is not a male problem. Women are one of the fastest-growing demographics in porn consumption, and many suffer in silence because the cultural script says this isn't their struggle.",
+      "Female users often report deeper shame precisely because they feel like they're the only one—that something is uniquely wrong with them. Women also experience the same neurological hooks, the same escalation, the same damage to real-world intimacy.",
+      "And women who are partners of male users experience profound harm: feeling replaced, inadequate, and betrayed. The ripple effects of porn use touch every relationship it's near.",
+      "Porn's damage is equal opportunity. So is freedom. If you're a woman struggling with porn, you are not alone—and you are not broken. There is a community of people who have walked out of this, and they're waiting to walk with you.",
+    ],
+    prev: 'quit-when-married',
+    next: 'doesnt-hurt-anyone',
+  },
+  {
+    slug: 'doesnt-hurt-anyone',
+    number: '613',
+    title: "It doesn't hurt anyone",
+    color: 'dark',
+    excerpt: "Porn claims it's victimless. But the harm flows in every direction.",
+    paragraphs: [
+      "Porn claims it's victimless—a transaction between consenting adults. But the harm flows in every direction: to users, to partners, to performers, and to the culture.",
+      "Users experience neurological changes, relationship damage, and escalating compulsion. Partners experience betrayal, inadequacy, and emotional abandonment. Studies consistently link porn consumption to increased support for sex trafficking and coercive behavior.",
+      "And the performers themselves? The industry has well-documented histories of coercion, exploitation, and abuse—often invisible to the viewer who chooses to believe the performance is real and the consent is genuine.",
+      "No one watches porn in a vacuum. Every view shapes a mind, shifts a relationship, and signals demand for an industry with a deeply troubled record. The lie that it hurts no one is how porn keeps you from looking at what it's actually doing.",
+    ],
+    prev: 'only-men-watch',
+    next: 'make-me-happy',
+  },
+  {
+    slug: 'make-me-happy',
+    number: '77',
+    title: "Porn makes you happy",
+    color: 'yellow',
+    excerpt: "Porn promises pleasure but delivers something far darker.",
+    paragraphs: [
+      "Porn promises pleasure but delivers something far darker. Users consistently report higher rates of depression, anxiety, and loneliness than non-users—not lower.",
+      "The mechanism is well understood: dopamine spikes during use, then crashes. Over time, the baseline drops. Things that used to bring joy—a sunset, a real conversation, a moment of genuine intimacy—feel flat by comparison.",
+      "Porn doesn't add happiness. It borrows against it. You get the spike now and pay with diminished joy later. Regular users often describe feeling emotionally numb, disconnected, and unable to experience pleasure in normal life.",
+      "The path back to genuine happiness runs through the withdrawal that porn users dread. It's real, and it's temporary. On the other side: emotions that actually work, relationships that feel real, and a capacity for joy that porn had been quietly stealing.",
+    ],
+    prev: 'doesnt-hurt-anyone',
+    next: 'women-like-aggressive-men',
+  },
+  {
+    slug: 'women-like-aggressive-men',
+    number: '204',
+    title: "Women like aggressive men",
+    color: 'cream',
+    excerpt: "Porn presents a radically distorted picture of what women want—and what healthy relationships look like.",
+    paragraphs: [
+      "Porn presents a radically distorted picture of what women want—and what healthy relationships look like. Its portrayal of women as welcoming aggression, domination, and objectification is not a documentary. It's a script, written by an industry, for an industry.",
+      "Men who absorb this framing bring it into real relationships—and find confusion, hurt, and rejection. Women who internalize it find themselves measuring their responses against a fictional standard.",
+      "Real intimacy is built on trust, communication, and mutual respect. It requires knowing and responding to an actual person—not performing a scene. Porn trains for the performance. Real relationships reward the presence.",
+      "The lie that women like aggression doesn't just damage individual relationships. It shapes cultural attitudes toward women and contributes to broader patterns of harm. Seeing through it is part of learning to see women—and yourself—clearly.",
+    ],
+    prev: 'make-me-happy',
+    next: 'worthless',
+  },
+  {
+    slug: 'worthless',
+    number: '156',
+    title: "You're worthless",
+    color: 'red',
+    excerpt: "This is porn's cruelest lie: that your struggles make you broken, shameful, and beyond redemption.",
+    paragraphs: [
+      "This is porn's cruelest lie: that your struggles make you broken, shameful, and beyond redemption. It's the lie that keeps people from seeking help. It's the lie that makes the cycle feel permanent.",
+      "You are not your worst moments. You are not the sum of what you've watched or what you've done in secret. Shame is a tool porn uses to keep you isolated—because isolation is where the habit thrives.",
+      "Every person who has found freedom started where you are. Not a single one of them was too far gone. The people who make up the Ever Accountable community include pastors, parents, teenagers, executives, and everyone in between. None of them were worthless. Neither are you.",
+      "The path out begins with refusing this lie more than any other. You have value that no behavior can erase. That belief isn't wishful thinking—it's the foundation that real recovery is built on.",
+    ],
+    prev: 'women-like-aggressive-men',
+    next: 'not-your-kids',
+  },
+  {
+    slug: 'not-your-kids',
+    number: '89',
+    title: "Not your kids",
+    color: 'dark',
+    excerpt: "The average age of first exposure to online pornography is now 11. Believing 'not my kids' leaves them most unprotected.",
+    paragraphs: [
+      "The average age of first exposure to online pornography is now 11. Not 18. Not 16. Eleven. Believing 'not my kids' is the lie that leaves them most unprotected—because it stops the conversation before it starts.",
+      "Children don't seek out porn the way adults imagine. Most first exposures are accidental—a search gone wrong, a link from a friend, a pop-up. The device in your child's hand is a door that has no default lock.",
+      "Early exposure doesn't make children deviant. It confuses them. It shapes their understanding of relationships, bodies, and consent before they have the frameworks to process what they're seeing. That confusion doesn't announce itself.",
+      "The most protective thing a parent can do is talk openly, monitor honestly, and create an environment where a child can say 'I saw something I didn't understand' without fear. It's an uncomfortable conversation. It's also one of the most important ones.",
+    ],
+    prev: 'worthless',
+    next: 'not-enough',
+  },
+  {
+    slug: 'not-enough',
+    number: '302',
+    title: "You're not enough for him",
+    color: 'yellow',
+    excerpt: "Porn whispers to partners that they are inadequate—not attractive enough, not exciting enough. This is a lie designed to isolate and wound.",
+    paragraphs: [
+      "Porn whispers to partners that they are inadequate—not attractive enough, not exciting enough, not enough. This is a lie designed to isolate and wound, and it works with devastating effectiveness.",
+      "If your partner uses porn, their behavior is not a verdict on your worth. Porn use is driven by neurological compulsion, not by genuine dissatisfaction with you. The people on those screens are not competitors—they are props in an addictive cycle.",
+      "Partners of porn users often experience symptoms that mirror trauma: intrusive thoughts, hypervigilance, loss of trust, and profound grief. This is real, and it deserves real support—not minimization.",
+      "You are enough. You have always been enough. What your partner is struggling with is theirs to own and theirs to fight. And there is help—for them, and for you. You don't have to navigate this alone.",
+    ],
+    prev: 'not-your-kids',
+    next: null,
+  },
+];
+
+// Tell Astro which paths to generate
+export function getStaticPaths() {
+  return lies.map(lie => ({
+    params: { slug: lie.slug },
+    props: { lie },
+  }));
+}
+
+const { lie } = Astro.props;
+const colorMap: Record<string, string> = {
+  cream: '#f0e8d8',
+  red: '#c0392b',
+  yellow: '#d4a017',
+  dark: '#4a3030',
+};
+const cardColor = colorMap[lie.color] ?? '#f0e8d8';
+
+// Find adjacent lies for prev/next nav
+const currentIndex = lies.findIndex(l => l.slug === lie.slug);
+const prevLie = currentIndex > 0 ? lies[currentIndex - 1] : null;
+const nextLie = currentIndex < lies.length - 1 ? lies[currentIndex + 1] : null;
+---
+
+<BaseLayout
+  title={`${lie.title} — PornLies`}
+  description={lie.excerpt}
+  currentPage="/lies"
+>
+  <!-- Lie Hero -->
+  <section class="section section--textured lie-detail__hero-section" style={`background-color: ${cardColor}18`}>
+    <div class="container">
+      <div class="lie-detail__hero">
+        <p class="lie-detail__number animate-fadeup">Lie No. {lie.number}</p>
+        <h1 class="animate-fadeup animate-fadeup--delay-1" style="color: var(--color-white);">
+          <em>"{lie.title}"</em>
+        </h1>
+        <p class="hero__subtitle animate-fadeup animate-fadeup--delay-2">The Truth</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lie Full Content -->
+  <section class="section">
+    <div class="container">
+      <div class="lie-detail__content">
+        {lie.paragraphs.map((para, i) => (
+          <p class="reveal" style={`transition-delay: ${i * 0.08}s`}>{para}</p>
+        ))}
+
+        <!-- CTA -->
+        <div class="lie-detail__cta reveal">
+          <div class="cta-block mt-lg">
+            <p class="cta-block__eyebrow">Ready to get free?</p>
+            <h2 class="cta-block__title">Kick porn to the curb.</h2>
+            <p class="cta-block__body">
+              Scientifically-backed accountability software that dramatically reduces porn usage.
+              63% of users report zero porn use after one month. Guaranteed.
+            </p>
+            <a
+              href="https://everaccountable.com/fighting-porn-together/"
+              target="_blank"
+              rel="noopener"
+              class="btn btn--primary"
+            >
+              Get Free From Lies <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Prev / Next lie navigation -->
+        <nav class="lie-detail__nav" aria-label="Previous and next lies">
+          <div>
+            {prevLie && (
+              <a href={`/lies/${prevLie.slug}`} class="lie-nav-link lie-nav-link--prev">
+                <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+                <span>
+                  <small>Previous lie</small>
+                  <strong>{prevLie.title}</strong>
+                </span>
+              </a>
+            )}
+          </div>
+          <a href="/lies" class="btn btn--outline btn--sm">All Lies</a>
+          <div>
+            {nextLie && (
+              <a href={`/lies/${nextLie.slug}`} class="lie-nav-link lie-nav-link--next">
+                <span>
+                  <small>Next lie</small>
+                  <strong>{nextLie.title}</strong>
+                </span>
+                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              </a>
+            )}
+          </div>
+        </nav>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter sign-up at bottom -->
+  <section class="section section--dark" aria-labelledby="lie-newsletter">
+    <div class="container">
+      <div class="cta-block">
+        <p class="cta-block__eyebrow">Want to Stay Connected?</p>
+        <h2 class="cta-block__title" id="lie-newsletter">Sign up for news and updates</h2>
+        <LeadForm id={`lie-newsletter-${lie.slug}`} submitLabel="Sign Up" />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+.lie-detail__hero-section {
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.lie-detail__hero {
+  text-align: center;
+  max-width: 780px;
+  margin-inline: auto;
+}
+.lie-detail__hero h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-style: italic;
+  color: var(--color-white);
+  margin-block: 0.5rem 1rem;
+}
+.lie-detail__content {
+  max-width: 700px;
+  margin-inline: auto;
+}
+.lie-detail__content p {
+  font-size: clamp(1rem, 1.8vw, 1.15rem);
+  line-height: 1.85;
+  margin-bottom: 1.75rem;
+  color: var(--color-text);
+}
+.lie-detail__nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-block: 2.5rem;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  margin-top: 3rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.lie-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--color-text-muted);
+  transition: color var(--transition-base);
+  max-width: 220px;
+}
+.lie-nav-link:hover { color: var(--color-white); }
+.lie-nav-link span {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.lie-nav-link small {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent-red);
+}
+.lie-nav-link strong {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: inherit;
+}
+.lie-nav-link--next {
+  text-align: right;
+  flex-direction: row-reverse;
+}
+.lie-nav-link--next span { align-items: flex-end; }
+</style>

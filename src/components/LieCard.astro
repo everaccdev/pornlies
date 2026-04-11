@@ -1,0 +1,32 @@
+---
+interface Props {
+  id: string;
+  number: string;
+  title: string;
+  excerpt: string;
+  slug: string;
+  color: 'cream' | 'red' | 'yellow' | 'dark';
+}
+
+const { id, number, title, excerpt, slug, color } = Astro.props;
+---
+
+<a href={slug} class={`lie-card lie-card--${color}`} aria-label={`Read about the lie: ${title}`}>
+  <div class="lie-card__inner">
+    <!-- Front: the lie -->
+    <div class="lie-card__front">
+      <span class="lie-card__number">Lie No. {number}</span>
+      <h3 class="lie-card__title"><em>{title}</em></h3>
+    </div>
+
+    <!-- Back: excerpt + read more -->
+    <div class="lie-card__back">
+      <span class="lie-card__back-label">The Truth</span>
+      <p class="lie-card__back-title">{title}</p>
+      <p class="lie-card__back-excerpt">{excerpt}</p>
+      <span class="lie-card__read-more">
+        Read more <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+      </span>
+    </div>
+  </div>
+</a>

@@ -1,0 +1,121 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LeadForm from '../components/LeadForm.astro';
+
+// STORIES — Edit via Decap CMS or directly in /src/content/testimonials/stories.md
+const stories = [
+  {
+    id: '1',
+    title: 'Accountability Has Helped Me',
+    author: 'Anonymous',
+    content: 'Having accountability through the Ever Accountable app has been such a tremendous help in my spiritual life, and in overcoming porn. I\'m not married but it does definitely affect my relationship with God, in a very positive way.',
+  },
+  {
+    id: '2',
+    title: 'No More Isolation',
+    author: 'Gustavo',
+    content: 'In today\'s day and age, temptation is just a click away. Knowing I have someone to be accountable to adds a welcome boundary. The times I have fallen were times when I was isolated. Being connected to and knowing there are others with the same goals encourages me.',
+  },
+  {
+    id: '3',
+    title: 'I Never Knew the Grip Porn Would Have',
+    author: 'Anonymous',
+    content: 'I had been dealing with this for years, always telling myself it wasn\'t a real problem. It wasn\'t until I saw what it was doing to my marriage and my own peace of mind that I finally admitted the truth. Accountability changed everything. Having someone who knew and who cared—without judging—made it possible to actually break the cycle.',
+  },
+  {
+    id: '4',
+    title: "I Didn't Realize the Damper Porn Put On Me",
+    author: 'Tyler',
+    content: 'I tried for a long time to stay away from pornography. But I kept finding myself coming back to it despite my best efforts. Finally, I prayed and asked God to help me. That same week I became reacquainted with an old friend who encouraged me and to whom I could be open and accountable. I stopped looking at porn and you can\'t imagine how happy I felt! I noticed for the first time in years how beautiful the sky and the mountains near my house are. My ambition to do hard things and go to college surged.',
+  },
+  {
+    id: '5',
+    title: 'I Can Look My Friends and Family in the Eyes',
+    author: 'Omar',
+    content: 'Without pornography ravaging my nights, I get a lot more sleep. I am no longer oversleeping for work, no longer tired, and I can talk to women less like sexual objects and more like genuine people who I actually care about. My thoughts and motives are much more Christ-based since they aren\'t filled with fleshly desires. I am ultimately happier with life. I\'m no longer paranoid about friends and family finding out about what I may have done the night before.',
+    featured: true,
+  },
+  {
+    id: '6',
+    title: 'I Didn\'t Think It Was Possible',
+    author: 'Sarah',
+    content: 'As a woman, I felt completely alone in this. The conversation around porn addiction always seems aimed at men. But I struggled with it too, and the shame was crushing. Ever Accountable gave me a framework and a partner who understood. A year later, I\'m free—and I tell every woman I meet who\'s struggling that help exists for them too.',
+  },
+];
+---
+
+<BaseLayout
+  title="Stories of Freedom — PornLies"
+  description="Real stories from real people who found freedom from pornography through accountability."
+  currentPage="/stories"
+>
+  <!-- Page Hero -->
+  <section class="page-hero section section--textured">
+    <div class="container">
+      <h1 class="page-hero__title">Stories of <span class="text-red">Freedom</span></h1>
+      <p class="page-hero__subtitle"><em>You can be free, too.</em></p>
+    </div>
+  </section>
+
+  <!-- Stories Grid -->
+  <section class="section">
+    <div class="container">
+      <div class="stories-grid">
+        {stories.map((story, i) => (
+          <div
+            class={`story-card reveal ${story.featured ? 'story-card--featured' : ''}`}
+            style={`transition-delay: ${(i % 2) * 0.1}s`}
+          >
+            <h3 class="story-card__title">{story.title}</h3>
+            <p class="story-card__content">{story.content}</p>
+            <p class="story-card__author">— {story.author}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section section--dark">
+    <div class="container">
+      <div class="cta-block">
+        <p class="cta-block__eyebrow">Your story could be next</p>
+        <h2 class="cta-block__title">Scientifically-backed software<br />that dramatically reduces porn usage.</h2>
+        <p class="cta-block__body">
+          In fact, 63% of users reported <strong>zero porn usage</strong> after just one month.
+          We guarantee significantly less porn usage or your money back.
+        </p>
+        <a
+          href="https://everaccountable.com/fighting-porn-together/"
+          target="_blank"
+          rel="noopener"
+          class="btn btn--primary"
+        >
+          Get Free From Lies <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section class="section" aria-labelledby="stories-newsletter">
+    <div class="container">
+      <div style="max-width: 520px; margin-inline: auto; text-align: center;">
+        <p class="cta-block__eyebrow" id="stories-newsletter">Want to Stay Connected?</p>
+        <h2 style="margin-bottom: 2rem;">Sign up to receive<br />news and updates</h2>
+        <LeadForm id="stories-newsletter-form" submitLabel="Sign Up" />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .story-card--featured {
+    grid-column: span 2;
+  }
+  @media (max-width: 640px) {
+    .story-card--featured {
+      grid-column: span 1;
+    }
+  }
+</style>

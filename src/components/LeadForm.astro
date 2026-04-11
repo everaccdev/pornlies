@@ -1,0 +1,96 @@
+---
+interface Props {
+  id?: string;
+  title?: string;
+  subtitle?: string;
+  submitLabel?: string;
+  formAction?: string; // e.g. Mailchimp/ConvertKit endpoint URL
+  showPhone?: boolean;
+}
+
+const {
+  id = 'lead-form',
+  title,
+  subtitle,
+  submitLabel = 'Submit',
+  formAction = '#', // Replace with real form endpoint
+  showPhone = true,
+} = Astro.props;
+---
+
+<div class="lead-form" id={id}>
+  {title && <h3 class="lead-form__title">{title}</h3>}
+  {subtitle && <p class="lead-form__subtitle">{subtitle}</p>}
+
+  <form
+    class="lead-form__form"
+    action={formAction}
+    method="POST"
+    data-netlify="true"
+    name={id}
+    netlify-honeypot="bot-field"
+  >
+    <!-- Netlify bot field (hidden) -->
+    <p class="visually-hidden">
+      <label>
+        Don't fill this out if you're human:
+        <input name="bot-field" />
+      </label>
+    </p>
+    <input type="hidden" name="form-name" value={id} />
+
+    <div class="form-group">
+      <label for={`${id}-name`} class="visually-hidden">Your name</label>
+      <input
+        type="text"
+        id={`${id}-name`}
+        name="name"
+        placeholder="Your name"
+        required
+        autocomplete="given-name"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for={`${id}-email`} class="visually-hidden">Email address</label>
+      <input
+        type="email"
+        id={`${id}-email`}
+        name="email"
+        placeholder="Email"
+        required
+        autocomplete="email"
+      />
+    </div>
+
+    {showPhone && (
+      <div class="form-group">
+        <label for={`${id}-phone`} class="visually-hidden">Phone number (optional)</label>
+        <input
+          type="tel"
+          id={`${id}-phone`}
+          name="phone"
+          placeholder="Phone number (optional)"
+          autocomplete="tel"
+        />
+      </div>
+    )}
+
+    <!-- reCAPTCHA placeholder — add your site key -->
+    <!-- <div class="g-recaptcha" data-sitekey="YOUR_RECAPTCHA_SITE_KEY"></div> -->
+
+    <button type="submit" class="btn btn--red form-submit">
+      {submitLabel}
+    </button>
+
+    <p class="form-note">We respect your privacy. Unsubscribe anytime.</p>
+  </form>
+</div>
+
+<style>
+  .lead-form__form {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+</style>

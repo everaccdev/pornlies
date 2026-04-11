@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LieCard from '../components/LieCard.astro';
+
+// All lies — matches /src/content/lies/lies.md
+// When you add/edit lies via Decap CMS, update both the .md file and add a detail page
+const lies = [
+  { id: "wont-hurt", number: "291", title: "A little porn won't hurt you", color: "cream" as const, slug: "/lies/wont-hurt", excerpt: "Porn promises it's harmless—just entertainment, just a little stress relief. But science tells a very different story about what even occasional use does to the brain's reward system." },
+  { id: "nobody-will-ever-know", number: "421", title: "No one will ever know", color: "red" as const, slug: "/lies/nobody-will-ever-know", excerpt: "Secrecy is one of porn's most powerful tools. It whispers that what happens in private stays private—but secrets change us from the inside out." },
+  { id: "better-in-bed", number: "1025", title: "Porn makes you better in bed", color: "dark" as const, slug: "/lies/better-in-bed", excerpt: "Far from being a sex-ed tool, pornography consistently produces worse real-world sexual outcomes and sets unrealistic expectations that damage real intimacy." },
+  { id: "everyone-does-it", number: "332", title: "Everyone does it", color: "yellow" as const, slug: "/lies/everyone-does-it", excerpt: "Porn normalizes itself by claiming universality. But 'everyone does it' is both factually wrong and morally irrelevant—and it's designed to silence your instinct that something is wrong." },
+  { id: "quit-when-married", number: "54", title: "I'll quit when I get married", color: "cream" as const, slug: "/lies/quit-when-married", excerpt: "This lie lets you off the hook from the hard work of change right now—promising a future event will solve a present problem. But habits don't reset at the altar." },
+  { id: "only-men-watch", number: "87", title: "Only men watch porn", color: "red" as const, slug: "/lies/only-men-watch", excerpt: "Women are one of the fastest-growing demographics in porn consumption, and many suffer in silence because the cultural script says this isn't their struggle." },
+  { id: "wont-hurt-anyone", number: "613", title: "It doesn't hurt anyone", color: "dark" as const, slug: "/lies/doesnt-hurt-anyone", excerpt: "Porn claims it's victimless—a transaction between consenting adults. But the harm flows in every direction: to users, to partners, to performers, and to the culture." },
+  { id: "makes-you-happy", number: "77", title: "Porn makes you happy", color: "yellow" as const, slug: "/lies/make-me-happy", excerpt: "Porn promises pleasure but delivers something far darker. Users consistently report higher rates of depression, anxiety, and loneliness than non-users—not lower." },
+  { id: "women-aggressive", number: "204", title: "Women like aggressive men", color: "cream" as const, slug: "/lies/women-like-aggressive-men", excerpt: "Porn presents a distorted picture of what women want. Real intimacy is built on trust, communication, and mutual respect—the opposite of what porn portrays." },
+  { id: "worthless", number: "156", title: "You're worthless", color: "red" as const, slug: "/lies/worthless", excerpt: "This is porn's cruelest lie: that your struggles make you broken, shameful, and beyond redemption. It's not true. You are not your worst moments." },
+  { id: "not-your-kids", number: "89", title: "Not your kids", color: "dark" as const, slug: "/lies/not-your-kids", excerpt: "The average age of first exposure to online pornography is now 11. Believing 'not my kids' is the lie that leaves them most unprotected." },
+  { id: "not-enough", number: "302", title: "You're not enough for him", color: "yellow" as const, slug: "/lies/not-enough", excerpt: "Porn whispers to partners that they are inadequate, not attractive enough, not exciting enough. This is a lie designed to isolate and wound." },
+];
+---
+
+<BaseLayout
+  title="The Lies — PornLies"
+  description="Porn tells you lies. Here they all are—with the truth behind each one."
+  currentPage="/lies"
+>
+  <div class="page-hero section">
+    <div class="container">
+      <h1 class="page-hero__title">
+        Porn <span class="text-red">lies.</span> A lot.
+      </h1>
+      <p class="page-hero__subtitle">
+        <em>Click any lie to reveal the truth.</em>
+      </p>
+    </div>
+  </div>
+
+  <section class="section section--dark" aria-label="All lies list">
+    <div class="container">
+      <div class="lies-grid">
+        {lies.map((lie) => (
+          <div class="reveal">
+            <LieCard
+              id={lie.id}
+              number={lie.number}
+              title={lie.title}
+              color={lie.color}
+              slug={lie.slug}
+              excerpt={lie.excerpt}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

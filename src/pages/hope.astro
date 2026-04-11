@@ -1,0 +1,173 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TestimonialCard from '../components/TestimonialCard.astro';
+import LeadForm from '../components/LeadForm.astro';
+---
+
+<BaseLayout
+  title="There Is Hope — PornLies"
+  description="No matter where you are, there is hope. Real freedom from pornography is possible."
+  currentPage="/hope"
+>
+  <!-- Hero -->
+  <section class="section section--textured" style="text-align: center;">
+    <div class="container">
+      <div class="hope-icon animate-fadeup" aria-hidden="true">
+        <i class="fa-regular fa-dove"></i>
+      </div>
+      <h1 class="animate-fadeup animate-fadeup--delay-1">There is <span class="text-red">hope.</span></h1>
+      <p class="hero__subtitle animate-fadeup animate-fadeup--delay-2">
+        <em>No matter where you are, there is hope!</em>
+      </p>
+    </div>
+  </section>
+
+  <!-- Body content -->
+  <section class="section">
+    <div class="container">
+      <div class="hope-section">
+
+        <p class="reveal">
+          Whether you're stuck and desperate to break free or you love someone struggling,
+          <strong>there is hope for you.</strong>
+        </p>
+
+        <p class="reveal">
+          You might feel worn down, tired, and hopeless because porn's lie that "there is no way
+          out." You might feel like you are too far gone because you've tried so many times to end
+          your relationship with porn without success. Or, perhaps you love someone stuck in an
+          endless cycle of indulgence and regret.
+        </p>
+
+        <p class="reveal">
+          We are here to tell you that <strong>there is hope and that freedom is just around the
+          bend</strong>—one step at a time. Your future depends on your choices right now. You can
+          be defeated, or you can rise. If you feel like you are at rock bottom—that's great; the
+          only way from here is UP!
+        </p>
+
+        <p class="reveal">
+          We know it's not easy to stop on your own because you would have already done it if it
+          was. We know that shame can be so debilitating it keeps us from seeking help because we
+          don't want anyone to know. But we also know that people want to be seen and loved for who
+          they are at their core. When we live in shame, we lose sight of our authentic selves.
+        </p>
+
+        <p class="reveal">
+          We know what the struggle and the cycle is like because <strong>many of us have been
+          there too!</strong> You are not alone; we can promise you that. Nothing you have done or
+          are struggling with will make us judge you. Porn is a liar, and you have been duped by
+          its powerful, manipulative, deceptive lies.
+        </p>
+
+        <!-- Download CTA -->
+        <div class="reveal" style="margin-block: 3rem; text-align: center;">
+          <p style="margin-bottom: 1rem; font-weight: 600; color: var(--color-text-muted); letter-spacing: 0.05em; text-transform: uppercase; font-size: 0.85rem;">
+            Download the guide:
+          </p>
+          <a href="#hope-download" class="guide-banner">
+            <i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i>
+            5 Things You Can Do Today to Kick Porn to the Curb
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Ever Accountable CTA + Testimonials -->
+  <section class="section section--dark">
+    <div class="container">
+      <div class="split-layout">
+        <div class="reveal">
+          <h2>Scientifically-backed software that dramatically reduces porn usage.</h2>
+          <p style="margin-block: 1.25rem; color: var(--color-text-muted); line-height: 1.8;">
+            In fact, 63% of users reported <strong style="color:var(--color-white)">zero porn usage</strong>
+            after just one month. We guarantee significantly less porn usage or your money back.
+          </p>
+          <a
+            href="https://everaccountable.com/fighting-porn-together/"
+            target="_blank"
+            rel="noopener"
+            class="btn btn--primary"
+          >
+            Get Free From Lies
+          </a>
+        </div>
+
+        <div class="testimonials-grid">
+          <div class="reveal">
+            <TestimonialCard
+              name="David R."
+              location="Virginia"
+              quote="I'd never be here today without Ever Accountable."
+            />
+          </div>
+          <div class="reveal animate-fadeup--delay-1">
+            <TestimonialCard
+              name="Mariah B."
+              location="California"
+              quote="My husband is so much happier. Our marriage is far stronger now."
+            />
+          </div>
+          <div class="reveal animate-fadeup--delay-2">
+            <TestimonialCard
+              name="Devon B."
+              location="Texas"
+              quote="I was so ashamed and felt so alone. Now I'm totally free."
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download Form -->
+  <section class="section" id="hope-download" aria-labelledby="hope-guide-heading">
+    <div class="container">
+      <div class="cta-block">
+        <p class="cta-block__eyebrow">Download the Guide</p>
+        <h2 class="cta-block__title" id="hope-guide-heading">
+          Ways to Kick Porn<br />to the Curb Today
+        </h2>
+        <LeadForm
+          id="hope-guide-form"
+          submitLabel="Get the Free Guide"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section class="section section--dark" aria-labelledby="hope-newsletter">
+    <div class="container">
+      <div style="max-width: 520px; margin-inline: auto; text-align: center;">
+        <p class="cta-block__eyebrow" id="hope-newsletter">Want to Stay Connected?</p>
+        <h2 style="margin-bottom: 2rem;">Sign up to receive news and updates</h2>
+        <LeadForm id="hope-newsletter-form" submitLabel="Sign Up" />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hope-icon {
+    font-size: 3.5rem;
+    color: var(--color-text-muted);
+    margin-bottom: 1.5rem;
+    opacity: 0.7;
+  }
+  .hope-section {
+    max-width: 720px;
+    margin-inline: auto;
+  }
+  .hope-section p {
+    font-size: clamp(1rem, 1.8vw, 1.15rem);
+    line-height: 1.85;
+    margin-bottom: 1.5rem;
+    color: var(--color-text);
+  }
+  .hope-section strong {
+    color: var(--color-white);
+  }
+</style>

@@ -1,0 +1,138 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LeadForm from '../components/LeadForm.astro';
+---
+
+<BaseLayout
+  title="Contact — PornLies"
+  description="Get in touch with the PornLies team. We're here to help."
+  currentPage="/contact"
+>
+  <!-- Hero -->
+  <section class="page-hero section section--textured" style="text-align: center;">
+    <div class="container">
+      <div class="contact-icon animate-fadeup" aria-hidden="true">
+        <i class="fa-regular fa-comments"></i>
+      </div>
+      <h1 class="page-hero__title animate-fadeup animate-fadeup--delay-1">Contact us</h1>
+    </div>
+  </section>
+
+  <!-- Contact content -->
+  <section class="section">
+    <div class="container">
+      <div class="contact-layout">
+
+        <!-- Support & questions -->
+        <div class="contact-info reveal">
+          <div class="contact-info__block">
+            <h3>Want support?</h3>
+            <p>
+              Click <strong>"Get Free From Lies"</strong> at the top of this page to connect
+              directly with Ever Accountable's support team.
+            </p>
+            <a
+              href="https://everaccountable.com/fighting-porn-together/"
+              target="_blank"
+              rel="noopener"
+              class="btn btn--primary"
+              style="margin-top: 1.25rem;"
+            >
+              Get Free From Lies
+            </a>
+          </div>
+
+          <div class="contact-info__block">
+            <h3>Questions?</h3>
+            <p>Reach us directly by email:</p>
+            <a
+              href="mailto:pornlies@everaccountable.com"
+              class="contact-email"
+            >
+              <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+              pornlies@everaccountable.com
+            </a>
+          </div>
+        </div>
+
+        <!-- Newsletter form -->
+        <div class="reveal animate-fadeup--delay-1">
+          <p class="cta-block__eyebrow" style="text-align:left; margin-bottom: 1rem;">
+            Want to Stay Connected?
+          </p>
+          <h2 style="margin-bottom: 2rem; font-size: clamp(1.5rem, 3vw, 2rem);">
+            Sign up to receive<br />news and updates
+          </h2>
+          <LeadForm
+            id="contact-newsletter-form"
+            submitLabel="Sign Up"
+          />
+        </div>
+
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-icon {
+    font-size: 3rem;
+    color: var(--color-text-muted);
+    margin-bottom: 1.25rem;
+    opacity: 0.7;
+  }
+
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    max-width: 900px;
+    margin-inline: auto;
+    align-items: start;
+  }
+
+  @media (max-width: 700px) {
+    .contact-layout {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+  }
+
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .contact-info__block h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-white);
+  }
+
+  .contact-info__block p {
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    font-size: 0.95rem;
+  }
+
+  .contact-info__block strong {
+    color: var(--color-white);
+  }
+
+  .contact-email {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.75rem;
+    color: var(--color-accent-gold);
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: opacity var(--transition-fast);
+  }
+
+  .contact-email:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+  }
+</style>

@@ -1,0 +1,104 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Decap CMS Configuration — PornLies
+# Docs: https://decapcms.org/docs/configuration-options/
+#
+# SETUP STEPS:
+# 1. Netlify dashboard → Site configuration → Identity → Enable Identity
+# 2. Identity → Registration preferences → set to "Invite only"
+# 3. Identity → Services → Git Gateway → Enable Git Gateway
+# 4. Invite yourself via Identity → Invite users
+# 5. Visit https://your-site.netlify.app/admin to log in
+# ─────────────────────────────────────────────────────────────────────────────
+
+backend:
+  name: git-gateway
+  branch: main
+
+publish_mode: editorial_workflow
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+
+  - name: "videos"
+    label: "Videos"
+    label_singular: "Video"
+    description: "YouTube videos shown on the homepage."
+    files:
+      - name: "videos"
+        label: "All Videos"
+        file: "src/content/videos/videos.md"
+        fields:
+          - label: "Videos"
+            name: "videos"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "ID", name: "id", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "YouTube Video ID", name: "youtube_id", widget: "string", hint: "The ID from the YouTube URL e.g. dQw4w9WgXcQ" }
+              - { label: "Caption (optional)", name: "description", widget: "string", required: false }
+              - { label: "Display Order", name: "order", widget: "number", value_type: "int", default: 1 }
+
+  - name: "testimonials"
+    label: "Testimonials"
+    label_singular: "Testimonial"
+    description: "Pull-quote testimonials shown alongside forms."
+    files:
+      - name: "testimonials"
+        label: "All Testimonials"
+        file: "src/content/testimonials/testimonials.md"
+        fields:
+          - label: "Testimonials"
+            name: "testimonials"
+            widget: "list"
+            summary: "{{fields.name}} - {{fields.location}}"
+            fields:
+              - { label: "ID", name: "id", widget: "string" }
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Location", name: "location", widget: "string" }
+              - { label: "Quote", name: "quote", widget: "string" }
+              - { label: "Avatar Image (optional)", name: "avatar", widget: "image", required: false }
+
+  - name: "stories"
+    label: "Stories of Freedom"
+    label_singular: "Story"
+    description: "Success stories shown on the Stories page."
+    files:
+      - name: "stories"
+        label: "All Stories"
+        file: "src/content/testimonials/stories.md"
+        fields:
+          - label: "Stories"
+            name: "stories"
+            widget: "list"
+            summary: "{{fields.title}} - {{fields.author}}"
+            fields:
+              - { label: "ID", name: "id", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Author", name: "author", widget: "string" }
+              - { label: "Content", name: "content", widget: "text" }
+              - { label: "Featured (full width)", name: "featured", widget: "boolean", default: false, required: false }
+
+  - name: "lies"
+    label: "Lies"
+    label_singular: "Lie"
+    description: "Lie cards on home and /lies page. Each also has a detail page."
+    files:
+      - name: "lies"
+        label: "All Lies"
+        file: "src/content/lies/lies.md"
+        fields:
+          - label: "Lies"
+            name: "lies"
+            widget: "list"
+            summary: "Lie No. {{fields.number}} - {{fields.title}}"
+            fields:
+              - { label: "ID / Slug", name: "id", widget: "string" }
+              - { label: "Lie Number", name: "number", widget: "string" }
+              - { label: "Lie Title", name: "title", widget: "string" }
+              - { label: "Card Color", name: "color", widget: "select", options: ["cream", "red", "yellow", "dark"] }
+              - { label: "Page URL", name: "slug", widget: "string", hint: "e.g. /lies/wont-hurt" }
+              - { label: "Card Excerpt", name: "excerpt", widget: "text" }
+              - { label: "Full Content", name: "full_content", widget: "markdown" }

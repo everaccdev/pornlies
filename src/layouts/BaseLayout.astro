@@ -1,0 +1,185 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  currentPage?: string;
+}
+
+const {
+  title = 'PornLies — Porn lies. A lot.',
+  description = 'Porn lies to you. See through the lies, find hope, and get free with Ever Accountable.',
+  currentPage = '',
+} = Astro.props;
+
+const nav = [
+  { href: '/lies', label: 'The Lies' },
+  { href: '/stories', label: 'Stories' },
+  { href: '/hope', label: 'Find Hope' },
+  { href: '/contact', label: 'Contact' },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.png" />
+
+    <!-- Font Awesome Free — swap src with your Pro kit script tag when ready -->
+    <!-- Pro kit format: <script src="https://kit.fontawesome.com/YOUR_KIT_ID.js" crossorigin="anonymous"></script> -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- Playfair Display — italic serif accents on lie cards / section headings -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/images/og-image.png" />
+  </head>
+
+  <body>
+    <!-- Announcement Banner -->
+    <div class="announcement-banner">
+      Sick of porn's stupid, awful lies? Kick porn to the curb and get finally free with Ever Accountable.
+      <strong>Guaranteed.</strong>
+      <a href="https://everaccountable.com/fighting-porn-together/" target="_blank" rel="noopener">
+        Get started now →
+      </a>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container nav__inner">
+        <a href="/" class="nav__logo" aria-label="PornLies Home">
+          Porn<span>Lies</span>
+        </a>
+
+        <ul class="nav__links" role="list">
+          {nav.map(({ href, label }) => (
+            <li>
+              <a
+                href={href}
+                class={currentPage === href ? 'active' : ''}
+              >
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <div class="nav__cta">
+          <a
+            href="https://everaccountable.com/fighting-porn-together/"
+            target="_blank"
+            rel="noopener"
+            class="btn btn--primary btn--sm"
+          >
+            Get Free From Lies
+          </a>
+        </div>
+
+        <!-- Mobile hamburger -->
+        <button
+          class="nav__hamburger"
+          id="hamburger"
+          aria-label="Toggle mobile menu"
+          aria-expanded="false"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <nav class="nav__mobile" id="mobileMenu" aria-label="Mobile navigation">
+      {nav.map(({ href, label }) => (
+        <a href={href} class={currentPage === href ? 'active' : ''}>
+          {label}
+        </a>
+      ))}
+      <a
+        href="https://everaccountable.com/fighting-porn-together/"
+        target="_blank"
+        rel="noopener"
+        class="btn btn--primary"
+        style="margin-top: 1rem;"
+      >
+        Get Free From Lies
+      </a>
+    </nav>
+
+    <!-- Page Content -->
+    <main id="main-content">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p class="footer__text">
+          Copyright {new Date().getFullYear()} Ever Accountable.
+          Made with love for the sake of real love.
+          Site by <a href="https://everaccountable.com" target="_blank" rel="noopener">Ever Accountable</a>.
+        </p>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+      // Mobile menu toggle
+      const hamburger = document.getElementById('hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+
+      hamburger?.addEventListener('click', () => {
+        const isOpen = mobileMenu?.classList.contains('open');
+        mobileMenu?.classList.toggle('open');
+        hamburger.setAttribute('aria-expanded', String(!isOpen));
+      });
+
+      // Close mobile menu on link click
+      mobileMenu?.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.remove('open');
+          hamburger?.setAttribute('aria-expanded', 'false');
+        });
+      });
+
+      // Scroll reveal
+      const reveals = document.querySelectorAll('.reveal');
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+      );
+      reveals.forEach(el => observer.observe(el));
+    </script>
+  </body>
+</html>
