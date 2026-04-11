@@ -1,10 +1,11 @@
 ---
-// Testimonials passed in, or use defaults
 interface Testimonial {
+  initials: string;
   name: string;
   location: string;
   quote: string;
-  avatar?: string;
+  rotate: number; // degrees of tilt
+  avatarColor: string;
 }
 
 interface Props {
@@ -15,87 +16,111 @@ interface Props {
 
 const {
   testimonials = [
-    { name: 'David R.',  location: 'Virginia',   quote: "I'd never be here today without Ever Accountable." },
-    { name: 'Mariah B.', location: 'California', quote: "My husband is so much happier. Our marriage is far stronger now." },
-    { name: 'Devon B.',  location: 'Texas',       quote: "I was so ashamed and felt so alone. Now I'm totally free." },
+    {
+      initials: 'DR',
+      name: 'David R.',
+      location: 'Virginia',
+      quote: '"I\'d never be here today without Ever Accountable."',
+      rotate: -2,
+      avatarColor: '#7b9fc4',
+    },
+    {
+      initials: 'MB',
+      name: 'Mariah B.',
+      location: 'California',
+      quote: '"My husband is so much happier. Our marriage is far stronger now."',
+      rotate: 1.5,
+      avatarColor: '#b87c5a',
+    },
+    {
+      initials: 'DB',
+      name: 'Devon B.',
+      location: 'Texas',
+      quote: '"I was so ashamed and felt so alone. Now I\'m totally free."',
+      rotate: -1,
+      avatarColor: '#c05a5a',
+    },
   ],
   ctaHref = 'https://everaccountable.com/fighting-porn-together/',
   ctaLabel = 'Get Free From the Lies',
 } = Astro.props;
 ---
 
-<section class="science-section section--dark section--textured" aria-labelledby="science-heading">
-  <div class="container">
-    <div class="science-layout">
+<section class="science-section" aria-labelledby="science-heading">
+  <div class="science-inner">
 
-      <!-- Left: headline + stat + CTA -->
-      <div class="science-left reveal">
-        <h2 class="science-heading" id="science-heading">
-          Scientifically-backed software that dramatically reduces porn usage.
-        </h2>
-        <p class="science-stat">
-          In fact, 63% of users reported <strong>zero porn usage</strong> after just one month.
-          We guarantee significantly less porn usage or your money back.
-        </p>
-        <a
-          href={ctaHref}
-          target="_blank"
-          rel="noopener"
-          class="btn btn--primary"
-        >
-          {ctaLabel}
-        </a>
-      </div>
-
-      <!-- Right: stacked testimonial cards -->
-      <div class="science-testimonials">
-        {testimonials.map((t, i) => (
-          <div class={`science-card reveal animate-fadeup--delay-${i + 1}`}>
-            <div class="science-card__avatar" aria-hidden="true">
-              {t.avatar ? (
-                <img src={t.avatar} alt="" width="48" height="48" />
-              ) : (
-                <span class="science-card__initials">
-                  {t.name.split(' ').map((n: string) => n[0]).join('').slice(0,2)}
-                </span>
-              )}
-            </div>
-            <div class="science-card__body">
-              <p class="science-card__quote">"{t.quote}"</p>
-              <p class="science-card__author">
-                {t.name} <span aria-hidden="true">·</span> {t.location}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
-
+    <!-- Left: headline + stat + CTA -->
+    <div class="science-left reveal">
+      <h2 class="science-heading" id="science-heading">
+        Scientifically-backed software that dramatically reduces porn usage.
+      </h2>
+      <p class="science-stat">
+        In fact, 63% of users reported <strong>zero porn usage</strong> after just one month.
+        We guarantee significantly less porn usage or your money back.
+      </p>
+      <a href={ctaHref} target="_blank" rel="noopener" class="btn btn--primary science-btn">
+        {ctaLabel}
+      </a>
     </div>
+
+    <!-- Right: stacked + tilted testimonial cards -->
+    <div class="science-cards">
+      {testimonials.map((t, i) => (
+        <div
+          class={`science-card reveal animate-fadeup--delay-${i + 1}`}
+          style={`--rotate: ${t.rotate}deg`}
+        >
+          <div class="science-card__avatar" style={`background-color: ${t.avatarColor}`}>
+            {t.initials}
+          </div>
+          <div class="science-card__body">
+            <p class="science-card__quote">{t.quote}</p>
+            <p class="science-card__author">
+              <span class="science-card__name">{t.name}</span>
+              <span aria-hidden="true"> · </span>
+              <span class="science-card__location">{t.location}</span>
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+
   </div>
 </section>
 
 <style>
+  /* ── Section shell ──────────────────────────────────────────────────────── */
   .science-section {
-    padding-block: clamp(4rem, 9vw, 7rem);
+    background-color: var(--color-bg-mid);
+    /* Paint texture as section background */
+    background-image: url('/images/textures/texture-paint.png');
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: multiply;
+    padding-block: clamp(4rem, 8vw, 7rem);
   }
 
-  .science-layout {
+  .science-inner {
+    max-width: var(--max-width);
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 4vw, 2.5rem);
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: clamp(3rem, 6vw, 6rem);
+    gap: clamp(3rem, 6vw, 7rem);
     align-items: center;
   }
 
   @media (max-width: 860px) {
-    .science-layout {
+    .science-inner {
       grid-template-columns: 1fr;
       gap: 3rem;
     }
   }
 
-  /* Left column */
+  /* ── Left column ────────────────────────────────────────────────────────── */
   .science-heading {
-    font-size: clamp(1.6rem, 3vw, 2.25rem);
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
     font-weight: 700;
     color: var(--color-white);
     line-height: 1.2;
@@ -105,7 +130,7 @@ const {
   .science-stat {
     font-size: clamp(0.9rem, 1.5vw, 1rem);
     color: var(--color-text-muted);
-    line-height: 1.7;
+    line-height: 1.75;
     margin-bottom: 2rem;
   }
 
@@ -114,8 +139,15 @@ const {
     font-weight: 700;
   }
 
-  /* Right column — stacked cards */
-  .science-testimonials {
+  .science-btn {
+    /* override pill radius — keep square 4px */
+    border-radius: var(--radius-sm) !important;
+    font-size: 0.95rem;
+    padding: 0.85rem 1.75rem;
+  }
+
+  /* ── Right column: stacked tilted cards ─────────────────────────────────── */
+  .science-cards {
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -123,59 +155,66 @@ const {
 
   .science-card {
     display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    padding: 1.25rem 1.5rem;
-    /* Dashed border style from Figma */
-    outline: 1px dashed rgba(255, 255, 255, 0.12);
-    outline-offset: -4px;
+    align-items: center;
+    gap: 1.25rem;
+    background: rgba(89, 50, 48, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 10px;
+    padding: 1.1rem 1.4rem;
+    /* Each card tilts slightly — value set via inline --rotate custom prop */
+    transform: rotate(var(--rotate, 0deg));
+    transition: transform 0.3s ease;
+    position: relative;
   }
 
+  .science-card:hover {
+    transform: rotate(0deg) translateY(-2px);
+  }
+
+  /* ── Avatar circle ──────────────────────────────────────────────────────── */
   .science-card__avatar {
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background: var(--color-bg-card);
     flex-shrink: 0;
-    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-  .science-card__avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .science-card__initials {
+    font-family: var(--font-body);
     font-size: 0.85rem;
     font-weight: 700;
-    color: var(--color-text-muted);
-    text-transform: uppercase;
+    color: rgba(255,255,255,0.9);
+    letter-spacing: 0.05em;
+    /* Subtle inner shadow to give depth */
+    box-shadow: inset 0 -2px 6px rgba(0,0,0,0.2);
   }
 
+  /* ── Quote + author ─────────────────────────────────────────────────────── */
   .science-card__body {
     flex: 1;
+    min-width: 0;
   }
 
   .science-card__quote {
-    font-size: 1rem;
+    font-size: clamp(0.9rem, 1.4vw, 1rem);
     color: var(--color-text);
-    line-height: 1.55;
-    margin-bottom: 0.5rem;
+    line-height: 1.5;
+    margin-bottom: 0.4rem;
     font-style: normal;
   }
 
   .science-card__author {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 700;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--color-accent-gold);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex-wrap: wrap;
   }
+
+  .science-card__name  { color: var(--color-accent-gold); }
+  .science-card__location { color: var(--color-accent-gold); }
 </style>

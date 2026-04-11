@@ -602,53 +602,40 @@ em, i {
   dark   → #593230 bg, #F1F1F1 text
   yellow → #FFBE00 bg, #593230 text
 
-  Texture: the Figma uses a linear gradient overlay (#F1F1F1→#616161)
-  blended with the grain PNG. We achieve this by stacking both as
-  multiple backgrounds with multiply blend mode.
+  Texture approach: solid color background on the element itself.
+  The grain PNG is applied via ::before pseudo-element with mix-blend-mode: screen
+  so it LIGHTENS (adds grain detail) rather than darkening.
+  The ::before sits above the color but below the text (z-index layering).
 */
 
-/* ── cream / tan card ── */
 .lie-card__front {
   background-color: #F5EDD7;
-  background-image:
-    url('/images/textures/texture-grain.png'),
-    linear-gradient(160deg, #F1F1F1 0%, #c8c0b0 100%);
-  background-size: 520px 520px, cover;
-  background-repeat: repeat, no-repeat;
-  background-blend-mode: multiply, normal;
+  position: relative;
+}
+.lie-card--red .lie-card__front    { background-color: #DB0F00; }
+.lie-card--yellow .lie-card__front { background-color: #FFBE00; }
+.lie-card--dark .lie-card__front   { background-color: #593230; }
+
+/* Grain overlay — screen blend adds texture without killing the color */
+.lie-card__front::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background-image: url('/images/textures/texture-grain.png');
+  background-size: 480px 480px;
+  background-repeat: repeat;
+  mix-blend-mode: screen;
+  opacity: 0.12;
+  pointer-events: none;
+  z-index: 1;
 }
 
-/* ── red card ── */
-.lie-card--red .lie-card__front {
-  background-color: #DB0F00;
-  background-image:
-    url('/images/textures/texture-grain.png'),
-    linear-gradient(160deg, rgba(241,241,241,0.25) 0%, rgba(97,97,97,0.35) 100%);
-  background-size: 520px 520px, cover;
-  background-repeat: repeat, no-repeat;
-  background-blend-mode: multiply, normal;
-}
-
-/* ── yellow card ── */
-.lie-card--yellow .lie-card__front {
-  background-color: #FFBE00;
-  background-image:
-    url('/images/textures/texture-grain.png'),
-    linear-gradient(160deg, rgba(241,241,241,0.3) 0%, rgba(97,97,97,0.3) 100%);
-  background-size: 520px 520px, cover;
-  background-repeat: repeat, no-repeat;
-  background-blend-mode: multiply, normal;
-}
-
-/* ── dark / brown card ── */
-.lie-card--dark .lie-card__front {
-  background-color: #593230;
-  background-image:
-    url('/images/textures/texture-grain.png'),
-    linear-gradient(160deg, rgba(241,241,241,0.15) 0%, rgba(97,97,97,0.4) 100%);
-  background-size: 520px 520px, cover;
-  background-repeat: repeat, no-repeat;
-  background-blend-mode: multiply, normal;
+/* Ensure number and title sit above the texture overlay */
+.lie-card__number,
+.lie-card__title {
+  position: relative;
+  z-index: 2;
 }
 
 /* Number — top-left, small italic serif */
@@ -682,13 +669,32 @@ em, i {
 
 .lie-card__back {
   background-color: #2a0f0f;
-  background-image: url('/images/textures/texture-grain.png');
-  background-size: 520px 520px;
-  background-repeat: repeat;
-  background-blend-mode: multiply;
+  position: relative;
   transform: rotateY(180deg);
   justify-content: flex-start;
   gap: 0.875rem;
+}
+
+.lie-card__back::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background-image: url('/images/textures/texture-grain.png');
+  background-size: 480px 480px;
+  background-repeat: repeat;
+  mix-blend-mode: screen;
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.lie-card__back-label,
+.lie-card__back-title,
+.lie-card__back-excerpt,
+.lie-card__read-more {
+  position: relative;
+  z-index: 2;
 }
 
 .lie-card__back-label {
