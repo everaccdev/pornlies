@@ -6,20 +6,13 @@ import LeadForm from '../components/LeadForm.astro';
 import ScienceBacked from '../components/ScienceBacked.astro';
 
 // ── Videos ───────────────────────────────────────────────────────────────────
-// Replace REPLACE_VIDEO_ID_1 / _2 with real YouTube IDs from pornlies.com
+// Edit in /src/content/videos/videos.md or via CMS at /admin → Videos
 const videos = [
-  {
-    id: '1',
-    title: 'Porn Won\'t Affect You',
-    youtubeId: 'REPLACE_VIDEO_ID_1',
-    caption: 'Download the guide: 5 Things You Can Do Today to Kick Porn to the Curb',
-  },
-  {
-    id: '2',
-    title: 'No One Will Ever Know',
-    youtubeId: 'REPLACE_VIDEO_ID_2',
-    caption: 'Download the guide: 5 Things You Can Do Today to Kick Porn to the Curb',
-  },
+  { id: '1', title: "Porn Won't Affect You",        youtubeId: 'pHuvOw6nRCA'  },
+  { id: '2', title: "No One Will Ever Know",         youtubeId: 'Cx6ImCzKdwI' },
+  { id: '3', title: "Porn Won't Hurt You",           youtubeId: 'T2m8LdgEu4Y' },
+  { id: '4', title: "Porn Makes You Better in Bed",  youtubeId: '0_GZh51MnNo' },
+  { id: '5', title: "Everyone Does It",              youtubeId: 'SiKNEvNZk8M' },
 ];
 
 // ── Lies Grid ─────────────────────────────────────────────────────────────────
@@ -73,9 +66,9 @@ const lies = [
         <p class="section-subhead"><em>If porn could talk, this is what it would say.</em></p>
       </div>
 
-      <div class="video-grid">
+      <div class="video-grid video-grid--5">
         {videos.map(v => (
-          <VideoEmbed youtubeId={v.youtubeId} title={v.title} caption={v.caption} />
+          <VideoEmbed youtubeId={v.youtubeId} title={v.title} />
         ))}
       </div>
 
