@@ -1,25 +1,36 @@
 ---
+// Valid colors from Figma design
+type CardColor = 'cream' | 'red' | 'yellow' | 'dark';
+const COLORS: CardColor[] = ['cream', 'red', 'yellow', 'dark'];
+
 interface Props {
   id: string;
   number: string;
   title: string;
   excerpt: string;
   slug: string;
-  color: 'cream' | 'red' | 'yellow' | 'dark';
+  color?: CardColor; // optional — random if not set
+  index?: number;    // used for deterministic "random" when color omitted
 }
 
-const { id, number, title, excerpt, slug, color } = Astro.props;
+const { id, number, title, excerpt, slug, index = 0 } = Astro.props;
+
+// If color explicitly provided, use it. Otherwise pick deterministically
+// from the 4 options based on index so SSR is consistent (no hydration mismatch).
+// The sequence creates an irregular-feeling pattern across the grid.
+const PATTERN: CardColor[] = ['cream', 'red', 'dark', 'yellow', 'red', 'cream', 'yellow', 'dark', 'cream', 'yellow', 'red', 'dark'];
+const color: CardColor = Astro.props.color ?? PATTERN[index % PATTERN.length];
 ---
 
-<!-- 
-  Hover → flip on desktop
-  Touch: first tap = flip, second tap = navigate to detail page
+<!--
+  Hover → flip (desktop, pointer devices)
+  Touch: first tap flips, second tap navigates
 -->
 <div
   class={`lie-card lie-card--${color}`}
   data-slug={slug}
   role="article"
-  aria-label={`Lie: ${title}. Tap to reveal the truth.`}
+  aria-label={`Lie: ${title}. Hover or tap to reveal the truth.`}
 >
   <div class="lie-card__inner">
 
@@ -31,12 +42,12 @@ const { id, number, title, excerpt, slug, color } = Astro.props;
 
     <!-- Back: truth excerpt + read more -->
     <div class="lie-card__back" aria-hidden="true">
-      <div>
+      <div class="lie-card__back-top">
         <span class="lie-card__back-label">The Truth</span>
         <p class="lie-card__back-title">{title}</p>
       </div>
       <p class="lie-card__back-excerpt">{excerpt}</p>
-      <a href={slug} class="lie-card__read-more" tabindex="-1">
+      <a href={slug} class="lie-card__read-more" tabindex="-1" aria-hidden="true">
         Read More <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
       </a>
     </div>
@@ -45,27 +56,25 @@ const { id, number, title, excerpt, slug, color } = Astro.props;
 </div>
 
 <script>
-  // Touch support: tap once = flip, tap again = navigate
   document.querySelectorAll<HTMLElement>('.lie-card').forEach(card => {
     let flipped = false;
+    const isTouch = () => window.matchMedia('(hover: none)').matches;
 
     card.addEventListener('click', (e) => {
-      // Desktop hover handles the flip visually; on touch we manage state
-      const isTouch = window.matchMedia('(hover: none)').matches;
+      const slug = card.dataset.slug;
 
-      if (!isTouch) {
-        // Desktop: clicking anywhere navigates directly
-        const slug = card.dataset.slug;
+      if (!isTouch()) {
+        // Desktop: hover handles flip visually, click navigates
         if (slug) window.location.href = slug;
         return;
       }
 
+      // Touch: first tap = flip, second tap = navigate
       if (!flipped) {
+        e.preventDefault();
         card.classList.add('flipped');
         flipped = true;
-        e.preventDefault();
       } else {
-        const slug = card.dataset.slug;
         if (slug) window.location.href = slug;
       }
     });

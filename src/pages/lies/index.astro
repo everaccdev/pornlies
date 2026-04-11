@@ -39,13 +39,14 @@ const lies = [
   <section class="section section--dark" aria-label="All lies list">
     <div class="container">
       <div class="lies-grid">
-        {lies.map((lie) => (
+        {lies.map((lie, i) => (
           <div class="reveal">
             <LieCard
               id={lie.id}
               number={lie.number}
               title={lie.title}
               color={lie.color}
+              index={i}
               slug={lie.slug}
               excerpt={lie.excerpt}
             />

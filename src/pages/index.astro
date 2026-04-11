@@ -24,12 +24,14 @@ const videos = [
 
 // ── Lies Grid ─────────────────────────────────────────────────────────────────
 // Edit in /src/content/lies/lies.md or via CMS at /admin
+// Colors follow the Figma irregular pattern — varies across the grid
+// Each card's color can be explicitly set in the CMS; if not set, LieCard picks from a pattern.
 const lies = [
   { id: 'wont-hurt',             number: '291',  title: "A little porn won't hurt you",  color: 'cream'  as const, slug: '/lies/wont-hurt',             excerpt: "Porn promises it's harmless—just entertainment, just stress relief. But science tells a very different story about what even occasional use does to the brain." },
   { id: 'nobody-will-ever-know', number: '421',  title: "No one will ever know",          color: 'red'    as const, slug: '/lies/nobody-will-ever-know',  excerpt: "Secrecy is one of porn's most powerful tools. It whispers that what happens in private stays private—but secrets change us from the inside out." },
   { id: 'better-in-bed',         number: '1025', title: "Porn makes you better in bed",  color: 'dark'   as const, slug: '/lies/better-in-bed',          excerpt: "Far from being a sex-ed tool, pornography consistently produces worse real-world sexual outcomes and sets unrealistic expectations." },
-  { id: 'everyone-does-it',      number: '332',  title: "Everyone does it",               color: 'yellow' as const, slug: '/lies/everyone-does-it',       excerpt: "Porn normalizes itself by claiming universality. But 'everyone does it' is both factually wrong and morally irrelevant." },
-  { id: 'quit-when-married',     number: '54',   title: "I'll quit when I get married",  color: 'cream'  as const, slug: '/lies/quit-when-married',      excerpt: "This lie lets you off the hook from the hard work of change right now—promising a future event will solve a present problem." },
+  { id: 'everyone-does-it',      number: '332',  title: "Everyone does it",               color: 'cream'  as const, slug: '/lies/everyone-does-it',       excerpt: "Porn normalizes itself by claiming universality. But 'everyone does it' is both factually wrong and morally irrelevant." },
+  { id: 'quit-when-married',     number: '54',   title: "I'll quit when I get married",  color: 'yellow' as const, slug: '/lies/quit-when-married',      excerpt: "This lie lets you off the hook from the hard work of change right now—promising a future event will solve a present problem." },
   { id: 'only-men-watch',        number: '87',   title: "Only men watch porn",            color: 'red'    as const, slug: '/lies/only-men-watch',          excerpt: "Women are one of the fastest-growing demographics in porn consumption, and many suffer in silence because the script says it isn't their struggle." },
   { id: 'doesnt-hurt-anyone',    number: '613',  title: "It doesn't hurt anyone",         color: 'dark'   as const, slug: '/lies/doesnt-hurt-anyone',     excerpt: "Porn claims it's victimless. But the harm flows in every direction: to users, to partners, to performers, and to the culture." },
   { id: 'make-me-happy',         number: '77',   title: "Porn makes you happy",           color: 'yellow' as const, slug: '/lies/make-me-happy',          excerpt: "Porn promises pleasure but delivers something far darker. Users consistently report higher rates of depression and loneliness than non-users." },
@@ -121,13 +123,14 @@ const lies = [
       </div>
 
       <div class="lies-grid">
-        {lies.map(lie => (
+        {lies.map((lie, i) => (
           <div class="reveal">
             <LieCard
               id={lie.id}
               number={lie.number}
               title={lie.title}
               color={lie.color}
+              index={i}
               slug={lie.slug}
               excerpt={lie.excerpt}
             />

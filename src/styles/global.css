@@ -545,14 +545,19 @@ em, i {
 }
 
 /* --- Individual Lie Card --- */
-/* Height: min 384px, grows with content */
+/*
+  Figma spec: 245 × 384px — tall portrait (~2:3 ratio), 16px radius
+  Padding: 40px top/bottom, 32px left/right
+  Layout: number top-left, title bottom-left, space-between
+  Texture grain baked into fill via background-blend-mode: multiply
+*/
+
 .lie-card {
   position: relative;
   cursor: pointer;
   perspective: 1200px;
   text-decoration: none;
-  min-height: 384px;
-  height: 384px;         /* fixed so flip works; adjust via JS if overflow needed */
+  aspect-ratio: 245 / 384;
 }
 
 .lie-card__inner {
@@ -560,15 +565,16 @@ em, i {
   width: 100%;
   height: 100%;
   transform-style: preserve-3d;
-  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
-  border-radius: var(--radius-md);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 16px;
 }
 
-.lie-card:hover .lie-card__inner {
-  transform: rotateY(180deg);
+@media (hover: hover) and (pointer: fine) {
+  .lie-card:hover .lie-card__inner {
+    transform: rotateY(180deg);
+  }
 }
 
-/* touch devices: tap once to flip, tap again to follow link */
 .lie-card.flipped .lie-card__inner {
   transform: rotateY(180deg);
 }
@@ -579,118 +585,124 @@ em, i {
   inset: 0;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  border-radius: var(--radius-md);
-  padding: 2.5rem 2rem;  /* 40px top/bottom, 32px sides — matches Figma */
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
 }
 
-/* Front face */
 .lie-card__front {
-  background-color: var(--card-cream);
-  position: relative;
-}
-
-/* Grain texture on each card front */
-.lie-card__front::after {
-  content: '';
-  position: absolute;
-  inset: 0;
+  background-color: #F1F1F1;
   background-image: url('/images/textures/texture-grain.png');
-  background-size: 400px 400px;
+  background-size: 520px 520px;
   background-repeat: repeat;
-  opacity: 0.18;
-  border-radius: inherit;
-  pointer-events: none;
-  mix-blend-mode: multiply;
+  background-blend-mode: multiply;
+}
+.lie-card--red .lie-card__front {
+  background-color: #C0392B;
+  background-image: url('/images/textures/texture-grain.png');
+  background-size: 520px 520px;
+  background-repeat: repeat;
+  background-blend-mode: multiply;
+}
+.lie-card--yellow .lie-card__front {
+  background-color: #FFBE00;
+  background-image: url('/images/textures/texture-grain.png');
+  background-size: 520px 520px;
+  background-repeat: repeat;
+  background-blend-mode: multiply;
+}
+.lie-card--dark .lie-card__front {
+  background-color: #593230;
+  background-image: url('/images/textures/texture-grain.png');
+  background-size: 520px 520px;
+  background-repeat: repeat;
+  background-blend-mode: multiply;
 }
 
-.lie-card--red .lie-card__front    { background-color: var(--card-red); }
-.lie-card--yellow .lie-card__front { background-color: var(--card-yellow); }
-.lie-card--dark .lie-card__front   { background-color: var(--card-dark); }
-
-/* Number — top of card, italic Crimson Pro style */
 .lie-card__number {
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 400;
-  letter-spacing: 0.02em;
-  opacity: 0.7;
+  line-height: 1;
+  align-self: flex-start;
 }
+.lie-card--cream .lie-card__number  { color: rgba(89, 50, 48, 0.6); }
+.lie-card--red .lie-card__number    { color: rgba(255, 220, 210, 0.7); }
+.lie-card--yellow .lie-card__number { color: rgba(26, 10, 10, 0.5); }
+.lie-card--dark .lie-card__number   { color: rgba(241, 220, 210, 0.6); }
 
-.lie-card--red .lie-card__number,
-.lie-card--dark .lie-card__number {
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.lie-card--cream .lie-card__number {
-  color: rgba(89, 50, 48, 0.7);
-}
-
-.lie-card--yellow .lie-card__number {
-  color: rgba(26, 10, 10, 0.6);
-}
-
-/* Title — large italic serif, bottom of card */
 .lie-card__title {
   font-family: var(--font-serif);
-  font-size: clamp(1.4rem, 2.2vw, 1.75rem);
+  font-size: clamp(1.4rem, 2vw, 1.85rem);
   font-weight: 700;
   line-height: 1.15;
   font-style: italic;
+  align-self: flex-start;
+  margin: 0;
 }
-
 .lie-card--cream .lie-card__title  { color: #DB0F00; }
 .lie-card--red .lie-card__title    { color: #FFBE00; }
 .lie-card--yellow .lie-card__title { color: #1a0a0a; }
 .lie-card--dark .lie-card__title   { color: #F1F1F1; }
 
-/* Back face */
 .lie-card__back {
-  background-color: var(--color-bg-card);
+  background-color: #2a0f0f;
+  background-image: url('/images/textures/texture-grain.png');
+  background-size: 520px 520px;
+  background-repeat: repeat;
+  background-blend-mode: multiply;
   transform: rotateY(180deg);
   justify-content: flex-start;
-  gap: 0.75rem;
+  gap: 0.875rem;
 }
 
 .lie-card__back-label {
-  font-size: 0.65rem;
+  font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-accent-red);
+  color: #DB0F00;
 }
 
 .lie-card__back-title {
-  font-size: 0.9rem;
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--color-white);
-  line-height: 1.3;
+  line-height: 1.25;
+  margin: 0;
 }
 
 .lie-card__back-excerpt {
-  font-size: 0.78rem;
-  color: var(--color-text-muted);
-  line-height: 1.55;
+  font-size: 0.82rem;
+  color: rgba(245, 237, 224, 0.8);
+  line-height: 1.6;
   flex: 1;
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 6;
+  -webkit-line-clamp: 7;
   -webkit-box-orient: vertical;
 }
 
 .lie-card__read-more {
-  font-size: 0.78rem;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
   font-weight: 700;
-  color: var(--color-accent-gold);
+  color: #FFBE00;
   display: flex;
   align-items: center;
-  gap: 0.3rem;
-  margin-top: auto;
+  gap: 0.35rem;
+  text-decoration: none;
+  flex-shrink: 0;
 }
+.lie-card__read-more:hover {
+  color: #ffd040;
+}
+
 
 /* --- Lead Capture Form --- */
 .lead-form {
