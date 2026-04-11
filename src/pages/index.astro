@@ -2,35 +2,37 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LieCard from '../components/LieCard.astro';
 import VideoEmbed from '../components/VideoEmbed.astro';
-import TestimonialCard from '../components/TestimonialCard.astro';
 import LeadForm from '../components/LeadForm.astro';
+import ScienceBacked from '../components/ScienceBacked.astro';
 
-// ─── Videos ───────────────────────────────────────────────────────────────────
-// Edit in /src/content/videos/videos.md (or via CMS at /admin)
-// Replace youtube_id values with the real IDs from the current pornlies.com videos.
-// To find a YouTube video ID: in https://youtube.com/watch?v=XXXXX  the ID is XXXXX
+// ── Videos ───────────────────────────────────────────────────────────────────
+// Replace REPLACE_VIDEO_ID_1 / _2 with real YouTube IDs from pornlies.com
 const videos = [
-  { id: '1', title: 'Porn Won\'t Affect You', youtubeId: 'REPLACE_VIDEO_ID_1', caption: 'Download the guide: 5 Things You Can Do Today to Kick Porn to the Curb' },
-  { id: '2', title: 'No One Will Ever Know',  youtubeId: 'REPLACE_VIDEO_ID_2', caption: 'Download the guide: 5 Things You Can Do Today to Kick Porn to the Curb' },
+  {
+    id: '1',
+    title: 'Porn Won\'t Affect You',
+    youtubeId: 'REPLACE_VIDEO_ID_1',
+    caption: 'Download the guide: 5 Things You Can Do Today to Kick Porn to the Curb',
+  },
+  {
+    id: '2',
+    title: 'No One Will Ever Know',
+    youtubeId: 'REPLACE_VIDEO_ID_2',
+    caption: 'Download the guide: 5 Things You Can Do Today to Kick Porn to the Curb',
+  },
 ];
 
-// ─── Testimonials ─────────────────────────────────────────────────────────────
-// Edit in /src/content/testimonials/testimonials.md (or via CMS at /admin)
-const testimonials = [
-  { name: 'David R.',  location: 'Virginia',    quote: "I'd never be here today without Ever Accountable." },
-  { name: 'Mariah B.', location: 'California',  quote: "My husband is so much happier. Our marriage is far stronger now." },
-  { name: 'Devon B.',  location: 'Texas',       quote: "I was so ashamed and felt so alone. Now I'm totally free." },
-];
-
-// ─── Lies Grid ────────────────────────────────────────────────────────────────
-// Edit in /src/content/lies/lies.md (or via CMS at /admin)
+// ── Lies Grid ─────────────────────────────────────────────────────────────────
+// Edit in /src/content/lies/lies.md or via CMS at /admin
 const lies = [
-  { id: 'wont-hurt',            number: '291',  title: "A little porn won't hurt you",  color: 'cream'  as const, slug: '/lies/wont-hurt',            excerpt: "Porn promises it's harmless—just entertainment, just stress relief. But science tells a very different story about what even occasional use does to the brain." },
-  { id: 'nobody-will-ever-know', number: '421', title: "No one will ever know",          color: 'red'    as const, slug: '/lies/nobody-will-ever-know', excerpt: "Secrecy is one of porn's most powerful tools. It whispers that what happens in private stays private—but secrets change us from the inside out." },
-  { id: 'better-in-bed',        number: '1025', title: "Porn makes you better in bed",  color: 'dark'   as const, slug: '/lies/better-in-bed',         excerpt: "Far from being a sex-ed tool, pornography consistently produces worse real-world sexual outcomes and sets unrealistic expectations." },
-  { id: 'everyone-does-it',     number: '332',  title: "Everyone does it",               color: 'yellow' as const, slug: '/lies/everyone-does-it',      excerpt: "Porn normalizes itself by claiming universality. But 'everyone does it' is both factually wrong and morally irrelevant." },
-  { id: 'quit-when-married',    number: '54',   title: "I'll quit when I get married",  color: 'cream'  as const, slug: '/lies/quit-when-married',     excerpt: "This lie lets you off the hook from the hard work of change right now—promising a future event will solve a present problem." },
-  { id: 'only-men-watch',       number: '87',   title: "Only men watch porn",            color: 'red'    as const, slug: '/lies/only-men-watch',         excerpt: "Women are one of the fastest-growing demographics in porn consumption, and many suffer in silence because the script says it isn't their struggle." },
+  { id: 'wont-hurt',             number: '291',  title: "A little porn won't hurt you",  color: 'cream'  as const, slug: '/lies/wont-hurt',             excerpt: "Porn promises it's harmless—just entertainment, just stress relief. But science tells a very different story about what even occasional use does to the brain." },
+  { id: 'nobody-will-ever-know', number: '421',  title: "No one will ever know",          color: 'red'    as const, slug: '/lies/nobody-will-ever-know',  excerpt: "Secrecy is one of porn's most powerful tools. It whispers that what happens in private stays private—but secrets change us from the inside out." },
+  { id: 'better-in-bed',         number: '1025', title: "Porn makes you better in bed",  color: 'dark'   as const, slug: '/lies/better-in-bed',          excerpt: "Far from being a sex-ed tool, pornography consistently produces worse real-world sexual outcomes and sets unrealistic expectations." },
+  { id: 'everyone-does-it',      number: '332',  title: "Everyone does it",               color: 'yellow' as const, slug: '/lies/everyone-does-it',       excerpt: "Porn normalizes itself by claiming universality. But 'everyone does it' is both factually wrong and morally irrelevant." },
+  { id: 'quit-when-married',     number: '54',   title: "I'll quit when I get married",  color: 'cream'  as const, slug: '/lies/quit-when-married',      excerpt: "This lie lets you off the hook from the hard work of change right now—promising a future event will solve a present problem." },
+  { id: 'only-men-watch',        number: '87',   title: "Only men watch porn",            color: 'red'    as const, slug: '/lies/only-men-watch',          excerpt: "Women are one of the fastest-growing demographics in porn consumption, and many suffer in silence because the script says it isn't their struggle." },
+  { id: 'doesnt-hurt-anyone',    number: '613',  title: "It doesn't hurt anyone",         color: 'dark'   as const, slug: '/lies/doesnt-hurt-anyone',     excerpt: "Porn claims it's victimless. But the harm flows in every direction: to users, to partners, to performers, and to the culture." },
+  { id: 'make-me-happy',         number: '77',   title: "Porn makes you happy",           color: 'yellow' as const, slug: '/lies/make-me-happy',          excerpt: "Porn promises pleasure but delivers something far darker. Users consistently report higher rates of depression and loneliness than non-users." },
 ];
 ---
 
@@ -40,36 +42,33 @@ const lies = [
   currentPage="/"
 >
 
-  <!-- ── Hero ── -->
+  <!-- ── Hero ─────────────────────────────────────────────────────────────── -->
   <section class="hero section section--textured">
     <div class="container">
       <span class="hero__eyebrow animate-fadeup">If porn could talk…</span>
       <h1 class="hero__title animate-fadeup animate-fadeup--delay-1">
-        Porn <span class="text-red">lies.</span><br />A lot.
+        Porn <span class="text-red">lies.</span> A lot.
       </h1>
       <p class="hero__subtitle animate-fadeup animate-fadeup--delay-2">
         <em>See through the lies. Find the truth. Get free.</em>
       </p>
-      <div class="flex-center gap-md animate-fadeup animate-fadeup--delay-3">
+      <div class="hero__actions animate-fadeup animate-fadeup--delay-3">
         <a href="#download" class="btn btn--red">
-          <i class="fa-solid fa-download" aria-hidden="true"></i>
           Download the Free Guide
         </a>
         <a href="/lies" class="btn btn--outline">
-          See All the Lies <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+          See All the Lies
         </a>
       </div>
     </div>
   </section>
 
-  <!-- ── Videos ── -->
+  <!-- ── Videos ───────────────────────────────────────────────────────────── -->
   <section class="section section--dark" aria-labelledby="videos-heading">
     <div class="container">
-      <div class="text-center" style="margin-bottom: 3rem;">
+      <div class="section-header text-center" style="margin-bottom: 3rem;">
         <h2 id="videos-heading">The Lies, In Character</h2>
-        <p style="margin-top: 0.5rem; color: var(--color-text-muted);">
-          <em>If porn could talk, this is what it would say.</em>
-        </p>
+        <p class="section-subhead"><em>If porn could talk, this is what it would say.</em></p>
       </div>
 
       <div class="video-grid">
@@ -87,42 +86,34 @@ const lies = [
     </div>
   </section>
 
-  <!-- ── Download Guide + Testimonials ── -->
+  <!-- ── Download Guide ────────────────────────────────────────────────────── -->
   <section class="section" id="download" aria-labelledby="guide-heading">
     <div class="container">
-      <div class="split-layout">
-        <div class="reveal">
+      <div class="guide-section">
+        <div class="guide-section__form reveal">
+          <p class="cta-block__eyebrow">Download the Guide</p>
+          <h2 id="guide-heading" style="margin-bottom: 0.5rem;">
+            Ways to Kick Porn<br />to the Curb Today
+          </h2>
+          <p class="guide-section__sub">Free — delivered straight to your inbox.</p>
           <LeadForm
             id="guide-form"
-            title="Ways to Kick Porn to the Curb Today"
-            subtitle="Free guide — delivered straight to your inbox."
             submitLabel="Get the Free Guide"
           />
         </div>
-
-        <div>
-          <div class="stat-callout reveal" style="margin-bottom: 2rem;">
-            <div class="stat-callout__number">63%</div>
-            <div class="stat-callout__text">
-              of Ever Accountable users reported <strong>zero porn usage</strong> after just one month.
-              We guarantee significantly less porn usage or your money back.
-            </div>
-          </div>
-
-          <div class="testimonials-grid">
-            {testimonials.map((t, i) => (
-              <div class={`reveal animate-fadeup--delay-${i + 1}`}>
-                <TestimonialCard name={t.name} location={t.location} quote={t.quote} />
-              </div>
-            ))}
+        <!-- decorative spacer on desktop -->
+        <div class="guide-section__art reveal" aria-hidden="true">
+          <div class="guide-art-block">
+            <span class="guide-art-number">63%</span>
+            <p>of users reported <strong>zero porn usage</strong> after just one month with Ever Accountable.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ── More Lies Grid ── -->
-  <section class="lies-section section--dark" aria-labelledby="lies-heading">
+  <!-- ── More Lies Grid ────────────────────────────────────────────────────── -->
+  <section class="section section--dark" aria-labelledby="lies-heading">
     <div class="container">
       <div class="lies-section__header">
         <h2 id="lies-heading">More <span class="text-red">Lies</span></h2>
@@ -152,13 +143,16 @@ const lies = [
     </div>
   </section>
 
-  <!-- ── Newsletter ── -->
+  <!-- ── Scientifically Backed + Testimonials ──────────────────────────────── -->
+  <ScienceBacked />
+
+  <!-- ── Newsletter ────────────────────────────────────────────────────────── -->
   <section class="section" aria-labelledby="newsletter-heading">
     <div class="container">
       <div class="cta-block">
         <p class="cta-block__eyebrow">Want to Stay Connected?</p>
         <h2 class="cta-block__title" id="newsletter-heading">
-          Sign up to receive<br />news and updates
+          Sign up to receive news and updates
         </h2>
         <LeadForm id="newsletter-form" submitLabel="Sign Up" />
       </div>
@@ -166,3 +160,73 @@ const lies = [
   </section>
 
 </BaseLayout>
+
+<style>
+  .hero__actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .section-subhead {
+    color: var(--color-text-muted);
+    margin-top: 0.5rem;
+    font-family: var(--font-serif);
+  }
+
+  /* Guide download split */
+  .guide-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+    max-width: 900px;
+    margin-inline: auto;
+  }
+
+  @media (max-width: 760px) {
+    .guide-section {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    .guide-section__art { display: none; }
+  }
+
+  .guide-section__sub {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    margin-top: 0.25rem;
+  }
+
+  .guide-art-block {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 2.5rem;
+    text-align: center;
+  }
+
+  .guide-art-number {
+    display: block;
+    font-size: 5rem;
+    font-weight: 900;
+    color: var(--color-accent-gold);
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+
+  .guide-art-block p {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .guide-art-block strong {
+    color: var(--color-white);
+  }
+</style>

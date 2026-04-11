@@ -11,22 +11,63 @@ interface Props {
 const { id, number, title, excerpt, slug, color } = Astro.props;
 ---
 
-<a href={slug} class={`lie-card lie-card--${color}`} aria-label={`Read about the lie: ${title}`}>
+<!-- 
+  Hover → flip on desktop
+  Touch: first tap = flip, second tap = navigate to detail page
+-->
+<div
+  class={`lie-card lie-card--${color}`}
+  data-slug={slug}
+  role="article"
+  aria-label={`Lie: ${title}. Tap to reveal the truth.`}
+>
   <div class="lie-card__inner">
+
     <!-- Front: the lie -->
     <div class="lie-card__front">
       <span class="lie-card__number">Lie No. {number}</span>
       <h3 class="lie-card__title"><em>{title}</em></h3>
     </div>
 
-    <!-- Back: excerpt + read more -->
-    <div class="lie-card__back">
-      <span class="lie-card__back-label">The Truth</span>
-      <p class="lie-card__back-title">{title}</p>
+    <!-- Back: truth excerpt + read more -->
+    <div class="lie-card__back" aria-hidden="true">
+      <div>
+        <span class="lie-card__back-label">The Truth</span>
+        <p class="lie-card__back-title">{title}</p>
+      </div>
       <p class="lie-card__back-excerpt">{excerpt}</p>
-      <span class="lie-card__read-more">
-        Read more <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-      </span>
+      <a href={slug} class="lie-card__read-more" tabindex="-1">
+        Read More <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+      </a>
     </div>
+
   </div>
-</a>
+</div>
+
+<script>
+  // Touch support: tap once = flip, tap again = navigate
+  document.querySelectorAll<HTMLElement>('.lie-card').forEach(card => {
+    let flipped = false;
+
+    card.addEventListener('click', (e) => {
+      // Desktop hover handles the flip visually; on touch we manage state
+      const isTouch = window.matchMedia('(hover: none)').matches;
+
+      if (!isTouch) {
+        // Desktop: clicking anywhere navigates directly
+        const slug = card.dataset.slug;
+        if (slug) window.location.href = slug;
+        return;
+      }
+
+      if (!flipped) {
+        card.classList.add('flipped');
+        flipped = true;
+        e.preventDefault();
+      } else {
+        const slug = card.dataset.slug;
+        if (slug) window.location.href = slug;
+      }
+    });
+  });
+</script>

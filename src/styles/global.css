@@ -62,26 +62,26 @@
 /* --- Design Tokens --- */
 :root {
   /* Colors */
-  --color-bg:          #1a0a0a;       /* deep maroon-black background */
-  --color-bg-mid:      #2d1010;       /* slightly lighter maroon sections */
-  --color-bg-card:     #3a1515;       /* card backgrounds */
-  --color-accent-red:  #e63b2e;       /* PornLies red */
-  --color-accent-gold: #c9a227;       /* CTA gold/yellow */
-  --color-text:        #f5ede0;       /* warm off-white body text */
-  --color-text-muted:  #b89080;       /* muted warm text */
+  --color-bg:          #1a0a0a;
+  --color-bg-mid:      #2d1010;
+  --color-bg-card:     #3a1515;
+  --color-accent-red:  #DB0F00;       /* buttons, accents */
+  --color-accent-gold: #FFBE00;       /* yellow buttons */
+  --color-text:        #f5ede0;
+  --color-text-muted:  #b89080;
   --color-white:       #ffffff;
-  --color-banner-bg:   #c0392b;       /* top banner red */
+  --color-banner-bg:   #DB0F00;
 
-  /* Lie card colors */
-  --card-cream:  #f0e8d8;
-  --card-red:    #c0392b;
-  --card-yellow: #d4a017;
-  --card-dark:   #4a3030;
+  /* Lie card colors — Figma exact */
+  --card-cream:  #F1F1F1;
+  --card-red:    #C0392B;
+  --card-yellow: #FFBE00;
+  --card-dark:   #593230;
 
   /* Typography */
   --font-body:    'Lota Grotesque', 'DM Sans', 'Helvetica Neue', sans-serif;
   --font-display: 'Lota Grotesque', 'DM Sans', 'Helvetica Neue', sans-serif;
-  --font-serif:   'Playfair Display', 'Georgia', serif; /* for italic accents */
+  --font-serif:   'Crimson Pro', 'Georgia', serif; /* italic card titles */
 
   /* Spacing */
   --space-xs:  0.5rem;
@@ -97,9 +97,9 @@
   --banner-height:  44px;
 
   /* Borders */
-  --radius-sm:  6px;
-  --radius-md:  12px;
-  --radius-lg:  20px;
+  --radius-sm:   4px;   /* button corners */
+  --radius-md:   16px;  /* cards — Figma 16px */
+  --radius-lg:   20px;
   --radius-pill: 999px;
 
   /* Transitions */
@@ -231,54 +231,63 @@ em, i {
 .text-muted { color: var(--color-text-muted); }
 
 /* --- Buttons --- */
+/* Square corners (4px), Lota Grotesque, title case */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.75rem 1.75rem;
-  border-radius: var(--radius-pill);
+  padding: 0.8rem 1.75rem;
+  border-radius: var(--radius-sm);   /* 4px — square feel */
   font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 0.9rem;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  text-transform: none;              /* title case set in HTML */
   transition: all var(--transition-base);
   white-space: nowrap;
+  cursor: pointer;
 }
 
+/* Yellow / gold CTA button */
 .btn--primary {
-  background-color: var(--color-accent-gold);
+  background-color: #FFBE00;
   color: #1a0a0a;
+  border: none;
 }
 .btn--primary:hover {
-  background-color: #e0b52e;
+  background-color: #e6ab00;
   transform: translateY(-1px);
-  box-shadow: 0 4px 20px rgba(201, 162, 39, 0.35);
+  box-shadow: 0 4px 20px rgba(255, 190, 0, 0.3);
 }
 
+/* Red button */
 .btn--red {
-  background-color: var(--color-accent-red);
+  background-color: #DB0F00;
   color: var(--color-white);
+  border: none;
 }
 .btn--red:hover {
-  background-color: #d4322a;
+  background-color: #c20d00;
   transform: translateY(-1px);
-  box-shadow: 0 4px 20px rgba(230, 59, 46, 0.35);
+  box-shadow: 0 4px 20px rgba(219, 15, 0, 0.35);
 }
 
+/* Outline / ghost button */
 .btn--outline {
-  border: 1.5px solid var(--color-text-muted);
+  border: 1.5px solid rgba(255,255,255,0.3);
   color: var(--color-text);
+  background: transparent;
 }
 .btn--outline:hover {
-  border-color: var(--color-text);
+  border-color: var(--color-white);
   color: var(--color-white);
+  background: rgba(255,255,255,0.05);
 }
 
 .btn--sm {
-  padding: 0.5rem 1.25rem;
-  font-size: 0.8rem;
+  padding: 0.55rem 1.2rem;
+  font-size: 0.85rem;
 }
 
 /* --- Announcement Banner --- */
@@ -444,9 +453,17 @@ em, i {
 }
 
 .hero__title {
-  font-size: clamp(3rem, 8vw, 6rem);
+  font-size: clamp(2.5rem, 7vw, 5.5rem);
   line-height: 1.05;
   margin-bottom: 1rem;
+  white-space: nowrap;   /* single line on desktop */
+}
+
+@media (max-width: 600px) {
+  .hero__title {
+    white-space: normal;  /* allow wrap on mobile */
+    font-size: clamp(2.2rem, 10vw, 3.5rem);
+  }
 }
 
 .hero__subtitle {
@@ -494,7 +511,7 @@ em, i {
 
 /* --- Lie Cards Grid --- */
 .lies-section {
-  padding-block: clamp(3rem, 8vw, 6rem);
+  padding-block: clamp(3rem, 8vw, 6rem);  /* kept for back-compat */
 }
 
 .lies-section__header {
@@ -512,23 +529,30 @@ em, i {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
+  align-items: start;   /* let cards grow naturally */
 }
 
 @media (max-width: 1024px) {
   .lies-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 700px) {
   .lies-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
+@media (max-width: 400px) {
+  .lies-grid { grid-template-columns: 1fr; }
+}
+
 /* --- Individual Lie Card --- */
+/* Height: min 384px, grows with content */
 .lie-card {
-  aspect-ratio: 3/4;
   position: relative;
   cursor: pointer;
-  perspective: 1000px;
+  perspective: 1200px;
   text-decoration: none;
+  min-height: 384px;
+  height: 384px;         /* fixed so flip works; adjust via JS if overflow needed */
 }
 
 .lie-card__inner {
@@ -544,60 +568,85 @@ em, i {
   transform: rotateY(180deg);
 }
 
+/* touch devices: tap once to flip, tap again to follow link */
+.lie-card.flipped .lie-card__inner {
+  transform: rotateY(180deg);
+}
+
 .lie-card__front,
 .lie-card__back {
   position: absolute;
   inset: 0;
   backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   border-radius: var(--radius-md);
-  padding: 1.25rem;
+  padding: 2.5rem 2rem;  /* 40px top/bottom, 32px sides — matches Figma */
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: space-between;
   overflow: hidden;
 }
 
 /* Front face */
 .lie-card__front {
   background-color: var(--card-cream);
+  position: relative;
 }
 
-.lie-card--red .lie-card__front  { background-color: var(--card-red); }
-.lie-card--yellow .lie-card__front { background-color: var(--card-yellow); }
-.lie-card--dark .lie-card__front { background-color: var(--card-dark); }
-
-.lie-card__number {
+/* Grain texture on each card front */
+.lie-card__front::after {
+  content: '';
   position: absolute;
-  top: 1rem;
-  left: 1.25rem;
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  opacity: 0.5;
+  inset: 0;
+  background-image: url('/images/textures/texture-grain.png');
+  background-size: 400px 400px;
+  background-repeat: repeat;
+  opacity: 0.18;
+  border-radius: inherit;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+.lie-card--red .lie-card__front    { background-color: var(--card-red); }
+.lie-card--yellow .lie-card__front { background-color: var(--card-yellow); }
+.lie-card--dark .lie-card__front   { background-color: var(--card-dark); }
+
+/* Number — top of card, italic Crimson Pro style */
+.lie-card__number {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  opacity: 0.7;
 }
 
 .lie-card--red .lie-card__number,
 .lie-card--dark .lie-card__number {
-  color: rgba(255,255,255,0.7);
+  color: rgba(255, 255, 255, 0.8);
 }
 
-.lie-card--cream .lie-card__number,
+.lie-card--cream .lie-card__number {
+  color: rgba(89, 50, 48, 0.7);
+}
+
 .lie-card--yellow .lie-card__number {
-  color: rgba(0,0,0,0.4);
+  color: rgba(26, 10, 10, 0.6);
 }
 
+/* Title — large italic serif, bottom of card */
 .lie-card__title {
   font-family: var(--font-serif);
-  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  font-size: clamp(1.4rem, 2.2vw, 1.75rem);
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.15;
   font-style: italic;
 }
 
-.lie-card--cream .lie-card__title { color: var(--color-accent-red); }
-.lie-card--red .lie-card__title   { color: var(--card-yellow); }
-.lie-card--yellow .lie-card__title { color: var(--color-bg); }
-.lie-card--dark .lie-card__title  { color: var(--color-text); }
+.lie-card--cream .lie-card__title  { color: #DB0F00; }
+.lie-card--red .lie-card__title    { color: #FFBE00; }
+.lie-card--yellow .lie-card__title { color: #1a0a0a; }
+.lie-card--dark .lie-card__title   { color: #F1F1F1; }
 
 /* Back face */
 .lie-card__back {
@@ -878,7 +927,7 @@ em, i {
 }
 
 .guide-banner:hover {
-  background-color: #d4322a;
+  background-color: #c20d00;
   transform: translateY(-1px);
 }
 

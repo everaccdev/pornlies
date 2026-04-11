@@ -1,0 +1,181 @@
+---
+// Testimonials passed in, or use defaults
+interface Testimonial {
+  name: string;
+  location: string;
+  quote: string;
+  avatar?: string;
+}
+
+interface Props {
+  testimonials?: Testimonial[];
+  ctaHref?: string;
+  ctaLabel?: string;
+}
+
+const {
+  testimonials = [
+    { name: 'David R.',  location: 'Virginia',   quote: "I'd never be here today without Ever Accountable." },
+    { name: 'Mariah B.', location: 'California', quote: "My husband is so much happier. Our marriage is far stronger now." },
+    { name: 'Devon B.',  location: 'Texas',       quote: "I was so ashamed and felt so alone. Now I'm totally free." },
+  ],
+  ctaHref = 'https://everaccountable.com/fighting-porn-together/',
+  ctaLabel = 'Get Free From the Lies',
+} = Astro.props;
+---
+
+<section class="science-section section--dark section--textured" aria-labelledby="science-heading">
+  <div class="container">
+    <div class="science-layout">
+
+      <!-- Left: headline + stat + CTA -->
+      <div class="science-left reveal">
+        <h2 class="science-heading" id="science-heading">
+          Scientifically-backed software that dramatically reduces porn usage.
+        </h2>
+        <p class="science-stat">
+          In fact, 63% of users reported <strong>zero porn usage</strong> after just one month.
+          We guarantee significantly less porn usage or your money back.
+        </p>
+        <a
+          href={ctaHref}
+          target="_blank"
+          rel="noopener"
+          class="btn btn--primary"
+        >
+          {ctaLabel}
+        </a>
+      </div>
+
+      <!-- Right: stacked testimonial cards -->
+      <div class="science-testimonials">
+        {testimonials.map((t, i) => (
+          <div class={`science-card reveal animate-fadeup--delay-${i + 1}`}>
+            <div class="science-card__avatar" aria-hidden="true">
+              {t.avatar ? (
+                <img src={t.avatar} alt="" width="48" height="48" />
+              ) : (
+                <span class="science-card__initials">
+                  {t.name.split(' ').map((n: string) => n[0]).join('').slice(0,2)}
+                </span>
+              )}
+            </div>
+            <div class="science-card__body">
+              <p class="science-card__quote">"{t.quote}"</p>
+              <p class="science-card__author">
+                {t.name} <span aria-hidden="true">·</span> {t.location}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .science-section {
+    padding-block: clamp(4rem, 9vw, 7rem);
+  }
+
+  .science-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(3rem, 6vw, 6rem);
+    align-items: center;
+  }
+
+  @media (max-width: 860px) {
+    .science-layout {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+  }
+
+  /* Left column */
+  .science-heading {
+    font-size: clamp(1.6rem, 3vw, 2.25rem);
+    font-weight: 700;
+    color: var(--color-white);
+    line-height: 1.2;
+    margin-bottom: 1.25rem;
+  }
+
+  .science-stat {
+    font-size: clamp(0.9rem, 1.5vw, 1rem);
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  .science-stat strong {
+    color: var(--color-white);
+    font-weight: 700;
+  }
+
+  /* Right column — stacked cards */
+  .science-testimonials {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .science-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    /* Dashed border style from Figma */
+    outline: 1px dashed rgba(255, 255, 255, 0.12);
+    outline-offset: -4px;
+  }
+
+  .science-card__avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--color-bg-card);
+    flex-shrink: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .science-card__avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .science-card__initials {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+  }
+
+  .science-card__body {
+    flex: 1;
+  }
+
+  .science-card__quote {
+    font-size: 1rem;
+    color: var(--color-text);
+    line-height: 1.55;
+    margin-bottom: 0.5rem;
+    font-style: normal;
+  }
+
+  .science-card__author {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-accent-gold);
+  }
+</style>

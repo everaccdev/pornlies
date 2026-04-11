@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import TestimonialCard from '../components/TestimonialCard.astro';
 import LeadForm from '../components/LeadForm.astro';
+import ScienceBacked from '../components/ScienceBacked.astro';
 ---
 
 <BaseLayout
@@ -75,52 +76,7 @@ import LeadForm from '../components/LeadForm.astro';
     </div>
   </section>
 
-  <!-- Ever Accountable CTA + Testimonials -->
-  <section class="section section--dark">
-    <div class="container">
-      <div class="split-layout">
-        <div class="reveal">
-          <h2>Scientifically-backed software that dramatically reduces porn usage.</h2>
-          <p style="margin-block: 1.25rem; color: var(--color-text-muted); line-height: 1.8;">
-            In fact, 63% of users reported <strong style="color:var(--color-white)">zero porn usage</strong>
-            after just one month. We guarantee significantly less porn usage or your money back.
-          </p>
-          <a
-            href="https://everaccountable.com/fighting-porn-together/"
-            target="_blank"
-            rel="noopener"
-            class="btn btn--primary"
-          >
-            Get Free From Lies
-          </a>
-        </div>
-
-        <div class="testimonials-grid">
-          <div class="reveal">
-            <TestimonialCard
-              name="David R."
-              location="Virginia"
-              quote="I'd never be here today without Ever Accountable."
-            />
-          </div>
-          <div class="reveal animate-fadeup--delay-1">
-            <TestimonialCard
-              name="Mariah B."
-              location="California"
-              quote="My husband is so much happier. Our marriage is far stronger now."
-            />
-          </div>
-          <div class="reveal animate-fadeup--delay-2">
-            <TestimonialCard
-              name="Devon B."
-              location="Texas"
-              quote="I was so ashamed and felt so alone. Now I'm totally free."
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <ScienceBacked />
 
   <!-- Download Form -->
   <section class="section" id="hope-download" aria-labelledby="hope-guide-heading">
