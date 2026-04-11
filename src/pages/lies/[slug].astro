@@ -1,200 +1,190 @@
 ---
-// src/pages/lies/[slug].astro
-// Astro static site generation — one page built per lie at build time.
-// To add a new lie: add it to the `lies` array below (and to the CMS config).
-
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import LeadForm from '../../components/LeadForm.astro';
-import TestimonialCard from '../../components/TestimonialCard.astro';
 
-// ─── All Lie Data ────────────────────────────────────────────────────────────
-// This is the single source of truth for all lie detail pages.
-// Keep this in sync with: /src/content/lies/lies.md (used by CMS + index page)
-// ─────────────────────────────────────────────────────────────────────────────
-export const lies = [
+type CardColor = 'cream' | 'red' | 'yellow' | 'dark';
+
+interface Lie {
+  slug: string;
+  number: string;
+  title: string;
+  color: CardColor;
+  excerpt: string;
+  paragraphs: string[];
+}
+
+export const lies: Lie[] = [
   {
     slug: 'wont-hurt',
     number: '291',
     title: "A little porn won't hurt you",
     color: 'cream',
-    excerpt: "Porn promises it's harmless—just entertainment, just a little stress relief. But science tells a very different story.",
+    excerpt: "Porn trains your brain to feel entitled to other people's bodies. Even occasional use rewires your reward system — and the habit almost never stays little.",
     paragraphs: [
-      "Porn promises it's harmless—just entertainment, just a little stress relief. But science tells a very different story. Studies show that even occasional use rewires the brain's reward system, building tolerance that demands more and more extreme content over time.",
-      "Users find themselves needing harder material to feel the same effect, often escalating to content they would have found repulsive before. This isn't weakness—it's neuroscience. The same dopamine pathways hijacked by drugs and alcohol are hijacked by pornography.",
-      "Relationships suffer. Real intimacy loses its appeal. Performance anxiety spikes. The 'little' use almost never stays little. What begins as occasional curiosity can quietly become compulsion—not because you're weak, but because porn is engineered to be addictive.",
-      "The good news: the brain is plastic. It can be rewired in the other direction too. Freedom is possible, and it begins with seeing this lie for what it is.",
+      "Porn promises it's harmless — just entertainment, just a little stress relief. But science tells a very different story. Studies show that even occasional use rewires the brain's reward system, building tolerance that demands more extreme content over time.",
+      "Porn damages marriages, bringing betrayal and distrust into our closest relationships. It harms children — they're being exposed at younger and younger ages, and it damages their developing brains, self-image, and understanding of sex and relationships.",
+      "Porn hurts your brain. Excessive use over time trains your brain to enjoy synthetic sex, not real sex. It becomes an easy escape to numb painful things in life instead of confronting real problems. Your brain can get stuck in a rut, quite literally.",
+      "Porn secretly fuels sex trafficking. Child Sexual Abuse Materials and the illegal filming of minors are growing so rapidly that officials have trouble keeping up. Behind the scenes, real people are harmed in the making of some porn.",
+      "Sexual violence is portrayed in many popular types of porn. Teen is one of the most popular search terms — sending a terrible message that it's okay to use young people as objects of violent sexual acts. Porn is a liar, and perhaps it has lied to you.",
+      "By choosing to live a life free of porn, you will live with authenticity in your relationships, including the one you have with yourself. You are not a hopeless case. Freedom is real, and it starts with seeing this lie for what it is.",
     ],
-    prev: null,
-    next: 'nobody-will-ever-know',
   },
   {
     slug: 'nobody-will-ever-know',
     number: '421',
     title: "No one will ever know",
     color: 'red',
-    excerpt: "Secrecy is one of porn's most powerful tools. It whispers that what happens in private stays private.",
+    excerpt: "Secrets have a way of spilling out. And even if no one ever catches you — you'll know. Your inner self will always know the truth.",
     paragraphs: [
-      "Secrecy is one of porn's most powerful tools. It whispers that what happens in private stays private—that your viewing habits have no effect on the people around you. But the truth is, secrets change us from the inside out.",
-      "Partners notice emotional distance, reduced intimacy, unexplained irritability. Children notice when a parent is distracted, ashamed, or absent even while present. The shame of secrecy compounds the damage.",
-      "People who use porn secretly report higher rates of depression, anxiety, and relationship dissatisfaction than those who are open about their struggles. The lie of secrecy doesn't just hide the behavior—it prevents the healing.",
-      "Someone always knows. And even when they don't, you know. That awareness shapes every relationship, every decision, every moment of real intimacy. The path out starts with honesty—with yourself, and with someone you trust.",
+      "All you have to do is turn on the news on any given night to hear the latest scandal. Someone's dirty secret has been discovered and is put on display for all to see. Sometimes it's a famous person caught cheating. Other secrets include destructive habits that finally came to light.",
+      "If you have a secret porn habit you've never told anyone about, it's easy to think you'll keep it hidden forever. But there's the law of sowing and reaping. Porn trains your brain to feel entitled to other people's bodies. Sooner or later, years of viewing porn are going to affect your behavior and who you are becoming.",
+      "Secrets do have a way of spilling out. Until you spend more time viewing endless screens than enjoying real relationships. Until you realize you've sabotaged your own sex life. Until your child accidentally stumbles on a tab you thought you had erased. Until your partner wonders why you're unable to perform. Until your spouse finds your hidden files and wonders why she isn't enough.",
+      "And even if no one ever catches you, you'll know. Your inner self — your conscience — will always know the truth about your secrets. You can change that truth. Your bad habits don't have to define you.",
+      "What if you could enjoy the freedom you might not even realize you were missing? Because deep down, your inner self surely knows your porn habit is really hurting you. That sense of loneliness, boredom, and longing for deeper satisfaction? It's telling you something — if you'll only pay attention.",
     ],
-    prev: 'wont-hurt',
-    next: 'better-in-bed',
   },
   {
     slug: 'better-in-bed',
     number: '1025',
     title: "Porn makes you better in bed",
     color: 'dark',
-    excerpt: "Far from being a sex-ed tool, pornography consistently produces worse real-world sexual outcomes.",
+    excerpt: "Porn can harm your ability to enjoy real intimacy. It trains you for a fantasy that leaves genuine connection feeling inadequate.",
     paragraphs: [
-      "This is one of porn's most damaging lies. Far from being a sex-ed tool, pornography consistently produces worse real-world sexual outcomes. It sets unrealistic expectations about bodies, performance, and what partners want.",
-      "Men who regularly use porn report higher rates of erectile dysfunction with real partners—a phenomenon researchers now call 'porn-induced ED.' Both men and women report less satisfaction with real partners after regular use.",
-      "Porn depicts scenarios engineered for the camera, not for genuine intimacy. Learning from it is like learning to drive from a Fast & Furious movie. It trains you for a fantasy that leaves real connection feeling inadequate.",
-      "Real intimacy is built on trust, communication, vulnerability, and mutual care—things porn never shows and actively trains you to devalue. The best thing you can do for your real relationship is to stop watching the fake one.",
+      "The truth is that porn can harm your ability to enjoy holistic and lasting sexual intimacy with a real person. Porn can decrease your ability to be aroused by your partner because you've trained yourself to be turned on by fantasies.",
+      "Porn can make you think she likes what makes her feel degraded and hurt. \"There was nothing fun about that sex for me, nothing. It was getting to the point that it was traumatic for me,\" one anonymous wife shared.",
+      "Whether porn increases your desire in the wrong way or makes you less interested in your partner, it's hurting your ability to have healthy intimacy. Porn use over time can make you crave unrealistic or even violent types of sex.",
+      "Porn repeats false relationship messages over and over. This is dangerous because, as human beings, we believe misinformation when it is repetitive — even when we initially know it is untrue. It tells you your partner will want sex exactly as much and in the same ways as you do. That sex is the only important thing in a relationship. That kindness doesn't matter.",
+      "Real intimacy is built on trust, communication, and genuinely caring for another person. Porn trains you for performance. Real relationships reward presence. The best thing you can do for your real relationship is to stop watching the fake one.",
     ],
-    prev: 'nobody-will-ever-know',
-    next: 'everyone-does-it',
-  },
-  {
-    slug: 'everyone-does-it',
-    number: '332',
-    title: "Everyone does it",
-    color: 'yellow',
-    excerpt: "Porn normalizes itself by claiming universality. 'Everyone does it' is both factually wrong and morally irrelevant.",
-    paragraphs: [
-      "Porn normalizes itself by claiming universality. 'Everyone does it' is both factually wrong and morally irrelevant. But when you're isolated in shame, the lie feels true—and it's designed to.",
-      "In reality, a significant portion of the population doesn't use pornography, and many who have used it have walked away for good. Universality doesn't equal rightness—plenty of harmful things are common.",
-      "But more importantly, the 'everyone does it' framing is designed to cut off your instinct that something is wrong. It silences the voice that says 'this isn't who I want to be.'",
-      "You are not everyone. Your choices are your own. The people who have found freedom from porn aren't exceptional—they're ordinary people who decided the lie wasn't worth listening to anymore.",
-    ],
-    prev: 'better-in-bed',
-    next: 'quit-when-married',
   },
   {
     slug: 'quit-when-married',
     number: '54',
     title: "I'll quit when I get married",
     color: 'cream',
-    excerpt: "This is one of the most hopeful-sounding lies porn tells—and one of the cruelest.",
+    excerpt: "The craving won't go away. People do not quit when they get married — they too often find that porn has harmed their ability to be sexual in healthy, bonding ways.",
     paragraphs: [
-      "This is one of the most hopeful-sounding lies porn tells—and one of the cruelest. It promises that a future event will solve a present problem, letting you off the hook from the hard work of change right now.",
-      "But habits and neural pathways don't automatically reset at the altar. Research consistently shows that porn use before marriage strongly predicts porn use during marriage—and marital dissatisfaction.",
-      "Partners often discover the secret and feel devastated, betrayed, and inadequate. The intimacy problems porn creates don't disappear with a wedding ring—they show up on the honeymoon.",
-      "Marriage doesn't fix porn addiction any more than moving cities fixes alcoholism. Freedom requires doing the work now, not outsourcing it to a future relationship. The good news: every day you start the work, you're building toward something real.",
+      "This lie is tricky because it seems to make sense. You'll be having sex with a real person, so the craving to watch porn will go away, right? Nope. The craving won't go away because, at their core, sex and porn are opposites.",
+      "Real sex is a together experience — you and your beloved. Porn is a screenful of novelty, one different person after another. Real sex is about seeking your partner's gratification before your own. But porn is all about gratifying yourself.",
+      "Real sex is part of a relationship, complete with good things to enjoy and problems to overcome together. Relationships are built through time and effort. So what happens when you've argued with your spouse, or someone is too sick or busy for sex? Will you escape to porn?",
+      "Getting married does not make you a different person. If porn is how you cope now, you'll do the same thing when you're married. People do not quit when they get married — they too often find that porn has harmed their ability to be sexual in healthy, bonding ways with their spouse.",
+      "Marriage doesn't fix a porn habit any more than moving cities fixes alcoholism. Freedom requires doing the work now, not outsourcing it to a future relationship. Every day you start the work, you're building toward something real.",
     ],
-    prev: 'everyone-does-it',
-    next: 'only-men-watch',
+  },
+  {
+    slug: 'everyone-does-it',
+    number: '332',
+    title: "Everyone does it",
+    color: 'yellow',
+    excerpt: "Porn's popularity doesn't make it safe or healthy. Clearly, not everybody watches porn — and a growing number of people are committed to quitting permanently.",
+    paragraphs: [
+      "The ugly truth is that it might seem like everybody watches porn because a lot of people do. By the time a young person has reached high school, they're likely to have viewed porn. But there's a big difference between accidentally stumbling over porn and being hooked by it or purposefully continuing to consume it.",
+      "A growing number of adults see how porn weighs them down and ruins their relationships over time. As a result, many people are committed to quitting porn permanently. Many books, research studies, and organizations with thousands of members exist — dedicated to fighting personal porn consumption. Clearly, not everybody watches porn.",
+      "Almost everybody smoked cigarettes not so long ago, often starting in high school. At first, smoking seemed innocent. Then it became almost a rite of passage. Now cigarettes come with a Surgeon General's warning. Like cigarettes, porn should also come with a warning label. Porn's popularity doesn't make it safe or healthy.",
+      "Porn can be bad for your physical and mental health, as well as your closest relationships. The longer you consume porn, the harder it gets to quit. Porn actually rewires your brain over time to desire super-normal stimuli. You might even lose interest in real sex or experience early-onset erectile dysfunction.",
+      "You are not everyone. Your choices are your own. Quitting porn could literally change your life for the better.",
+    ],
   },
   {
     slug: 'only-men-watch',
     number: '87',
     title: "Only men watch porn",
     color: 'red',
-    excerpt: "Pornography is not a male problem. Women are one of the fastest-growing demographics in porn consumption.",
+    excerpt: "This is a common falsehood that traps many women in secrecy, fear, and shame. If you're a woman struggling with porn, you aren't alone.",
     paragraphs: [
-      "Pornography is not a male problem. Women are one of the fastest-growing demographics in porn consumption, and many suffer in silence because the cultural script says this isn't their struggle.",
-      "Female users often report deeper shame precisely because they feel like they're the only one—that something is uniquely wrong with them. Women also experience the same neurological hooks, the same escalation, the same damage to real-world intimacy.",
-      "And women who are partners of male users experience profound harm: feeling replaced, inadequate, and betrayed. The ripple effects of porn use touch every relationship it's near.",
-      "Porn's damage is equal opportunity. So is freedom. If you're a woman struggling with porn, you are not alone—and you are not broken. There is a community of people who have walked out of this, and they're waiting to walk with you.",
+      "Women don't really struggle with porn — or do they? This is a common falsehood that traps many women in secrecy, fear, and shame. You might feel like \"Rosalie\" who emailed saying, \"I feel so alone. I'm a Christian woman and I'm addicted to watching porn. I don't know any other woman who struggles with porn!\"",
+      "However, the most current data from a major U.S.-based porn site reveals that 32% of viewers are women. A significant 2016 study by the Barna group noted that 56% of women under age 25 view porn, and more than 30% watch porn regularly.",
+      "Three out of every ten women around you, at minimum, are likely watching porn on a regular basis. And some of them desperately want to quit but are too ashamed to ask for help. Perhaps women are just quieter about their sexual habits — but facts are facts.",
+      "If you're a woman struggling with porn, you aren't alone. Admitting you struggle is a significant first step toward reaching out for help. You can break porn's secret hold on you by asking a trusted friend, mentor, or professional counselor to help.",
+      "Many people — women and men alike — have found that accountability software plus an accountability partner makes quitting porn easier and much more successful. Women, too, can gain wonderful freedom from porn.",
     ],
-    prev: 'quit-when-married',
-    next: 'doesnt-hurt-anyone',
   },
   {
-    slug: 'doesnt-hurt-anyone',
-    number: '613',
-    title: "It doesn't hurt anyone",
+    slug: 'not-your-kids',
+    number: '89',
+    title: "Your kids will never use porn",
     color: 'dark',
-    excerpt: "Porn claims it's victimless. But the harm flows in every direction.",
+    excerpt: "In the UK, 75% of parents believed their kids would never get into porn. When they talked to their children, they found 53% had already viewed it.",
     paragraphs: [
-      "Porn claims it's victimless—a transaction between consenting adults. But the harm flows in every direction: to users, to partners, to performers, and to the culture.",
-      "Users experience neurological changes, relationship damage, and escalating compulsion. Partners experience betrayal, inadequacy, and emotional abandonment. Studies consistently link porn consumption to increased support for sex trafficking and coercive behavior.",
-      "And the performers themselves? The industry has well-documented histories of coercion, exploitation, and abuse—often invisible to the viewer who chooses to believe the performance is real and the consent is genuine.",
-      "No one watches porn in a vacuum. Every view shapes a mind, shifts a relationship, and signals demand for an industry with a deeply troubled record. The lie that it hurts no one is how porn keeps you from looking at what it's actually doing.",
+      "You're not alone if you think your elementary-age kids would never get into porn. In the UK, 75% of surveyed parents believed this too. Sadly, they found out they were wrong. When these parents talked about porn with their children, they discovered that 53% had already viewed porn.",
+      "Some experts say the average age for the first exposure to porn is between ages 10 and 12. Usually, a child first sees porn accidentally. But children are often influenced to look at porn on friends' phones or devices, or sheer natural curiosity causes them to go back and look at more.",
+      "Porn is dangerous for kids. It shows them fake sex. It paints false expectations for future relationships. Porn is a terrible teacher. It can lead kids to think sexual abuse is okay and normal. Porn overloads a child's brain and emotions, which are still developing.",
+      "It is so important to talk to your children about sex and relationships at their age level. Prepare your kids to refuse to take a second glance at porn — and let them know it's safe to talk to you about any porn they accidentally see.",
+      "Also, protect your kids as much as you can. Set up blockers and filters on anything that gives them internet access. Teach them that you will check on their internet viewing habits because you love them — not because you don't trust them.",
     ],
-    prev: 'only-men-watch',
-    next: 'make-me-happy',
   },
   {
     slug: 'make-me-happy',
     number: '77',
     title: "Porn makes you happy",
     color: 'yellow',
-    excerpt: "Porn promises pleasure but delivers something far darker.",
+    excerpt: "Porn offers short-term feelings of relief but no long-term solutions. Research has shown that pornography can lead to mental health challenges, like depression.",
     paragraphs: [
-      "Porn promises pleasure but delivers something far darker. Users consistently report higher rates of depression, anxiety, and loneliness than non-users—not lower.",
-      "The mechanism is well understood: dopamine spikes during use, then crashes. Over time, the baseline drops. Things that used to bring joy—a sunset, a real conversation, a moment of genuine intimacy—feel flat by comparison.",
-      "Porn doesn't add happiness. It borrows against it. You get the spike now and pay with diminished joy later. Regular users often describe feeling emotionally numb, disconnected, and unable to experience pleasure in normal life.",
-      "The path back to genuine happiness runs through the withdrawal that porn users dread. It's real, and it's temporary. On the other side: emotions that actually work, relationships that feel real, and a capacity for joy that porn had been quietly stealing.",
+      "Porn likes to emphasize that it will make you feel great. But does it? Think not just about how you feel while viewing porn, but what it does to you afterward. Some people report feeling lonely, empty, and hopeless after viewing. They notice that the problems they tried to escape from are still there.",
+      "Porn offers short-term feelings of relief but no long-term solutions. And is even the momentary pleasure all that porn cracks it up to be? Have you felt, like some do, that even the momentary pleasure has gotten less intense over time?",
+      "Research has shown that pornography can lead to mental health challenges, like depression. In addition, it can be harmful to relationships. If it didn't cause harm, there wouldn't be a need for support groups, counseling sessions, and intensive retreats for couples where one partner has had a porn habit.",
+      "Porn is a liar. The dopamine spike during use is followed by a crash. Over time, the baseline drops. Things that used to bring joy — a real conversation, a moment of genuine intimacy — feel flat by comparison. Porn doesn't add happiness. It borrows against it.",
+      "Perhaps the only one who is happy about porn is those who have a financial gain from producing it. Real happiness is built through authentic relationships, personal growth, and genuine connection — everything porn trains you away from.",
     ],
-    prev: 'doesnt-hurt-anyone',
-    next: 'women-like-aggressive-men',
   },
   {
     slug: 'women-like-aggressive-men',
     number: '204',
-    title: "Women like aggressive men",
+    title: "Girls like men who are aggressive",
     color: 'cream',
-    excerpt: "Porn presents a radically distorted picture of what women want—and what healthy relationships look like.",
+    excerpt: "Porn has become the leading sex educator for young people. It's grooming young women to accept violent sexual behavior — and that is a lie.",
     paragraphs: [
-      "Porn presents a radically distorted picture of what women want—and what healthy relationships look like. Its portrayal of women as welcoming aggression, domination, and objectification is not a documentary. It's a script, written by an industry, for an industry.",
-      "Men who absorb this framing bring it into real relationships—and find confusion, hurt, and rejection. Women who internalize it find themselves measuring their responses against a fictional standard.",
-      "Real intimacy is built on trust, communication, and mutual respect. It requires knowing and responding to an actual person—not performing a scene. Porn trains for the performance. Real relationships reward the presence.",
-      "The lie that women like aggression doesn't just damage individual relationships. It shapes cultural attitudes toward women and contributes to broader patterns of harm. Seeing through it is part of learning to see women—and yourself—clearly.",
+      "Porn has become the leading sex educator for young people around the world. Many young people are saying they turn to porn to teach them what sex should be like. This is one of porn's most dangerous lies.",
+      "Porn is grooming young women, especially, to accept violent sexual behavior. Sexual and physical violence is found in 1 in 8 porn titles on mainstream porn sites, according to the British Journal of Criminology.",
+      "Young teen girls are wondering if they have to have \"porn star sex\" to make their boyfriends happy. They're confused, scared, and questioning their self-worth. Recently, many women have reported feeling scared during sex. Younger women frequently fail to recognize sexual abuse and don't stand up for themselves in their sexual relationships.",
+      "Sex should be treated as a beautiful gift we give and receive, not as a tool of control or a weapon of violence. And no, women do not like being treated with violence. There's a growing movement of women that want to improve upon and enjoy sex built on mutual respect and genuine care.",
+      "Real intimacy is built on trust, communication, and mutual respect — the complete opposite of what porn portrays. Seeing through this lie is part of learning to see women, and yourself, clearly.",
     ],
-    prev: 'make-me-happy',
-    next: 'worthless',
+  },
+  {
+    slug: 'doesnt-hurt-anyone',
+    number: '613',
+    title: "Porn doesn't hurt anyone",
+    color: 'dark',
+    excerpt: "Victims of porn speak up and speak out as worldwide porn use spreads. Children, partners, performers — the harm flows in every direction.",
+    paragraphs: [
+      "They say \"what you don't know can't hurt you,\" but everyone wants someone to believe them when they get hurt. Victims of porn speak up and speak out as worldwide porn use spreads.",
+      "Children are harmed by porn. Billie Eilish made headline news when she revealed that her brain and relationships were damaged by watching porn from age 11 onward. Those who rescue victims of sex trafficking hear this story repeatedly — glamorous ads tricking teens, then coercing them into making porn against their wishes.",
+      "Porn actors are hurt by porn. Many are speaking out about mental health issues and long-term physical damage to their bodies. Many find the porn industry's promise of quick, easy money is false.",
+      "Sadly, porn often hurts the other partner in relationships. Many feel betrayed, like they're not enough for their partner. No one can compete with porn star sex for long. It's fake, unrealistic sex — not based on trust and intimacy.",
+      "If you want a long-term, loving relationship, porn will fight this goal every step of the way. The lie that it hurts no one is how porn keeps you from looking at what it's actually doing.",
+    ],
   },
   {
     slug: 'worthless',
     number: '156',
     title: "You're worthless",
     color: 'red',
-    excerpt: "This is porn's cruelest lie: that your struggles make you broken, shameful, and beyond redemption.",
+    excerpt: "You need to know there's a biological reason you keep turning back to porn. You can conquer it with the right tools and help. You don't have to feel stuck and worthless anymore.",
     paragraphs: [
-      "This is porn's cruelest lie: that your struggles make you broken, shameful, and beyond redemption. It's the lie that keeps people from seeking help. It's the lie that makes the cycle feel permanent.",
-      "You are not your worst moments. You are not the sum of what you've watched or what you've done in secret. Shame is a tool porn uses to keep you isolated—because isolation is where the habit thrives.",
-      "Every person who has found freedom started where you are. Not a single one of them was too far gone. The people who make up the Ever Accountable community include pastors, parents, teenagers, executives, and everyone in between. None of them were worthless. Neither are you.",
-      "The path out begins with refusing this lie more than any other. You have value that no behavior can erase. That belief isn't wishful thinking—it's the foundation that real recovery is built on.",
+      "Porn tells people that they're worthless in several subtle ways. First, there are the lies that porn tells to those who've viewed it over a period of time: you can't ever quit. You're a hopeless case. Maybe you've tried over and over to quit. You feel helpless and stuck in a cycle of guilt and shame.",
+      "You hate the isolation of porn. You hate how you look at people as objects to be used for your pleasure. You hate how you spend hours of your life glued to the screen. You need to know that there's a biological reason you keep turning back to porn. You can conquer it with the right tools and help.",
+      "Partners of porn users also struggle with feelings of worthlessness. When one partner views porn, the other partner often feels worthless in a few significant ways — this is part of betrayal trauma. They wonder: Why am I not enough for my partner?",
+      "Very few of us look like airbrushed porn star models. Instead, we actually deserve to be loved for who we are, imperfections and all. And we know something else porn won't tell you: YOU are amazing, and your one and only life matters.",
+      "Once you know the lies of porn, you are empowered to defeat them with the truth. You can escape the crushing shame and feelings of worthlessness. You can become who you were meant to be.",
     ],
-    prev: 'women-like-aggressive-men',
-    next: 'not-your-kids',
-  },
-  {
-    slug: 'not-your-kids',
-    number: '89',
-    title: "Not your kids",
-    color: 'dark',
-    excerpt: "The average age of first exposure to online pornography is now 11. Believing 'not my kids' leaves them most unprotected.",
-    paragraphs: [
-      "The average age of first exposure to online pornography is now 11. Not 18. Not 16. Eleven. Believing 'not my kids' is the lie that leaves them most unprotected—because it stops the conversation before it starts.",
-      "Children don't seek out porn the way adults imagine. Most first exposures are accidental—a search gone wrong, a link from a friend, a pop-up. The device in your child's hand is a door that has no default lock.",
-      "Early exposure doesn't make children deviant. It confuses them. It shapes their understanding of relationships, bodies, and consent before they have the frameworks to process what they're seeing. That confusion doesn't announce itself.",
-      "The most protective thing a parent can do is talk openly, monitor honestly, and create an environment where a child can say 'I saw something I didn't understand' without fear. It's an uncomfortable conversation. It's also one of the most important ones.",
-    ],
-    prev: 'worthless',
-    next: 'not-enough',
   },
   {
     slug: 'not-enough',
     number: '302',
     title: "You're not enough for him",
     color: 'yellow',
-    excerpt: "Porn whispers to partners that they are inadequate—not attractive enough, not exciting enough. This is a lie designed to isolate and wound.",
+    excerpt: "His porn problem is his problem and has nothing to do with you — even though it affects you. You are worthy of love and acceptance.",
     paragraphs: [
-      "Porn whispers to partners that they are inadequate—not attractive enough, not exciting enough, not enough. This is a lie designed to isolate and wound, and it works with devastating effectiveness.",
-      "If your partner uses porn, their behavior is not a verdict on your worth. Porn use is driven by neurological compulsion, not by genuine dissatisfaction with you. The people on those screens are not competitors—they are props in an addictive cycle.",
-      "Partners of porn users often experience symptoms that mirror trauma: intrusive thoughts, hypervigilance, loss of trust, and profound grief. This is real, and it deserves real support—not minimization.",
-      "You are enough. You have always been enough. What your partner is struggling with is theirs to own and theirs to fight. And there is help—for them, and for you. You don't have to navigate this alone.",
+      "Porn is a destructive force that spews its manipulative lies. Unfortunately, those lies have a way of sneaking into the hearts and minds of women. If you are a woman affected by the porn use of someone you love, you are not alone.",
+      "Porn tells you outlandish lies: You're not pretty enough, you weigh too much, you're too old, or you're too boring in the bedroom. Here's the truth. More and more men are coming forward to say that their porn problem started in their early teens. Porn affected their brains at a crucial developmental stage.",
+      "Viewing porn creates a false story of what sex should be. It warps viewers' understanding of good, healthy intimacy and fuels unrealistic expectations. Even if watching porn is a more recent struggle for your significant other, his porn problem is his problem and has nothing to do with you — even though it affects you.",
+      "Other underlying reasons for struggling with porn include past trauma, abuse, or simply boredom. Let yourself fully accept that his porn problem isn't your fault. You are not responsible for his actions, but you are worthy of love and acceptance.",
+      "Affirming his responsibility and your value brings you sweet peace of mind and freedom from porn's lies. When you know your worth, you're free to help your spouse embrace his value and yours, too.",
     ],
-    prev: 'not-your-kids',
-    next: null,
   },
 ];
 
-// Tell Astro which paths to generate
 export function getStaticPaths() {
   return lies.map(lie => ({
     params: { slug: lie.slug },
@@ -203,18 +193,17 @@ export function getStaticPaths() {
 }
 
 const { lie } = Astro.props;
-const colorMap: Record<string, string> = {
-  cream: '#f0e8d8',
-  red: '#c0392b',
-  yellow: '#d4a017',
-  dark: '#4a3030',
-};
-const cardColor = colorMap[lie.color] ?? '#f0e8d8';
 
-// Find adjacent lies for prev/next nav
 const currentIndex = lies.findIndex(l => l.slug === lie.slug);
 const prevLie = currentIndex > 0 ? lies[currentIndex - 1] : null;
 const nextLie = currentIndex < lies.length - 1 ? lies[currentIndex + 1] : null;
+
+const colorAccent: Record<string, string> = {
+  cream: '#DB0F00',
+  red:   '#FFBE00',
+  yellow:'#1a0a0a',
+  dark:  '#F1F1F1',
+};
 ---
 
 <BaseLayout
@@ -222,49 +211,43 @@ const nextLie = currentIndex < lies.length - 1 ? lies[currentIndex + 1] : null;
   description={lie.excerpt}
   currentPage="/lies"
 >
-  <!-- Lie Hero -->
-  <section class="section section--textured lie-detail__hero-section" style={`background-color: ${cardColor}18`}>
+
+  <!-- Hero -->
+  <section class="lie-detail-hero section--textured">
     <div class="container">
-      <div class="lie-detail__hero">
-        <p class="lie-detail__number animate-fadeup">Lie No. {lie.number}</p>
-        <h1 class="animate-fadeup animate-fadeup--delay-1" style="color: var(--color-white);">
-          <em>"{lie.title}"</em>
-        </h1>
-        <p class="hero__subtitle animate-fadeup animate-fadeup--delay-2">The Truth</p>
-      </div>
+      <p class="lie-detail-hero__number animate-fadeup">Lie No. {lie.number}</p>
+      <h1 class="lie-detail-hero__title animate-fadeup animate-fadeup--delay-1">
+        <em>"{lie.title}"</em>
+      </h1>
     </div>
   </section>
 
-  <!-- Lie Full Content -->
+  <!-- Content -->
   <section class="section">
     <div class="container">
-      <div class="lie-detail__content">
+      <div class="lie-detail-content">
+
         {lie.paragraphs.map((para, i) => (
-          <p class="reveal" style={`transition-delay: ${i * 0.08}s`}>{para}</p>
+          <p class="reveal" style={`transition-delay: ${i * 0.07}s`}>{para}</p>
         ))}
 
         <!-- CTA -->
-        <div class="lie-detail__cta reveal">
-          <div class="cta-block mt-lg">
-            <p class="cta-block__eyebrow">Ready to get free?</p>
-            <h2 class="cta-block__title">Kick porn to the curb.</h2>
-            <p class="cta-block__body">
-              Scientifically-backed accountability software that dramatically reduces porn usage.
-              63% of users report zero porn use after one month. Guaranteed.
-            </p>
-            <a
-              href="https://everaccountable.com/fighting-porn-together/"
-              target="_blank"
-              rel="noopener"
-              class="btn btn--primary"
-            >
-              Get Free From Lies <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-            </a>
-          </div>
+        <div class="lie-detail-cta reveal">
+          <p class="cta-block__eyebrow">Ready to get free?</p>
+          <h2>Kick porn to the curb.</h2>
+          <p>Scientifically-backed accountability software that dramatically reduces porn usage. 63% of users report zero porn use after one month. Guaranteed.</p>
+          <a
+            href="https://everaccountable.com/fighting-porn-together/"
+            target="_blank"
+            rel="noopener"
+            class="btn btn--primary"
+          >
+            Get Free From Lies
+          </a>
         </div>
 
-        <!-- Prev / Next lie navigation -->
-        <nav class="lie-detail__nav" aria-label="Previous and next lies">
+        <!-- Prev / Next -->
+        <nav class="lie-detail-nav" aria-label="Previous and next lies">
           <div>
             {prevLie && (
               <a href={`/lies/${prevLie.slug}`} class="lie-nav-link lie-nav-link--prev">
@@ -289,86 +272,119 @@ const nextLie = currentIndex < lies.length - 1 ? lies[currentIndex + 1] : null;
             )}
           </div>
         </nav>
+
       </div>
     </div>
   </section>
 
-  <!-- Newsletter sign-up at bottom -->
-  <section class="section section--dark" aria-labelledby="lie-newsletter">
+  <!-- Newsletter -->
+  <section class="section section--dark">
     <div class="container">
       <div class="cta-block">
         <p class="cta-block__eyebrow">Want to Stay Connected?</p>
-        <h2 class="cta-block__title" id="lie-newsletter">Sign up for news and updates</h2>
+        <h2 class="cta-block__title">Sign up for news and updates</h2>
         <LeadForm id={`lie-newsletter-${lie.slug}`} submitLabel="Sign Up" />
       </div>
     </div>
   </section>
+
 </BaseLayout>
 
 <style>
-.lie-detail__hero-section {
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-.lie-detail__hero {
-  text-align: center;
-  max-width: 780px;
-  margin-inline: auto;
-}
-.lie-detail__hero h1 {
-  font-family: var(--font-serif);
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-style: italic;
-  color: var(--color-white);
-  margin-block: 0.5rem 1rem;
-}
-.lie-detail__content {
-  max-width: 700px;
-  margin-inline: auto;
-}
-.lie-detail__content p {
-  font-size: clamp(1rem, 1.8vw, 1.15rem);
-  line-height: 1.85;
-  margin-bottom: 1.75rem;
-  color: var(--color-text);
-}
-.lie-detail__nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-block: 2.5rem;
-  border-top: 1px solid rgba(255,255,255,0.07);
-  margin-top: 3rem;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-.lie-nav-link {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  color: var(--color-text-muted);
-  transition: color var(--transition-base);
-  max-width: 220px;
-}
-.lie-nav-link:hover { color: var(--color-white); }
-.lie-nav-link span {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
-.lie-nav-link small {
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-accent-red);
-}
-.lie-nav-link strong {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: inherit;
-}
-.lie-nav-link--next {
-  text-align: right;
-  flex-direction: row-reverse;
-}
-.lie-nav-link--next span { align-items: flex-end; }
+  .lie-detail-hero {
+    padding-block: clamp(3rem, 8vw, 6rem);
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .lie-detail-hero__number {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--color-accent-red);
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+  .lie-detail-hero__title {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-style: italic;
+    font-weight: 700;
+    color: var(--color-white);
+    max-width: 800px;
+    margin-inline: auto;
+    line-height: 1.15;
+  }
+
+  .lie-detail-content {
+    max-width: 700px;
+    margin-inline: auto;
+  }
+  .lie-detail-content p {
+    font-size: clamp(1rem, 1.8vw, 1.125rem);
+    line-height: 1.85;
+    color: var(--color-text);
+    margin-bottom: 1.75rem;
+  }
+
+  .lie-detail-cta {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin-block: 3rem;
+    text-align: center;
+  }
+  .lie-detail-cta h2 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin-bottom: 0.75rem;
+  }
+  .lie-detail-cta p {
+    color: var(--color-text-muted);
+    max-width: 480px;
+    margin-inline: auto;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem !important;
+  }
+
+  .lie-detail-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-block: 2.5rem;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    margin-top: 1rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .lie-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--color-text-muted);
+    transition: color var(--transition-base);
+    max-width: 240px;
+    text-decoration: none;
+  }
+  .lie-nav-link:hover { color: var(--color-white); }
+  .lie-nav-link span {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .lie-nav-link small {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-accent-red);
+  }
+  .lie-nav-link strong {
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .lie-nav-link--next {
+    flex-direction: row-reverse;
+    text-align: right;
+  }
+  .lie-nav-link--next span { align-items: flex-end; }
 </style>
