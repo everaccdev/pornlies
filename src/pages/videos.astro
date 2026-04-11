@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import VideoEmbed from '../components/VideoEmbed.astro';
+import LeadForm from '../components/LeadForm.astro';
+
+// ── All Videos ────────────────────────────────────────────────────────────────
+// Add new videos here AND in /src/content/videos/videos.md (or via CMS at /admin)
+const videos = [
+  { id: '1', title: "Porn Won't Affect You",        youtubeId: 'pHuvOw6nRCA'  },
+  { id: '2', title: "No One Will Ever Know",         youtubeId: 'Cx6ImCzKdwI' },
+  { id: '3', title: "Porn Won't Hurt You",           youtubeId: 'T2m8LdgEu4Y' },
+  { id: '4', title: "Porn Makes You Better in Bed",  youtubeId: '0_GZh51MnNo' },
+  { id: '5', title: "Everyone Does It",              youtubeId: 'SiKNEvNZk8M' },
+];
+---
+
+<BaseLayout
+  title="The Lies, In Character — PornLies"
+  description="If porn could talk, this is what it would say. Watch all the PornLies videos."
+  currentPage="/videos"
+>
+
+  <!-- Hero -->
+  <section class="page-hero section section--textured">
+    <div class="container">
+      <h1 class="page-hero__title">
+        The Lies, <span class="text-red">In Character</span>
+      </h1>
+      <p class="page-hero__subtitle">
+        <em>If porn could talk, this is what it would say.</em>
+      </p>
+    </div>
+  </section>
+
+  <!-- All videos grid -->
+  <section class="section section--dark" aria-label="All videos">
+    <div class="container">
+      <div class="video-grid videos-page-grid">
+        {videos.map(v => (
+          <div class="reveal">
+            <VideoEmbed youtubeId={v.youtubeId} title={v.title} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Guide download CTA -->
+  <section class="section" aria-labelledby="videos-guide">
+    <div class="container">
+      <div class="cta-block">
+        <p class="cta-block__eyebrow">Download the Guide</p>
+        <h2 class="cta-block__title" id="videos-guide">
+          5 Things You Can Do Today<br />to Kick Porn to the Curb
+        </h2>
+        <p class="cta-block__body">
+          Free — delivered straight to your inbox.
+        </p>
+        <LeadForm id="videos-guide-form" submitLabel="Get the Free Guide" />
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* 2-column grid on desktop, 1 on mobile — simple and clean */
+  .videos-page-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  @media (max-width: 640px) {
+    .videos-page-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

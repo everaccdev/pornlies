@@ -60,7 +60,7 @@ const lies = [
     </div>
   </section>
 
-  <!-- ── Videos ───────────────────────────────────────────────────────────── -->
+  <!-- ── Videos: first 2 ────────────────────────────────────────────────── -->
   <section class="section section--dark" aria-labelledby="videos-heading">
     <div class="container">
       <div class="section-header text-center" style="margin-bottom: 3rem;">
@@ -68,16 +68,27 @@ const lies = [
         <p class="section-subhead"><em>If porn could talk, this is what it would say.</em></p>
       </div>
 
-      <div class="video-grid video-grid--5">
-        {videos.map(v => (
-          <VideoEmbed youtubeId={v.youtubeId} title={v.title} />
-        ))}
+      <div class="video-grid">
+        <VideoEmbed youtubeId={videos[0].youtubeId} title={videos[0].title} />
+        <VideoEmbed youtubeId={videos[1].youtubeId} title={videos[1].title} />
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Scientifically Backed ────────────────────────────────────────────── -->
+  <ScienceBacked />
+
+  <!-- ── Videos: next 2 + View More ──────────────────────────────────────── -->
+  <section class="section section--dark" aria-labelledby="videos-heading-2">
+    <div class="container">
+      <div class="video-grid">
+        <VideoEmbed youtubeId={videos[2].youtubeId} title={videos[2].title} />
+        <VideoEmbed youtubeId={videos[3].youtubeId} title={videos[3].title} />
       </div>
 
-      <div class="text-center mt-md">
-        <a href="#download" class="guide-banner">
-          <i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i>
-          5 Things You Can Do Today to Kick Porn to the Curb
+      <div class="text-center mt-lg">
+        <a href="/videos" class="btn btn--outline">
+          View More Videos <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
         </a>
       </div>
     </div>
@@ -140,9 +151,6 @@ const lies = [
       </div>
     </div>
   </section>
-
-  <!-- ── Scientifically Backed + Testimonials ──────────────────────────────── -->
-  <ScienceBacked />
 
   <!-- ── Newsletter ────────────────────────────────────────────────────────── -->
   <section class="section" aria-labelledby="newsletter-heading">
