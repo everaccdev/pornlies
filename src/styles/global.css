@@ -531,10 +531,11 @@ em, i {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
-  align-items: start;   /* let cards grow naturally */
+  /* align-items: stretch so cells give cards their full height */
+  align-items: stretch;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1100px) {
   .lies-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
@@ -542,7 +543,7 @@ em, i {
   .lies-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 420px) {
   .lies-grid { grid-template-columns: 1fr; }
 }
 
@@ -559,7 +560,12 @@ em, i {
   cursor: pointer;
   perspective: 1200px;
   text-decoration: none;
+  /* Portrait ratio: 245×384 from Figma.
+     width: 100% of grid cell, height derived from aspect-ratio.
+     min-height prevents collapse in older browsers. */
+  width: 100%;
   aspect-ratio: 245 / 384;
+  min-height: 280px;
 }
 
 .lie-card__inner {

@@ -1,10 +1,9 @@
 ---
 interface Testimonial {
-  initials: string;
   name: string;
   location: string;
   quote: string;
-  rotate: number; // degrees of tilt
+  initials: string;
   avatarColor: string;
 }
 
@@ -16,30 +15,9 @@ interface Props {
 
 const {
   testimonials = [
-    {
-      initials: 'DR',
-      name: 'David R.',
-      location: 'Virginia',
-      quote: '"I\'d never be here today without Ever Accountable."',
-      rotate: -2,
-      avatarColor: '#7b9fc4',
-    },
-    {
-      initials: 'MB',
-      name: 'Mariah B.',
-      location: 'California',
-      quote: '"My husband is so much happier. Our marriage is far stronger now."',
-      rotate: 1.5,
-      avatarColor: '#b87c5a',
-    },
-    {
-      initials: 'DB',
-      name: 'Devon B.',
-      location: 'Texas',
-      quote: '"I was so ashamed and felt so alone. Now I\'m totally free."',
-      rotate: -1,
-      avatarColor: '#c05a5a',
-    },
+    { name: 'David R.',  location: 'Virginia',    quote: "I'd never be here today without Ever Accountable.", initials: 'DR', avatarColor: '#7BAFD4' },
+    { name: 'Mariah B.', location: 'California',  quote: "My husband is so much happier. Our marriage is far stronger now.", initials: 'MB', avatarColor: '#B87BA4' },
+    { name: 'Devon B.',  location: 'Texas',       quote: "I was so ashamed and felt so alone. Now I'm totally free.", initials: 'DB', avatarColor: '#D4776A' },
   ],
   ctaHref = 'https://everaccountable.com/fighting-porn-together/',
   ctaLabel = 'Get Free From the Lies',
@@ -58,27 +36,33 @@ const {
         In fact, 63% of users reported <strong>zero porn usage</strong> after just one month.
         We guarantee significantly less porn usage or your money back.
       </p>
-      <a href={ctaHref} target="_blank" rel="noopener" class="btn btn--primary science-btn">
+      <a
+        href={ctaHref}
+        target="_blank"
+        rel="noopener"
+        class="btn btn--primary"
+      >
         {ctaLabel}
       </a>
     </div>
 
-    <!-- Right: stacked + tilted testimonial cards -->
-    <div class="science-cards">
+    <!-- Right: stacked testimonial cards, bleed top/bottom -->
+    <div class="science-right">
       {testimonials.map((t, i) => (
-        <div
-          class={`science-card reveal animate-fadeup--delay-${i + 1}`}
-          style={`--rotate: ${t.rotate}deg`}
-        >
+        <div class={`science-card reveal animate-fadeup--delay-${i + 1}`}>
+          <!-- Avatar circle with colored bg + initials -->
           <div class="science-card__avatar" style={`background-color: ${t.avatarColor}`}>
-            {t.initials}
+            <span class="science-card__initials">{t.initials}</span>
           </div>
+
+          <!-- Dashed vertical divider -->
+          <div class="science-card__divider" aria-hidden="true"></div>
+
+          <!-- Quote + attribution -->
           <div class="science-card__body">
-            <p class="science-card__quote">{t.quote}</p>
+            <p class="science-card__quote">"{t.quote}"</p>
             <p class="science-card__author">
-              <span class="science-card__name">{t.name}</span>
-              <span aria-hidden="true"> · </span>
-              <span class="science-card__location">{t.location}</span>
+              {t.name} <span class="science-card__dot">·</span> {t.location}
             </p>
           </div>
         </div>
@@ -89,15 +73,16 @@ const {
 </section>
 
 <style>
-  /* ── Section shell ──────────────────────────────────────────────────────── */
   .science-section {
-    background-color: var(--color-bg-mid);
-    /* Paint texture as section background */
+    /* Correct dark maroon — NOT near-black */
+    background-color: #2d1010;
     background-image: url('/images/textures/texture-paint.png');
     background-size: cover;
     background-position: center;
     background-blend-mode: multiply;
-    padding-block: clamp(4rem, 8vw, 7rem);
+    position: relative;
+    padding-block: clamp(4rem, 9vw, 7rem);
+    overflow: visible; /* allow cards to bleed */
   }
 
   .science-inner {
@@ -106,7 +91,7 @@ const {
     padding-inline: clamp(1rem, 4vw, 2.5rem);
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: clamp(3rem, 6vw, 7rem);
+    gap: clamp(3rem, 6vw, 6rem);
     align-items: center;
   }
 
@@ -117,19 +102,21 @@ const {
     }
   }
 
-  /* ── Left column ────────────────────────────────────────────────────────── */
+  /* ── Left column ── */
+  /* Figma: Crimson Pro, weight 500, 40px, line-height 40px (1:1), letter-spacing -0.5px, color #F5EDD7 */
   .science-heading {
-    font-family: var(--font-display);
-    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
-    font-weight: 700;
-    color: var(--color-white);
-    line-height: 1.2;
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+    font-weight: 500;
+    color: #F5EDD7;
+    line-height: 1;
+    letter-spacing: -0.5px;
     margin-bottom: 1.25rem;
   }
 
   .science-stat {
-    font-size: clamp(0.9rem, 1.5vw, 1rem);
-    color: var(--color-text-muted);
+    font-size: clamp(0.9rem, 1.4vw, 1rem);
+    color: rgba(245, 237, 224, 0.75);
     line-height: 1.75;
     margin-bottom: 2rem;
   }
@@ -139,82 +126,86 @@ const {
     font-weight: 700;
   }
 
-  .science-btn {
-    /* override pill radius — keep square 4px */
-    border-radius: var(--radius-sm) !important;
-    font-size: 0.95rem;
-    padding: 0.85rem 1.75rem;
-  }
-
-  /* ── Right column: stacked tilted cards ─────────────────────────────────── */
-  .science-cards {
+  /* ── Right column: testimonial cards ── */
+  .science-right {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.875rem;
+    /* Bleed cards beyond the section top/bottom */
+    margin-block: -3rem;
+    padding-block: 0.5rem;
   }
 
+  @media (max-width: 860px) {
+    .science-right {
+      margin-block: 0;
+    }
+  }
+
+  /* ── Individual testimonial card ── */
   .science-card {
     display: flex;
     align-items: center;
-    gap: 1.25rem;
-    background: rgba(89, 50, 48, 0.45);
+    gap: 0;
+    background: #3d1818;
     border: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 10px;
-    padding: 1.1rem 1.4rem;
-    /* Each card tilts slightly — value set via inline --rotate custom prop */
-    transform: rotate(var(--rotate, 0deg));
-    transition: transform 0.3s ease;
-    position: relative;
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    overflow: hidden;
   }
 
-  .science-card:hover {
-    transform: rotate(0deg) translateY(-2px);
-  }
-
-  /* ── Avatar circle ──────────────────────────────────────────────────────── */
+  /* Avatar circle */
   .science-card__avatar {
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: var(--font-body);
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: rgba(255,255,255,0.9);
-    letter-spacing: 0.05em;
-    /* Subtle inner shadow to give depth */
-    box-shadow: inset 0 -2px 6px rgba(0,0,0,0.2);
+    margin-right: 1.25rem;
   }
 
-  /* ── Quote + author ─────────────────────────────────────────────────────── */
+  .science-card__initials {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.02em;
+  }
+
+  /* Dashed vertical divider */
+  .science-card__divider {
+    width: 0;
+    height: 44px;
+    border-left: 1.5px dashed rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
+    margin-right: 1.25rem;
+  }
+
+  /* Body */
   .science-card__body {
     flex: 1;
-    min-width: 0;
   }
 
   .science-card__quote {
-    font-size: clamp(0.9rem, 1.4vw, 1rem);
+    font-size: 0.975rem;
     color: var(--color-text);
-    line-height: 1.5;
-    margin-bottom: 0.4rem;
+    line-height: 1.55;
+    margin-bottom: 0.5rem;
     font-style: normal;
   }
 
   .science-card__author {
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     font-weight: 700;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.13em;
     text-transform: uppercase;
     color: var(--color-accent-gold);
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    flex-wrap: wrap;
   }
 
-  .science-card__name  { color: var(--color-accent-gold); }
-  .science-card__location { color: var(--color-accent-gold); }
+  .science-card__dot {
+    margin-inline: 0.3em;
+    opacity: 0.6;
+  }
 </style>
