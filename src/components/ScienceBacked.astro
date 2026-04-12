@@ -1,31 +1,47 @@
 ---
-interface Testimonial {
-  name: string;
-  location: string;
-  quote: string;
-  initials: string;
-  avatarColor: string;
-}
-
 interface Props {
-  testimonials?: Testimonial[];
   ctaHref?: string;
   ctaLabel?: string;
 }
 
 const {
-  testimonials = [
-    { name: 'David R.',  location: 'Virginia',    quote: "I'd never be here today without Ever Accountable.", initials: 'DR', avatarColor: '#7BAFD4' },
-    { name: 'Mariah B.', location: 'California',  quote: "My husband is so much happier. Our marriage is far stronger now.", initials: 'MB', avatarColor: '#B87BA4' },
-    { name: 'Devon B.',  location: 'Texas',       quote: "I was so ashamed and felt so alone. Now I'm totally free.", initials: 'DB', avatarColor: '#D4776A' },
-  ],
   ctaHref = 'https://everaccountable.com/fighting-porn-together/',
   ctaLabel = 'Get Free From the Lies',
 } = Astro.props;
+
+const testimonials = [
+  {
+    name: 'David R.',
+    location: 'Virginia',
+    quote: "I'd never be here today without Ever Accountable.",
+    avatar: '/images/avatar1.png',
+  },
+  {
+    name: 'Mariah E.',
+    location: 'California',
+    quote: "My husband is so much happier. Our marriage is far stronger now.",
+    avatar: '/images/avatar2.png',
+  },
+  {
+    name: 'Devon B.',
+    location: 'Texas',
+    quote: "I was so ashamed and felt so alone. Now I'm totally free.",
+    avatar: '/images/avatar3.png',
+  },
+];
 ---
 
+<!--
+  The section itself has standard padding.
+  .science-testimonials-col extends 30px above and below the section
+  via negative margin + padding trick, so the cards visually overflow.
+-->
 <section class="science-section" aria-labelledby="science-heading">
-  <div class="science-inner">
+
+  <!-- bg image layer with color-dodge blend -->
+  <div class="science-bg" aria-hidden="true"></div>
+
+  <div class="science-inner container">
 
     <!-- Left: headline + stat + CTA -->
     <div class="science-left reveal">
@@ -36,34 +52,21 @@ const {
         In fact, 63% of users reported <strong>zero porn usage</strong> after just one month.
         We guarantee significantly less porn usage or your money back.
       </p>
-      <a
-        href={ctaHref}
-        target="_blank"
-        rel="noopener"
-        class="btn btn--primary"
-      >
+      <a href={ctaHref} target="_blank" rel="noopener" class="btn btn--primary">
         {ctaLabel}
       </a>
     </div>
 
-    <!-- Right: stacked testimonial cards, bleed top/bottom -->
-    <div class="science-right">
+    <!-- Right: testimonials — overflow 30px above/below section -->
+    <div class="science-testimonials-col">
       {testimonials.map((t, i) => (
-        <div class={`science-card reveal animate-fadeup--delay-${i + 1}`}>
-          <!-- Avatar circle with colored bg + initials -->
-          <div class="science-card__avatar" style={`background-color: ${t.avatarColor}`}>
-            <span class="science-card__initials">{t.initials}</span>
+        <div class={`science-card science-card--${i + 1} reveal`} style={`transition-delay: ${i * 0.12}s`}>
+          <div class="science-card__avatar">
+            <img src={t.avatar} alt="" width="48" height="48" />
           </div>
-
-          <!-- Dashed vertical divider -->
-          <div class="science-card__divider" aria-hidden="true"></div>
-
-          <!-- Quote + attribution -->
           <div class="science-card__body">
             <p class="science-card__quote">"{t.quote}"</p>
-            <p class="science-card__author">
-              {t.name} <span class="science-card__dot">·</span> {t.location}
-            </p>
+            <p class="science-card__author">{t.name} <span aria-hidden="true">·</span> {t.location}</p>
           </div>
         </div>
       ))}
@@ -73,22 +76,39 @@ const {
 </section>
 
 <style>
+  /* ── Section wrapper ─────────────────────────────────────────────────────── */
   .science-section {
-    /* Correct dark maroon — NOT near-black */
-    background-color: #2d1010;
-    background-image: url('/images/textures/texture-paint.png');
-    background-size: cover;
-    background-position: center;
-    background-blend-mode: multiply;
     position: relative;
     padding-block: clamp(4rem, 9vw, 7rem);
-    overflow: visible; /* allow cards to bleed */
+    overflow: visible; /* allow testimonials col to bleed out */
+    isolation: isolate;
   }
 
+  /* ── Background: texture-paint.png with color-dodge blend ───────────────── */
+  .science-bg {
+    position: absolute;
+    inset: 0;
+    background-color: #2d1010;
+    background-image: url('/images/bg-science.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    mix-blend-mode: color-dodge;
+    opacity: 0.18;
+    z-index: -1;
+  }
+
+  /* Dark base behind the blend */
+  .science-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: #2d1010;
+    z-index: -2;
+  }
+
+  /* ── Inner grid ──────────────────────────────────────────────────────────── */
   .science-inner {
-    max-width: var(--max-width);
-    margin-inline: auto;
-    padding-inline: clamp(1rem, 4vw, 2.5rem);
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: clamp(3rem, 6vw, 6rem);
@@ -102,8 +122,8 @@ const {
     }
   }
 
-  /* ── Left column ── */
-  /* Figma: Crimson Pro, weight 500, 40px, line-height 40px (1:1), letter-spacing -0.5px, color #F5EDD7 */
+  /* ── Left: text ─────────────────────────────────────────────────────────── */
+  /* Figma: Crimson Pro 500, 40px, line-height 1, letter-spacing -0.5px, #F5EDD7 */
   .science-heading {
     font-family: 'Crimson Pro', Georgia, serif;
     font-size: clamp(1.75rem, 3.2vw, 2.5rem);
@@ -122,90 +142,88 @@ const {
   }
 
   .science-stat strong {
-    color: var(--color-white);
+    color: #F5EDD7;
     font-weight: 700;
   }
 
-  /* ── Right column: testimonial cards ── */
-  .science-right {
+  /* ── Right: testimonials column with 30px vertical overflow ─────────────── */
+  .science-testimonials-col {
     display: flex;
     flex-direction: column;
-    gap: 0.875rem;
-    /* Bleed cards beyond the section top/bottom */
-    margin-block: -3rem;
-    padding-block: 0.5rem;
+    gap: 1rem;
+    /* Extend 30px above and below the section */
+    margin-block: -30px;
+    padding-block: 30px;
   }
 
-  @media (max-width: 860px) {
-    .science-right {
-      margin-block: 0;
-    }
-  }
-
-  /* ── Individual testimonial card ── */
+  /* ── Individual testimonial card ─────────────────────────────────────────── */
+  /* Background: #593230, radius: 3px, slightly slanted */
   .science-card {
     display: flex;
-    align-items: center;
-    gap: 0;
-    background: #3d1818;
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 12px;
-    padding: 1.25rem 1.5rem;
-    overflow: hidden;
+    align-items: flex-start;
+    gap: 1rem;
+    background-color: #593230;
+    border-radius: 3px;
+    padding: 1.1rem 1.35rem;
+    /* Slight slant — alternating direction for visual rhythm */
+    transform: rotate(-0.8deg);
+    transform-origin: center center;
+    transition: transform 0.3s ease;
   }
 
-  /* Avatar circle */
+  .science-card--2 {
+    transform: rotate(0.6deg);
+  }
+
+  .science-card--3 {
+    transform: rotate(-0.5deg);
+  }
+
+  .science-card:hover {
+    transform: rotate(0deg) scale(1.01);
+  }
+
+  /* Avatar */
   .science-card__avatar {
-    width: 52px;
-    height: 52px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 1.25rem;
+    overflow: hidden;
+    background: rgba(0,0,0,0.2);
   }
 
-  .science-card__initials {
-    font-family: var(--font-body);
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: 0.02em;
-  }
-
-  /* Dashed vertical divider */
-  .science-card__divider {
-    width: 0;
-    height: 44px;
-    border-left: 1.5px dashed rgba(255, 255, 255, 0.2);
-    flex-shrink: 0;
-    margin-right: 1.25rem;
+  .science-card__avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   /* Body */
   .science-card__body {
     flex: 1;
+    min-width: 0;
   }
 
+  /* Quote — Crimson Pro italic */
   .science-card__quote {
-    font-size: 0.975rem;
-    color: var(--color-text);
-    line-height: 1.55;
-    margin-bottom: 0.5rem;
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 1.05rem;
     font-style: normal;
+    font-weight: 400;
+    color: #F5EDD7;
+    line-height: 1.5;
+    margin-bottom: 0.45rem;
   }
 
+  /* Author — uppercase gold label */
   .science-card__author {
+    font-family: var(--font-body);
     font-size: 0.68rem;
     font-weight: 700;
     letter-spacing: 0.13em;
     text-transform: uppercase;
-    color: var(--color-accent-gold);
-  }
-
-  .science-card__dot {
-    margin-inline: 0.3em;
-    opacity: 0.6;
+    color: #FFBE00;
   }
 </style>

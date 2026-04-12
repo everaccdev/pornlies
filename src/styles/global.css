@@ -62,13 +62,13 @@
 /* --- Design Tokens --- */
 :root {
   /* Colors */
-  --color-bg:          #1a0a0a;
+  --color-bg:          #331816;       /* base background — all pages */
   --color-bg-mid:      #2d1010;
   --color-bg-card:     #3a1515;
   --color-accent-red:  #DB0F00;       /* buttons, accents */
   --color-accent-gold: #FFBE00;       /* yellow buttons */
-  --color-text:        #f5ede0;
-  --color-text-muted:  #b89080;
+  --color-text:        #F5EDD7;       /* base font color — PornLies Tan */
+  --color-text-muted:  #c4a882;
   --color-white:       #ffffff;
   --color-banner-bg:   #DB0F00;
 
@@ -122,16 +122,15 @@ html {
 
 body {
   font-family: var(--font-body);
-  background-color: var(--color-bg);
-  color: var(--color-text);
+  background-color: #331816;   /* --color-bg */
+  color: #F5EDD7;               /* --color-text / PornLies Tan */
   line-height: 1.6;
   min-height: 100vh;
   overflow-x: hidden;
-  /* Noise texture overlay */
   position: relative;
 }
 
-/* Grain texture overlay — texture-2.png (dust/grain) */
+/* Grain texture overlay — texture-grain.png, screen blend over dark bg */
 body::before {
   content: '';
   position: fixed;
@@ -139,7 +138,7 @@ body::before {
   background-image: url('/images/textures/texture-grain.png');
   background-repeat: repeat;
   background-size: 600px 600px;
-  opacity: 0.08;
+  opacity: 0.07;   /* subtle — visible but not overwhelming */
   pointer-events: none;
   z-index: 1000;
   mix-blend-mode: screen;
@@ -172,7 +171,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   font-weight: 700;
   line-height: 1.15;
-  color: var(--color-white);
+  color: #F5EDD7;
 }
 
 h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); }
@@ -182,7 +181,7 @@ h4 { font-size: 1.25rem; }
 
 p {
   font-size: clamp(0.95rem, 1.5vw, 1.05rem);
-  color: var(--color-text);
+  color: #F5EDD7;
 }
 
 em, i {
@@ -201,7 +200,7 @@ em, i {
 }
 
 .section--dark {
-  background-color: var(--color-bg-mid);
+  background-color: #2a0e0e;
 }
 
 /* Paint texture background — uses texture-1.png */
@@ -318,7 +317,7 @@ em, i {
   position: sticky;
   top: var(--banner-height);
   z-index: 100;
-  background-color: rgba(26, 10, 10, 0.95);
+  background-color: rgba(51, 24, 22, 0.97);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   height: var(--nav-height);
@@ -327,56 +326,81 @@ em, i {
 .nav__inner {
   display: flex;
   align-items: center;
+  /* Logo left, everything else right */
   justify-content: space-between;
   height: 100%;
 }
 
+/* Logo */
 .nav__logo {
   font-family: var(--font-display);
   font-size: 1.35rem;
   font-weight: 700;
   color: var(--color-white);
   letter-spacing: -0.01em;
+  flex-shrink: 0;
+}
+.nav__logo span { color: var(--color-accent-red); }
+
+/* Right group: links + socials + button */
+.nav__right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
 }
 
-.nav__logo span {
-  color: var(--color-accent-red);
-}
-
+/* Links */
 .nav__links {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .nav__links a {
   font-size: 0.9rem;
   font-weight: 500;
-  color: var(--color-text-muted);
+  color: #F5EDD7;           /* PornLies Tan */
   transition: color var(--transition-fast);
-  position: relative;
+  text-decoration: none;
+  white-space: nowrap;
 }
 
-.nav__links a:hover,
-.nav__links a.active {
+.nav__links a:hover {
   color: var(--color-white);
 }
 
-.nav__links a.active::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--color-accent-red);
-  border-radius: 2px;
+/* Active: gold, no underline */
+.nav__links a.active {
+  color: #FFBE00;
+  font-weight: 600;
 }
 
-.nav__cta {
+/* Social icons */
+.nav__socials {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
+}
+
+.nav__socials a {
+  color: #F5EDD7;
+  font-size: 1.05rem;
+  transition: color var(--transition-fast);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.nav__socials a:hover {
+  color: #FFBE00;
+}
+
+/* CTA button */
+.nav__cta-btn {
+  flex-shrink: 0;
 }
 
 /* Mobile hamburger */
@@ -386,17 +410,20 @@ em, i {
   gap: 5px;
   padding: 4px;
   cursor: pointer;
+  background: none;
+  border: none;
 }
 
 .nav__hamburger span {
   display: block;
   width: 24px;
   height: 2px;
-  background: var(--color-text);
+  background: #F5EDD7;
   border-radius: 2px;
   transition: all var(--transition-base);
 }
 
+/* Mobile menu */
 .nav__mobile {
   display: none;
   position: fixed;
@@ -416,18 +443,32 @@ em, i {
 .nav__mobile a {
   font-size: 1.35rem;
   font-weight: 600;
-  color: var(--color-text);
+  color: #F5EDD7;
   padding: 0.5rem 0;
   border-bottom: 1px solid rgba(255,255,255,0.08);
+  text-decoration: none;
 }
 
-.nav__mobile a:hover {
-  color: var(--color-white);
+.nav__mobile a:hover,
+.nav__mobile a.active {
+  color: #FFBE00;
 }
 
-@media (max-width: 768px) {
-  .nav__links,
-  .nav__cta {
+.nav__mobile-socials {
+  display: flex;
+  gap: 1.25rem;
+  padding: 0.5rem 0;
+}
+
+.nav__mobile-socials a {
+  font-size: 1.4rem;
+  border-bottom: none !important;
+  padding: 0 !important;
+  color: #F5EDD7;
+}
+
+@media (max-width: 900px) {
+  .nav__right {
     display: none;
   }
   .nav__hamburger {
@@ -437,41 +478,36 @@ em, i {
 
 /* --- Hero Section --- */
 .hero {
-  padding-block: clamp(4rem, 10vw, 8rem);
+  padding-block: clamp(5rem, 12vw, 10rem);
   text-align: center;
   position: relative;
 }
 
-.hero__eyebrow {
-  display: inline-block;
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--color-accent-red);
-  margin-bottom: 1rem;
-}
-
+/* Hero title: large, bold, single line on desktop — matches Figma */
 .hero__title {
-  font-size: clamp(2.5rem, 7vw, 5.5rem);
-  line-height: 1.05;
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  line-height: 1.0;
   margin-bottom: 1rem;
-  white-space: nowrap;   /* single line on desktop */
+  white-space: nowrap;
+  color: #F5EDD7;
+  font-weight: 700;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   .hero__title {
-    white-space: normal;  /* allow wrap on mobile */
-    font-size: clamp(2.2rem, 10vw, 3.5rem);
+    white-space: normal;
+    font-size: clamp(2.5rem, 11vw, 4rem);
   }
 }
 
+/* Hero subtitle: Crimson Pro italic */
 .hero__subtitle {
-  font-family: var(--font-serif);
-  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: clamp(1.2rem, 2.5vw, 1.75rem);
   color: var(--color-text-muted);
   font-style: italic;
   margin-bottom: 2.5rem;
+  font-weight: 400;
 }
 
 /* --- Video Grid --- */
@@ -513,7 +549,7 @@ em, i {
 
 /* --- Lie Cards Grid --- */
 .lies-section {
-  padding-block: clamp(3rem, 8vw, 6rem);  /* kept for back-compat */
+  padding-block: clamp(3rem, 8vw, 6rem);
 }
 
 .lies-section__header {
@@ -527,12 +563,16 @@ em, i {
   margin-top: 0.5rem;
 }
 
+/*
+  Grid: 4 cols desktop. Each cell is equal width.
+  Cards inside use max-width: 245px centered in cell —
+  so on wide screens they cap at Figma's 245px spec.
+*/
 .lies-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
-  /* align-items: stretch so cells give cards their full height */
-  align-items: stretch;
+  align-items: start;
 }
 
 @media (max-width: 1100px) {
@@ -547,25 +587,24 @@ em, i {
   .lies-grid { grid-template-columns: 1fr; }
 }
 
-/* --- Individual Lie Card --- */
-/*
-  Figma spec: 245 × 384px — tall portrait (~2:3 ratio), 16px radius
-  Padding: 40px top/bottom, 32px left/right
-  Layout: number top-left, title bottom-left, space-between
-  Texture grain baked into fill via background-blend-mode: multiply
+/* ── Individual Lie Card ──────────────────────────────────────────────────────
+   Figma: 245 × 384px, 16px radius, padding 40px top/bottom 32px left/right
+   Layout: "Lie No. X" top-left, title bottom-left, space between = negative space
+   Max-width: 245px (Figma fixed width). Min-height: 384px.
+   Responsive: shrinks below 245px but never below min-height.
 */
-
 .lie-card {
   position: relative;
   cursor: pointer;
   perspective: 1200px;
   text-decoration: none;
-  /* Portrait ratio: 245×384 from Figma.
-     width: 100% of grid cell, height derived from aspect-ratio.
-     min-height prevents collapse in older browsers. */
+  /* Cap at Figma width, center in grid cell */
+  max-width: 245px;
   width: 100%;
-  aspect-ratio: 245 / 384;
-  min-height: 280px;
+  margin-inline: auto;
+  /* Height: fixed 384px, grows if title wraps on tiny screens */
+  min-height: 384px;
+  height: 384px;
 }
 
 .lie-card__inner {
@@ -594,35 +633,24 @@ em, i {
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   border-radius: 16px;
+  /* Figma: 40px top/bottom, 32px left/right */
   padding: 2.5rem 2rem;
   display: flex;
   flex-direction: column;
+  /* space-between pushes number to top, title to bottom = the negative space gap */
   justify-content: space-between;
   overflow: hidden;
 }
 
-/*
-  Figma card colors (exact):
-  cream  → #F5EDD7 bg, #DB0F00 text  ("PornLies Tan")
-  red    → #DB0F00 bg, #FFBE00 text  ("PornLies Red")
-  dark   → #593230 bg, #F1F1F1 text
-  yellow → #FFBE00 bg, #593230 text
-
-  Texture approach: solid color background on the element itself.
-  The grain PNG is applied via ::before pseudo-element with mix-blend-mode: screen
-  so it LIGHTENS (adds grain detail) rather than darkening.
-  The ::before sits above the color but below the text (z-index layering).
-*/
-
+/* ── Card front colors (exact Figma values) ─────────────────────────────── */
 .lie-card__front {
-  background-color: #F5EDD7;
-  position: relative;
+  background-color: #F5EDD7;  /* cream / PornLies Tan */
 }
 .lie-card--red .lie-card__front    { background-color: #DB0F00; }
 .lie-card--yellow .lie-card__front { background-color: #FFBE00; }
 .lie-card--dark .lie-card__front   { background-color: #593230; }
 
-/* Grain overlay — screen blend adds texture without killing the color */
+/* Grain texture pseudo-element — screen blend adds worn paper detail */
 .lie-card__front::before {
   content: '';
   position: absolute;
@@ -632,19 +660,19 @@ em, i {
   background-size: 480px 480px;
   background-repeat: repeat;
   mix-blend-mode: screen;
-  opacity: 0.12;
+  opacity: 0.15;
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
 }
 
-/* Ensure number and title sit above the texture overlay */
+/* Number and title sit above the grain overlay */
 .lie-card__number,
 .lie-card__title {
   position: relative;
-  z-index: 2;
+  z-index: 1;
 }
 
-/* Number — top-left, small italic serif */
+/* Number — top-left, small italic Crimson Pro */
 .lie-card__number {
   font-family: var(--font-serif);
   font-style: italic;
@@ -658,10 +686,10 @@ em, i {
 .lie-card--yellow .lie-card__number { color: rgba(89, 50, 48, 0.6); }
 .lie-card--dark .lie-card__number   { color: rgba(245, 237, 224, 0.6); }
 
-/* Title — bottom-left, large bold italic serif */
+/* Title — bottom-left, large bold italic Crimson Pro */
 .lie-card__title {
   font-family: var(--font-serif);
-  font-size: clamp(1.4rem, 2vw, 1.85rem);
+  font-size: clamp(1.35rem, 2vw, 1.75rem);
   font-weight: 700;
   line-height: 1.15;
   font-style: italic;
@@ -673,9 +701,9 @@ em, i {
 .lie-card--yellow .lie-card__title { color: #593230; }
 .lie-card--dark .lie-card__title   { color: #F1F1F1; }
 
+/* ── Card back ──────────────────────────────────────────────────────────── */
 .lie-card__back {
   background-color: #2a0f0f;
-  position: relative;
   transform: rotateY(180deg);
   justify-content: flex-start;
   gap: 0.875rem;
@@ -692,7 +720,7 @@ em, i {
   mix-blend-mode: screen;
   opacity: 0.08;
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
 }
 
 .lie-card__back-label,
@@ -700,7 +728,7 @@ em, i {
 .lie-card__back-excerpt,
 .lie-card__read-more {
   position: relative;
-  z-index: 2;
+  z-index: 1;
 }
 
 .lie-card__back-label {
@@ -742,10 +770,7 @@ em, i {
   text-decoration: none;
   flex-shrink: 0;
 }
-.lie-card__read-more:hover {
-  color: #ffd040;
-}
-
+.lie-card__read-more:hover { color: #ffd040; }
 
 /* --- Lead Capture Form --- */
 .lead-form {
@@ -969,7 +994,7 @@ em, i {
 /* --- Download Guide Banner --- */
 .guide-banner {
   background-color: var(--color-accent-red);
-  border-radius: var(--radius-md);
+  border-radius: 4px;
   padding: 0.875rem 1.5rem;
   display: inline-flex;
   align-items: center;
@@ -1019,7 +1044,7 @@ em, i {
 
 .footer__text {
   font-size: 0.8rem;
-  color: var(--color-text-muted);
+  color: #c4a882;
 }
 
 .footer__text a {

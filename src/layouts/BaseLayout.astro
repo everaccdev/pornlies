@@ -14,10 +14,10 @@ const {
 } = Astro.props;
 
 const nav = [
-  { href: '/lies',   label: 'The Lies' },
-  { href: '/videos', label: 'Videos' },
+  { href: '/lies',    label: 'The Lies' },
+  { href: '/videos',  label: 'Videos' },
   { href: '/stories', label: 'Stories' },
-  { href: '/hope',   label: 'Find Hope' },
+  { href: '/hope',    label: 'Find Hope' },
   { href: '/contact', label: 'Contact' },
 ];
 ---
@@ -30,11 +30,10 @@ const nav = [
     <meta name="description" content={description} />
     <title>{title}</title>
 
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="/favicon.png" />
 
-    <!-- Font Awesome Free — swap src with your Pro kit script tag when ready -->
-    <!-- Pro kit format: <script src="https://kit.fontawesome.com/YOUR_KIT_ID.js" crossorigin="anonymous"></script> -->
+    <!-- Font Awesome Free — replace with Pro kit when ready:
+         <script src="https://kit.fontawesome.com/YOUR_KIT_ID.js" crossorigin="anonymous"></script> -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -43,11 +42,11 @@ const nav = [
       referrerpolicy="no-referrer"
     />
 
-    <!-- Crimson Pro — italic serif accents on lie cards / section headings -->
+    <!-- Crimson Pro — used for card titles, science heading, hope page, guide label -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&display=swap"
       rel="stylesheet"
     />
 
@@ -61,39 +60,49 @@ const nav = [
   <body>
     <!-- Announcement Banner -->
     <div class="announcement-banner">
-      Sick of porn's stupid, awful lies? Kick porn to the curb and get finally free with Ever Accountable.
-      <strong>Guaranteed.</strong>
+      <span>Sick of porn's stupid, awful lies? Kick porn to the curb and get finally free with Ever Accountable. <strong>Guaranteed.</strong></span>
       <a href="https://everaccountable.com/fighting-porn-together/" target="_blank" rel="noopener">
         Get started now →
       </a>
     </div>
 
-    <!-- Navigation -->
+    <!-- Navigation — logo left, all else right (matches Figma) -->
     <nav class="nav" aria-label="Main navigation">
       <div class="container nav__inner">
+
+        <!-- Logo -->
         <a href="/" class="nav__logo" aria-label="PornLies Home">
           Porn<span>Lies</span>
         </a>
 
-        <ul class="nav__links" role="list">
-          {nav.map(({ href, label }) => (
-            <li>
-              <a
-                href={href}
-                class={currentPage === href ? 'active' : ''}
-              >
-                {label}
-              </a>
-            </li>
-          ))}
-        </ul>
+        <!-- Right side: links + socials + CTA -->
+        <div class="nav__right">
+          <ul class="nav__links" role="list">
+            {nav.map(({ href, label }) => (
+              <li>
+                <a href={href} class={currentPage === href ? 'active' : ''}>
+                  {label}
+                </a>
+              </li>
+            ))}
+          </ul>
 
-        <div class="nav__cta">
+          <!-- Social icons -->
+          <div class="nav__socials">
+            <a href="http://instagram.com/liesofpo.rn" target="_blank" rel="noopener" aria-label="Instagram">
+              <i class="fa-brands fa-instagram" aria-hidden="true"></i>
+            </a>
+            <a href="http://facebook.com/liesofporn" target="_blank" rel="noopener" aria-label="Facebook">
+              <i class="fa-brands fa-facebook" aria-hidden="true"></i>
+            </a>
+          </div>
+
+          <!-- CTA button -->
           <a
             href="https://everaccountable.com/fighting-porn-together/"
             target="_blank"
             rel="noopener"
-            class="btn btn--primary btn--sm"
+            class="btn btn--primary btn--sm nav__cta-btn"
           >
             Get Free From Lies
           </a>
@@ -116,16 +125,22 @@ const nav = [
     <!-- Mobile Menu -->
     <nav class="nav__mobile" id="mobileMenu" aria-label="Mobile navigation">
       {nav.map(({ href, label }) => (
-        <a href={href} class={currentPage === href ? 'active' : ''}>
-          {label}
-        </a>
+        <a href={href} class={currentPage === href ? 'active' : ''}>{label}</a>
       ))}
+      <div class="nav__mobile-socials">
+        <a href="http://instagram.com/liesofpo.rn" target="_blank" rel="noopener" aria-label="Instagram">
+          <i class="fa-brands fa-instagram" aria-hidden="true"></i>
+        </a>
+        <a href="http://facebook.com/liesofporn" target="_blank" rel="noopener" aria-label="Facebook">
+          <i class="fa-brands fa-facebook" aria-hidden="true"></i>
+        </a>
+      </div>
       <a
         href="https://everaccountable.com/fighting-porn-together/"
         target="_blank"
         rel="noopener"
         class="btn btn--primary"
-        style="margin-top: 1rem;"
+        style="margin-top: 0.5rem;"
       >
         Get Free From Lies
       </a>
@@ -147,19 +162,15 @@ const nav = [
       </div>
     </footer>
 
-    <!-- Scripts -->
     <script>
       // Mobile menu toggle
       const hamburger = document.getElementById('hamburger');
       const mobileMenu = document.getElementById('mobileMenu');
-
       hamburger?.addEventListener('click', () => {
         const isOpen = mobileMenu?.classList.contains('open');
         mobileMenu?.classList.toggle('open');
         hamburger.setAttribute('aria-expanded', String(!isOpen));
       });
-
-      // Close mobile menu on link click
       mobileMenu?.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', () => {
           mobileMenu.classList.remove('open');
