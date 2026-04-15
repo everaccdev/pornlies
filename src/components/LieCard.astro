@@ -1,7 +1,12 @@
 ---
-// Valid colors from Figma design
 type CardColor = 'cream' | 'red' | 'yellow' | 'dark';
-const COLORS: CardColor[] = ['cream', 'red', 'yellow', 'dark'];
+
+// Irregular color pattern — avoids runs of same color
+const COLOR_PATTERN: CardColor[] = [
+  'cream', 'red', 'dark', 'yellow',
+  'red', 'cream', 'yellow', 'dark',
+  'yellow', 'dark', 'cream', 'red',
+];
 
 interface Props {
   id: string;
@@ -9,39 +14,34 @@ interface Props {
   title: string;
   excerpt: string;
   slug: string;
-  color?: CardColor; // optional — random if not set
-  index?: number;    // used for deterministic "random" when color omitted
+  color?: CardColor;
+  index?: number;
 }
 
 const { id, number, title, excerpt, slug, index = 0 } = Astro.props;
-
-// If color explicitly provided, use it. Otherwise pick deterministically
-// from the 4 options based on index so SSR is consistent (no hydration mismatch).
-// The sequence creates an irregular-feeling pattern across the grid.
-const PATTERN: CardColor[] = ['cream', 'red', 'dark', 'yellow', 'red', 'cream', 'yellow', 'dark', 'cream', 'yellow', 'red', 'dark'];
-const color: CardColor = Astro.props.color ?? PATTERN[index % PATTERN.length];
+const color: CardColor = Astro.props.color ?? COLOR_PATTERN[index % COLOR_PATTERN.length];
 ---
 
-<!--
-  Hover → flip (desktop, pointer devices)
-  Touch: first tap flips, second tap navigates
--->
 <div
   class={`lie-card lie-card--${color}`}
   data-slug={slug}
   role="article"
-  aria-label={`Lie: ${title}. Hover or tap to reveal the truth.`}
+  aria-label={`Lie: ${title}. Tap to reveal the truth.`}
 >
   <div class="lie-card__inner">
 
-    <!-- Front: the lie -->
+    <!-- Front -->
     <div class="lie-card__front">
       <span class="lie-card__number">Lie No. {number}</span>
       <h3 class="lie-card__title"><em>{title}</em></h3>
     </div>
 
-    <!-- Back: truth excerpt + read more -->
+    <!-- Back -->
     <div class="lie-card__back" aria-hidden="true">
+      <!-- X close button (touch devices) -->
+      <button class="lie-card__close" aria-label="Close" tabindex="-1">
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
       <div class="lie-card__back-top">
         <span class="lie-card__back-label">The Truth</span>
         <p class="lie-card__back-title">{title}</p>
@@ -53,6 +53,12 @@ const color: CardColor = Astro.props.color ?? PATTERN[index % PATTERN.length];
     </div>
 
   </div>
+
+  <!-- X button on front (touch hint) 
+  <span class="lie-card__x-hint" aria-hidden="true">
+    <i class="fa-solid fa-xmark"></i>
+  </span>
+  -->
 </div>
 
 <script>
@@ -62,14 +68,23 @@ const color: CardColor = Astro.props.color ?? PATTERN[index % PATTERN.length];
 
     card.addEventListener('click', (e) => {
       const slug = card.dataset.slug;
+      const target = e.target as HTMLElement;
+
+      // If close button clicked on back, unflip
+      if (target.closest('.lie-card__close')) {
+        e.preventDefault();
+        card.classList.remove('flipped');
+        flipped = false;
+        return;
+      }
 
       if (!isTouch()) {
-        // Desktop: hover handles flip visually, click navigates
+        // Desktop: click navigates directly (hover handles flip)
         if (slug) window.location.href = slug;
         return;
       }
 
-      // Touch: first tap = flip, second tap = navigate
+      // Touch: first tap flips, second tap navigates
       if (!flipped) {
         e.preventDefault();
         card.classList.add('flipped');
@@ -80,3 +95,38 @@ const color: CardColor = Astro.props.color ?? PATTERN[index % PATTERN.length];
     });
   });
 </script>
+
+<style>
+  /* X hint — top-right corner, visible on touch devices only */
+  .lie-card__x-hint {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.875rem;
+    font-size: 0.75rem;
+    opacity: 0.35;
+    z-index: 3;
+    pointer-events: none;
+    line-height: 1;
+  }
+
+  .lie-card--cream .lie-card__x-hint,
+  .lie-card--yellow .lie-card__x-hint { color: #593230; }
+  .lie-card--red .lie-card__x-hint,
+  .lie-card--dark .lie-card__x-hint  { color: #F5EDD7; }
+
+  /* Close button on back face */
+  .lie-card__close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.875rem;
+    background: none;
+    border: none;
+    color: rgba(245, 237, 224, 0.5);
+    font-size: 0.85rem;
+    cursor: pointer;
+    padding: 0.25rem;
+    z-index: 3;
+    line-height: 1;
+  }
+  .lie-card__close:hover { color: #F5EDD7; }
+</style>

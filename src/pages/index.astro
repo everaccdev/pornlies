@@ -5,8 +5,6 @@ import VideoEmbed from '../components/VideoEmbed.astro';
 import LeadForm from '../components/LeadForm.astro';
 import ScienceBacked from '../components/ScienceBacked.astro';
 
-// ── Videos ───────────────────────────────────────────────────────────────────
-// Edit in /src/content/videos/videos.md or via CMS at /admin → Videos
 const videos = [
   { id: '1', title: "Porn Won't Affect You",        youtubeId: 'pHuvOw6nRCA'  },
   { id: '2', title: "No One Will Ever Know",         youtubeId: 'Cx6ImCzKdwI' },
@@ -15,14 +13,12 @@ const videos = [
   { id: '5', title: "Everyone Does It",              youtubeId: 'SiKNEvNZk8M' },
 ];
 
-// ── Lies Grid ─────────────────────────────────────────────────────────────────
-// All 12 lies matching the current site — edit via CMS at /admin
 const lies = [
   { id: 'wont-hurt',                 number: '291',  title: "A little porn won't hurt you",      color: 'cream'  as const, slug: '/lies/wont-hurt',                 excerpt: "Porn trains your brain to feel entitled to other people's bodies. Even occasional use rewires your reward system — and the habit almost never stays little." },
   { id: 'nobody-will-ever-know',     number: '421',  title: "No one will ever know",              color: 'red'    as const, slug: '/lies/nobody-will-ever-know',     excerpt: "Secrets have a way of spilling out. And even if no one ever catches you — you'll know. Your inner self will always know the truth." },
   { id: 'better-in-bed',             number: '1025', title: "Porn makes you better in bed",      color: 'dark'   as const, slug: '/lies/better-in-bed',             excerpt: "Porn can harm your ability to enjoy real intimacy. It trains you for a fantasy that leaves genuine connection feeling inadequate." },
-  { id: 'quit-when-married',         number: '54',   title: "I'll quit when I get married",      color: 'cream'  as const, slug: '/lies/quit-when-married',         excerpt: "The craving won't go away. People do not quit when they get married — they too often find that porn has harmed their ability to be sexual in healthy, bonding ways." },
-  { id: 'everyone-does-it',          number: '332',  title: "Everyone does it",                   color: 'yellow' as const, slug: '/lies/everyone-does-it',          excerpt: "Porn's popularity doesn't make it safe or healthy. A growing number of people are committed to quitting permanently." },
+  { id: 'quit-when-married',         number: '54',   title: "I'll quit when I get married",      color: 'yellow' as const, slug: '/lies/quit-when-married',         excerpt: "The craving won't go away. People do not quit when they get married — they too often find that porn has harmed their ability to be sexual in healthy, bonding ways." },
+  { id: 'everyone-does-it',          number: '332',  title: "Everyone does it",                   color: 'cream'  as const, slug: '/lies/everyone-does-it',          excerpt: "Porn's popularity doesn't make it safe or healthy. A growing number of people are committed to quitting permanently." },
   { id: 'only-men-watch',            number: '87',   title: "Only men watch porn",                color: 'red'    as const, slug: '/lies/only-men-watch',            excerpt: "This is a common falsehood that traps many women in secrecy, fear, and shame. If you're a woman struggling with porn, you aren't alone." },
   { id: 'not-your-kids',             number: '89',   title: "Your kids will never use porn",      color: 'dark'   as const, slug: '/lies/not-your-kids',             excerpt: "In the UK, 75% of parents believed their kids would never get into porn. When they talked to their children, 53% had already viewed it." },
   { id: 'make-me-happy',             number: '77',   title: "Porn makes you happy",               color: 'yellow' as const, slug: '/lies/make-me-happy',             excerpt: "Porn offers short-term feelings of relief but no long-term solutions. Research shows pornography can lead to depression and loneliness." },
@@ -39,94 +35,78 @@ const lies = [
   currentPage="/"
 >
 
-  <!-- ── Hero ─────────────────────────────────────────────────────────────── -->
-  <section class="hero section section--textured">
-    <div class="container">
+  <!-- ── Hero: texture bg, title, subtitle, single video, guide CTA ─────── -->
+  <section class="hero">
+
+    <!-- Texture image: sits at top, no-repeat, shows white not black -->
+    <div class="hero__texture" aria-hidden="true"></div>
+
+    <div class="hero__content container">
       <h1 class="hero__title animate-fadeup">
         Porn <span class="text-red">lies.</span> A lot.
       </h1>
       <p class="hero__subtitle animate-fadeup animate-fadeup--delay-1">
         <em>If porn could talk…</em>
       </p>
-      <div class="hero__actions animate-fadeup animate-fadeup--delay-3">
-        <a href="#download" class="btn btn--red">
-          Download the Free Guide
-        </a>
-        <a href="/lies" class="btn btn--outline">
-          See All the Lies
-        </a>
-      </div>
     </div>
+
+    <!-- Single hero video -->
+    <div class="hero__video animate-fadeup animate-fadeup--delay-2">
+      <VideoEmbed youtubeId={videos[0].youtubeId} title={videos[0].title} />
+    </div>
+
+    <!-- Guide CTA below video -->
+    <div class="hero__cta container animate-fadeup animate-fadeup--delay-3">
+      <p class="hero__cta-label">Download the guide:</p>
+      <a href="#download" class="btn btn--red hero__cta-btn">
+        5 Things You Can Do Today to Kick Porn to the Curb
+      </a>
+      <a href="#videos" class="btn btn--outline hero__cta-ghost">
+        View More <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
+      </a>
+    </div>
+
   </section>
 
-  <!-- ── Videos: first 2 ────────────────────────────────────────────────── -->
-  <section class="section section--dark" aria-labelledby="videos-heading">
-    <div class="container">
-      <div class="section-header text-center" style="margin-bottom: 3rem;">
-        <h2 id="videos-heading">The Lies, In Character</h2>
-        <p class="section-subhead"><em>If porn could talk, this is what it would say.</em></p>
-      </div>
-
-      <div class="video-grid">
-        <VideoEmbed youtubeId={videos[0].youtubeId} title={videos[0].title} />
-        <VideoEmbed youtubeId={videos[1].youtubeId} title={videos[1].title} />
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Scientifically Backed ────────────────────────────────────────────── -->
+  <!-- ── Scientifically Backed ─────────────────────────────────────────── -->
   <ScienceBacked />
 
-  <!-- ── Videos: next 2 + View More ──────────────────────────────────────── -->
-  <section class="section section--dark" aria-labelledby="videos-heading-2">
+  <!-- ── More Videos: 2+2 ──────────────────────────────────────────────── -->
+  <section id="videos" class="section">
     <div class="container">
       <div class="video-grid">
+        <VideoEmbed youtubeId={videos[1].youtubeId} title={videos[1].title} />
         <VideoEmbed youtubeId={videos[2].youtubeId} title={videos[2].title} />
-        <VideoEmbed youtubeId={videos[3].youtubeId} title={videos[3].title} />
       </div>
-
+      <div class="video-grid" style="margin-top: 1.5rem;">
+        <VideoEmbed youtubeId={videos[3].youtubeId} title={videos[3].title} />
+        <VideoEmbed youtubeId={videos[4].youtubeId} title={videos[4].title} />
+      </div>
       <div class="text-center mt-lg">
         <a href="/videos" class="btn btn--outline">
-          View More Videos <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+          View All Videos <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- ── Download Guide ────────────────────────────────────────────────────── -->
-  <section class="section" id="download" aria-labelledby="guide-heading">
-    <div class="container">
-      <div class="guide-section">
-        <div class="guide-section__form reveal">
-          <p class="cta-block__eyebrow">Download the Guide</p>
-          <h2 id="guide-heading" style="margin-bottom: 0.5rem;">
-            Ways to Kick Porn<br />to the Curb Today
-          </h2>
-          <p class="guide-section__sub">Free — delivered straight to your inbox.</p>
-          <LeadForm
-            id="guide-form"
-            submitLabel="Get the Free Guide"
-          />
-        </div>
-        <!-- decorative spacer on desktop -->
-        <div class="guide-section__art reveal" aria-hidden="true">
-          <div class="guide-art-block">
-            <span class="guide-art-number">63%</span>
-            <p>of users reported <strong>zero porn usage</strong> after just one month with Ever Accountable.</p>
-          </div>
-        </div>
+  <!-- ── Download Guide form ───────────────────────────────────────────── -->
+  <section class="section section--dark" id="download" aria-labelledby="guide-heading">
+    <div class="container" style="max-width: 600px;">
+      <div class="text-center">
+        <h2 id="guide-heading" style="margin-bottom: 2rem;">Ways to Kick Porn to the Curb Today</h2>
+        <LeadForm id="guide-form" submitLabel="Get the Free Guide" />
       </div>
     </div>
   </section>
 
-  <!-- ── More Lies Grid ────────────────────────────────────────────────────── -->
-  <section class="section section--dark" aria-labelledby="lies-heading">
+  <!-- ── Lies Grid ─────────────────────────────────────────────────────── -->
+  <section class="section" aria-labelledby="lies-heading">
     <div class="container">
       <div class="lies-section__header">
         <h2 id="lies-heading">More <span class="text-red">Lies</span></h2>
         <p class="lies-section__subtitle"><em>Click a Lie to Reveal the Truth</em></p>
       </div>
-
       <div class="lies-grid">
         {lies.map((lie, i) => (
           <div class="reveal">
@@ -142,7 +122,6 @@ const lies = [
           </div>
         ))}
       </div>
-
       <div class="text-center mt-lg">
         <a href="/lies" class="btn btn--outline">
           See All Lies <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
@@ -151,87 +130,110 @@ const lies = [
     </div>
   </section>
 
-  <!-- ── Newsletter ────────────────────────────────────────────────────────── -->
-  <section class="section" aria-labelledby="newsletter-heading">
-    <div class="container">
-      <div class="cta-block">
-        <p class="cta-block__eyebrow">Want to Stay Connected?</p>
-        <h2 class="cta-block__title" id="newsletter-heading">
-          Sign up to receive news and updates
-        </h2>
-        <LeadForm id="newsletter-form" submitLabel="Sign Up" />
-      </div>
-    </div>
-  </section>
+
 
 </BaseLayout>
 
 <style>
-  .hero__actions {
+  /* ── Hero ─────────────────────────────────────────────────────────────── */
+  .hero {
+    position: relative;
+    text-align: center;
+    padding-bottom: clamp(3rem, 6vw, 5rem);
+    overflow: hidden;
+  }
+
+  /* Texture: paint image, top-aligned, screen blend so only whites show */
+  .hero__texture {
+    position: absolute;
+    inset: 0;
+    bottom: auto;
+    height: 100%;
+    min-height: 700px;
+    background-image: url('/images/textures/texture-grain.png');
+    background-size:contain;
+    background-position: top center;
+    background-repeat: no-repeat;
+    mix-blend-mode: screen;
+    opacity: 0.45;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hero__content {
+    position: relative;
+    z-index: 1;
+    padding-bottom: 2rem;
+  }
+
+  /* Title: 120px desktop */
+  :global(.hero__title) {
+    font-size: clamp(3.5rem, 10vw, 7.5rem) !important; /* 120px at 1600px wide */
+    line-height: 1.0 !important;
+    white-space: nowrap;
+    color: #F5EDD7 !important;
+    font-weight: 700 !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  @media (max-width: 700px) {
+    :global(.hero__title) {
+      white-space: normal !important;
+      font-size: clamp(2.8rem, 12vw, 5rem) !important;
+    }
+  }
+
+  /* Subtitle: Crimson Pro italic, 64px desktop */
+  :global(.hero__subtitle) {
+    font-family: 'Crimson Pro', Georgia, serif !important;
+    font-size: clamp(1.5rem, 4.5vw, 4rem) !important; /* ~64px at 1400px */
+    font-style: italic !important;
+    font-weight: 400 !important;
+    color: #F5EDD7 !important;
+    margin-bottom: 3rem !important;
+    line-height: 1.15 !important;
+  }
+
+  /* Single hero video */
+  .hero__video {
+    position: relative;
+    z-index: 1;
+    width: min(920px, 90%);
+    margin-inline: auto;
+    margin-bottom: 2.5rem;
+  }
+
+  /* Guide CTA block below video */
+  .hero__cta {
+    position: relative;
+    z-index: 1;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
     gap: 1rem;
-    flex-wrap: wrap;
-  }
-
-  .section-subhead {
-    color: var(--color-text-muted);
-    margin-top: 0.5rem;
-    font-family: var(--font-serif);
-  }
-
-  /* Guide download split */
-  .guide-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5rem;
-    align-items: center;
-    max-width: 900px;
+    max-width: 560px;
     margin-inline: auto;
   }
 
-  @media (max-width: 760px) {
-    .guide-section {
-      grid-template-columns: 1fr;
-      gap: 2.5rem;
-    }
-    .guide-section__art { display: none; }
-  }
-
-  .guide-section__sub {
-    font-family: var(--font-serif);
+  .hero__cta-label {
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: clamp(1.3rem, 2.5vw, 2rem);
     font-style: italic;
-    color: var(--color-text-muted);
+    color: #F5EDD7;
+    margin: 0;
+  }
+
+  .hero__cta-btn {
+    width: 100%;
     font-size: 0.95rem;
-    margin-bottom: 1.5rem;
-    margin-top: 0.25rem;
+    padding: 1rem 1.5rem;
+    border-radius: 4px;
+    white-space: normal;
+    line-height: 1.3;
   }
 
-  .guide-art-block {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 16px;
-    padding: 2.5rem;
-    text-align: center;
-  }
-
-  .guide-art-number {
-    display: block;
-    font-size: 5rem;
-    font-weight: 900;
-    color: var(--color-accent-gold);
-    line-height: 1;
-    margin-bottom: 1rem;
-  }
-
-  .guide-art-block p {
-    color: var(--color-text-muted);
-    font-size: 0.95rem;
-    line-height: 1.6;
-  }
-
-  .guide-art-block strong {
-    color: var(--color-white);
+  .hero__cta-ghost {
+    width: 100%;
+    padding: 0.85rem 1.5rem;
   }
 </style>

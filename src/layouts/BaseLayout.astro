@@ -59,7 +59,7 @@ const nav = [
 
   <body>
     <!-- Announcement Banner -->
-    <div class="announcement-banner">
+    <div class="announcement-banner" id="announcement-banner">
       <span>Sick of porn's stupid, awful lies? Kick porn to the curb and get finally free with Ever Accountable. <strong>Guaranteed.</strong></span>
       <a href="https://everaccountable.com/fighting-porn-together/" target="_blank" rel="noopener">
         Get started now →
@@ -163,6 +163,32 @@ const nav = [
     </footer>
 
     <script>
+      // Hide announcement banner on scroll
+      const banner = document.getElementById('announcement-banner');
+      const nav = document.querySelector('.nav');
+      let lastScroll = 0;
+
+      window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+
+        // Hide banner after scrolling past it
+        if (banner) {
+          banner.style.transform = scrollY > 10 ? 'translateY(-100%)' : 'translateY(0)';
+          banner.style.opacity = scrollY > 10 ? '0' : '1';
+        }
+
+        // Nav: transparent at top, solid when scrolled
+        if (nav) {
+          if (scrollY > 50) {
+            nav.classList.add('nav--scrolled');
+          } else {
+            nav.classList.remove('nav--scrolled');
+          }
+        }
+
+        lastScroll = scrollY;
+      }, { passive: true });
+
       // Mobile menu toggle
       const hamburger = document.getElementById('hamburger');
       const mobileMenu = document.getElementById('mobileMenu');

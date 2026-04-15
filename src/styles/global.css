@@ -63,7 +63,7 @@
 :root {
   /* Colors */
   --color-bg:          #331816;       /* base background — all pages */
-  --color-bg-mid:      #2d1010;
+  --color-bg-mid:      #2a0e0e;
   --color-bg-card:     #3a1515;
   --color-accent-red:  #DB0F00;       /* buttons, accents */
   --color-accent-gold: #FFBE00;       /* yellow buttons */
@@ -297,9 +297,9 @@ em, i {
   padding: 0.6rem 1rem;
   font-size: 0.85rem;
   font-weight: 500;
-  position: sticky;
-  top: 0;
+  position: relative;      /* not sticky — disappears on scroll via JS */
   z-index: 200;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .announcement-banner a {
@@ -315,12 +315,20 @@ em, i {
 /* --- Navigation --- */
 .nav {
   position: sticky;
-  top: var(--banner-height);
+  top: 0;                         /* sits at top once banner scrolls away */
   z-index: 100;
+  background-color: transparent;  /* transparent over hero texture */
+  backdrop-filter: none;
+  border-bottom: none;
+  height: var(--nav-height);
+  transition: background-color 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease;
+}
+
+/* Solid nav once user has scrolled */
+.nav--scrolled {
   background-color: rgba(51, 24, 22, 0.97);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  height: var(--nav-height);
 }
 
 .nav__inner {
@@ -361,7 +369,7 @@ em, i {
 
 .nav__links a {
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
   color: #F5EDD7;           /* PornLies Tan */
   transition: color var(--transition-fast);
   text-decoration: none;
@@ -665,7 +673,7 @@ em, i {
   z-index: 0;
 }
 
-/* Number and title sit above the grain overlay */
+/* Number and title sit above grain overlay */
 .lie-card__number,
 .lie-card__title {
   position: relative;
@@ -674,7 +682,7 @@ em, i {
 
 /* Number — top-left, small italic Crimson Pro */
 .lie-card__number {
-  font-family: var(--font-serif);
+  font-family: 'Crimson Pro', Georgia, serif;
   font-style: italic;
   font-size: 0.82rem;
   font-weight: 400;
@@ -686,16 +694,32 @@ em, i {
 .lie-card--yellow .lie-card__number { color: rgba(89, 50, 48, 0.6); }
 .lie-card--dark .lie-card__number   { color: rgba(245, 237, 224, 0.6); }
 
-/* Title — bottom-left, large bold italic Crimson Pro */
+/*
+  Title — Figma exact:
+  Crimson Pro, weight 500, italic, 40px, line-height 44px, letter-spacing -0.5px
+*/
 .lie-card__title {
-  font-family: var(--font-serif);
-  font-size: clamp(1.35rem, 2vw, 1.75rem);
-  font-weight: 700;
-  line-height: 1.15;
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 44px;
   font-style: italic;
+  letter-spacing: -0.5px;
   align-self: flex-start;
   margin: 0;
 }
+
+/* Responsive: scale down on smaller columns */
+@media (max-width: 1200px) {
+  .lie-card__title { font-size: 32px; line-height: 36px; }
+}
+@media (max-width: 900px) {
+  .lie-card__title { font-size: 28px; line-height: 32px; }
+}
+@media (max-width: 500px) {
+  .lie-card__title { font-size: 26px; line-height: 30px; }
+}
+
 .lie-card--cream .lie-card__title  { color: #DB0F00; }
 .lie-card--red .lie-card__title    { color: #FFBE00; }
 .lie-card--yellow .lie-card__title { color: #593230; }
@@ -1037,6 +1061,7 @@ em, i {
 
 /* --- Footer --- */
 .footer {
+  background-color:#2a0e0e;
   padding-block: 3rem;
   border-top: 1px solid rgba(255,255,255,0.07);
   text-align: center;
