@@ -55,6 +55,9 @@ const nav = [
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/images/og-image.png" />
+
+    <!-- Netlify Identity Widget — handles invite/password-reset token redirect -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   </head>
 
   <body>
@@ -218,6 +221,19 @@ const nav = [
         { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
       );
       reveals.forEach(el => observer.observe(el));
+    </script>
+
+    <!-- Redirect Netlify Identity tokens to /admin so invite/reset links work -->
+    <script>
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on('init', user => {
+          if (!user) {
+            window.netlifyIdentity.on('login', () => {
+              document.location.href = '/admin/';
+            });
+          }
+        });
+      }
     </script>
   </body>
 </html>

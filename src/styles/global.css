@@ -196,7 +196,7 @@ em, i {
 }
 
 .section {
-  padding-block: clamp(3rem, 8vw, 6rem);
+  padding-block: clamp(3rem, 8vw, 5rem);
 }
 
 .section--dark {
@@ -989,9 +989,6 @@ em, i {
 /* --- CTA Block --- */
 .cta-block {
   background: linear-gradient(135deg, var(--color-bg-mid) 0%, rgba(45,16,16,0.8) 100%);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: var(--radius-lg);
-  padding: clamp(2rem, 6vw, 4rem);
   text-align: center;
 }
 
@@ -1006,6 +1003,12 @@ em, i {
 
 .cta-block__title {
   margin-bottom: 1rem;
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: clamp(2rem, 3vw, 2.5rem);
+  color: var(--color-white);
+  font-style: italic;
+  margin-bottom: 2.5rem;
+  font-weight: 400;
 }
 
 .cta-block__body {
@@ -1121,7 +1124,7 @@ em, i {
 
 /* --- Page hero / inner pages --- */
 .page-hero {
-  padding-block: clamp(2.5rem, 6vw, 4.5rem);
+  padding-block: clamp(2.1rem, 6vw, 2.5rem);
   text-align: center;
 }
 
@@ -1133,7 +1136,7 @@ em, i {
   font-family: var(--font-serif);
   font-style: italic;
   color: var(--color-text-muted);
-  font-size: 1.1rem;
+  font-size: clamp(1.4rem, 2.8vw, 1.8rem);
 }
 
 /* --- Animations --- */

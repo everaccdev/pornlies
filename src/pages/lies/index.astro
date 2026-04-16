@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import LieCard from '../../components/LieCard.astro';
+import LeadForm from '../../components/LeadForm.astro';
 
 // All 12 lies — matches current site exactly
 // Colors follow an irregular pattern matching the Figma design
@@ -34,7 +35,7 @@ const lies = [
     </div>
   </div>
 
-  <section class="section section--dark" aria-label="All lies">
+  <section class="section" aria-label="All lies">
     <div class="container">
       <div class="lies-grid">
         {lies.map((lie, i) => (
@@ -53,4 +54,21 @@ const lies = [
       </div>
     </div>
   </section>
+
+  <!-- Guide download CTA -->
+  <section class="section  section--dark" aria-labelledby="videos-guide">
+    <div class="container">
+      <div class="cta-block">
+        <p class="cta-block__eyebrow">Download the Guide</p>
+        <h2 class="cta-block__title" id="videos-guide">
+          Ways to Kick Porn to the Curb Today
+        </h2>
+        <p class="cta-block__body">
+          Free — delivered straight to your inbox.
+        </p>
+        <LeadForm id="videos-guide-form" submitLabel="Get the Free Guide" />
+      </div>
+    </div>
+  </section>
+
 </BaseLayout>
