@@ -172,7 +172,7 @@ const testimonials = [
   .science-card {
     display: flex;
     align-items: center;        /* vertically center avatar */
-    gap: 0;                     /* gap handled by divider */
+    gap: 0;                   
     background-color: #593230;
     border-radius: 3px;
     padding: 1.5rem 1.8rem;
@@ -180,13 +180,13 @@ const testimonials = [
     transition: transform 0.3s ease;
   }
 
-  /* More prominent alternating slant */
-  .science-card--1 { transform: rotate(-1.8deg); }
-  .science-card--2 { transform: rotate(1.4deg);  }
-  .science-card--3 { transform: rotate(-1.2deg); }
+  /* Card slant */
+  .science-card--1 { transform: rotate(-1.8deg) translateY(0); }
+  .science-card--2 { transform: rotate(1.4deg)  translateY(0); }
+  .science-card--3 { transform: rotate(-1.2deg) translateY(0); }
 
   .science-card:hover {
-    transform: rotate(0deg) scale(1.01);
+    transform: rotate(0deg) scale(1.01) translateY(0);
   }
 
   /* Avatar: 80×80, centered vertically */
