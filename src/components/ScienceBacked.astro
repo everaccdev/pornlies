@@ -44,7 +44,7 @@ const testimonials = [
   <div class="science-inner container">
     <div class="science-inner-content">
     <!-- Left: headline + stat + CTA -->
-    <div class="science-left reveal">
+    <div class="science-left">
       <h2 class="science-heading" id="science-heading">
         Scientifically-backed software that dramatically reduces porn usage.
       </h2>
@@ -60,7 +60,7 @@ const testimonials = [
     <!-- Right: testimonials — overflow 30px above/below section -->
     <div class="science-testimonials-col">
       {testimonials.map((t, i) => (
-        <div class={`science-card science-card--${i + 1} reveal`} style={`transition-delay: ${i * 0.12}s`}>
+        <div class={`science-card science-card--${i + 1}`}>
           <div class="science-card__avatar">
             <img src={t.avatar} alt="" width="80" height="80" />
           </div>
