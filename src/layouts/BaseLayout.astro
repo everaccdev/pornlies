@@ -207,7 +207,9 @@ const nav = [
         });
       });
 
-      // Scroll reveal
+      // Scroll reveal — add js-ready to html first so CSS knows JS is active
+      document.documentElement.classList.add('js-ready');
+
       const reveals = document.querySelectorAll('.reveal');
       const observer = new IntersectionObserver(
         (entries) => {
@@ -218,7 +220,7 @@ const nav = [
             }
           });
         },
-        { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+        { threshold: 0.05, rootMargin: '0px 0px 0px 0px' }
       );
       reveals.forEach(el => observer.observe(el));
     </script>
