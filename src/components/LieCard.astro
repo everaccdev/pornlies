@@ -1,11 +1,12 @@
 ---
 type CardColor = 'cream' | 'red' | 'yellow' | 'dark';
 
-// Irregular color pattern — avoids runs of same color
+// Truly irregular pattern — no two same adjacent colors
 const COLOR_PATTERN: CardColor[] = [
-  'cream', 'red', 'dark', 'yellow',
-  'red', 'cream', 'yellow', 'dark',
-  'yellow', 'dark', 'cream', 'red',
+  'cream', 'red',    'dark',   'yellow',
+  'red',   'yellow', 'cream',  'dark',
+  'dark',  'cream',  'yellow', 'red',
+  'yellow','dark',   'red',    'cream',
 ];
 
 interface Props {
@@ -30,21 +31,22 @@ const color: CardColor = Astro.props.color ?? COLOR_PATTERN[index % COLOR_PATTER
 >
   <div class="lie-card__inner">
 
-    <!-- Front -->
+    <!-- Front: just number + title, no X -->
     <div class="lie-card__front">
       <span class="lie-card__number">Lie No. {number}</span>
       <h3 class="lie-card__title"><em>{title}</em></h3>
     </div>
 
-    <!-- Back -->
-    <div class="lie-card__back" aria-hidden="true">
-      <!-- X close button (touch devices) -->
-      <button class="lie-card__close" aria-label="Close" tabindex="-1">
+    <!-- Back: THE LIE label + THE TRUTH label, tan text, no white/bold serif -->
+    <div class="lie-card__back">
+      <!-- X to flip back — essential for touch/mobile -->
+      <button class="lie-card__close" aria-label="Flip back" tabindex="0">
         <i class="fa-solid fa-xmark" aria-hidden="true"></i>
       </button>
       <div class="lie-card__back-top">
-        <span class="lie-card__back-label">The Truth</span>
-        <p class="lie-card__back-title">{title}</p>
+        <span class="lie-card__back-lie-label">The Lie</span>
+        <p class="lie-card__back-lie-title">{title}</p>
+        <span class="lie-card__back-truth-label">The Truth</span>
       </div>
       <p class="lie-card__back-excerpt">{excerpt}</p>
       <a href={slug} class="lie-card__read-more" tabindex="-1" aria-hidden="true">
@@ -53,12 +55,6 @@ const color: CardColor = Astro.props.color ?? COLOR_PATTERN[index % COLOR_PATTER
     </div>
 
   </div>
-
-  <!-- X button on front (touch hint) 
-  <span class="lie-card__x-hint" aria-hidden="true">
-    <i class="fa-solid fa-xmark"></i>
-  </span>
-  -->
 </div>
 
 <script>
@@ -70,7 +66,6 @@ const color: CardColor = Astro.props.color ?? COLOR_PATTERN[index % COLOR_PATTER
       const slug = card.dataset.slug;
       const target = e.target as HTMLElement;
 
-      // If close button clicked on back, unflip
       if (target.closest('.lie-card__close')) {
         e.preventDefault();
         card.classList.remove('flipped');
@@ -79,12 +74,10 @@ const color: CardColor = Astro.props.color ?? COLOR_PATTERN[index % COLOR_PATTER
       }
 
       if (!isTouch()) {
-        // Desktop: click navigates directly (hover handles flip)
         if (slug) window.location.href = slug;
         return;
       }
 
-      // Touch: first tap flips, second tap navigates
       if (!flipped) {
         e.preventDefault();
         card.classList.add('flipped');
@@ -97,36 +90,53 @@ const color: CardColor = Astro.props.color ?? COLOR_PATTERN[index % COLOR_PATTER
 </script>
 
 <style>
-  /* X hint — top-right corner, visible on touch devices only */
-  .lie-card__x-hint {
-    position: absolute;
-    top: 0.75rem;
-    right: 0.875rem;
-    font-size: 0.75rem;
-    opacity: 0.35;
-    z-index: 3;
-    pointer-events: none;
-    line-height: 1;
-  }
-
-  .lie-card--cream .lie-card__x-hint,
-  .lie-card--yellow .lie-card__x-hint { color: #593230; }
-  .lie-card--red .lie-card__x-hint,
-  .lie-card--dark .lie-card__x-hint  { color: #F5EDD7; }
-
-  /* Close button on back face */
+  /* X close button on back face — touch users tap to flip back */
   .lie-card__close {
     position: absolute;
     top: 0.75rem;
     right: 0.875rem;
     background: none;
     border: none;
-    color: rgba(245, 237, 224, 0.5);
-    font-size: 0.85rem;
+    color: rgba(245, 237, 224, 0.55);
+    font-size: 1rem;
     cursor: pointer;
-    padding: 0.25rem;
-    z-index: 3;
+    padding: 0.35rem;
+    z-index: 10;     /* above ::before texture overlay */
     line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .lie-card__close:hover { color: #F5EDD7; }
+
+  /* Back face labels */
+  .lie-card__back-lie-label {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #FFBE00;            /* gold for "The Lie" */
+    margin-bottom: 0.3rem;
+  }
+
+  .lie-card__back-lie-title {
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 1rem;
+    font-weight: 400;          /* not bold */
+    font-style: italic;
+    color: #F5EDD7;            /* tan — no white */
+    line-height: 1.3;
+    margin-bottom: 0.75rem;
+  }
+
+  .lie-card__back-truth-label {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #DB0F00;            /* red for "The Truth" */
+    margin-bottom: 0.25rem;
+  }
 </style>

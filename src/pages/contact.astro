@@ -9,10 +9,10 @@ import LeadForm from '../components/LeadForm.astro';
   currentPage="/contact"
 >
   <!-- Hero -->
-  <section class="page-hero section section--textured" style="text-align: center;">
+  <section class="page-hero section " style="text-align: center;">
     <div class="container">
       <div class="contact-icon animate-fadeup" aria-hidden="true">
-        <i class="fa-regular fa-comments"></i>
+        <i class="fa-thin fa-comments"></i>
       </div>
       <h1 class="page-hero__title animate-fadeup animate-fadeup--delay-1">Contact us</h1>
     </div>
@@ -76,10 +76,11 @@ import LeadForm from '../components/LeadForm.astro';
 
 <style>
   .contact-icon {
-    font-size: 3rem;
-    color: var(--color-text-muted);
+    font-size: 3.5rem;
+    color: #c4a882;
     margin-bottom: 1.25rem;
-    opacity: 0.7;
+    opacity: 0.85;
+    line-height: 1;
   }
 
   .contact-layout {
@@ -107,7 +108,7 @@ import LeadForm from '../components/LeadForm.astro';
   .contact-info__block h3 {
     font-size: 1.1rem;
     margin-bottom: 0.75rem;
-    color: var(--color-white);
+    color: var(--color-text);
   }
 
   .contact-info__block p {
@@ -117,7 +118,7 @@ import LeadForm from '../components/LeadForm.astro';
   }
 
   .contact-info__block strong {
-    color: var(--color-white);
+    color: var(--color-text);
   }
 
   .contact-email {

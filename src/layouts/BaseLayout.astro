@@ -15,7 +15,6 @@ const {
 
 const nav = [
   { href: '/lies',    label: 'The Lies' },
-  { href: '/videos',  label: 'Videos' },
   { href: '/stories', label: 'Stories' },
   { href: '/hope',    label: 'Find Hope' },
   { href: '/contact', label: 'Contact' },
@@ -32,15 +31,17 @@ const nav = [
 
     <link rel="icon" type="image/png" href="/favicon.png" />
 
-    <!-- Font Awesome Free — replace with Pro kit when ready:
-         <script src="https://kit.fontawesome.com/YOUR_KIT_ID.js" crossorigin="anonymous"></script> -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+    <!--
+      Font Awesome 7 Pro — local JS files
+      Put your FA7 JS files in /public/fonts/fa7/ :
+        fontawesome.min.js, thin.min.js, brands.min.js
+      The CDN fallback below covers fa-solid + fa-brands until then.
+    -->
+    <script src="/fonts/fa7/fontawesome.min.js" defer></script>
+    <script src="/fonts/fa7/thin.min.js" defer></script>
+    <script src="/fonts/fa7/brands.min.js" defer></script>
+    <!-- CDN fallback for fa-solid + fa-brands while local FA7 files are pending -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Crimson Pro — used for card titles, science heading, hope page, guide label -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -55,7 +56,8 @@ const nav = [
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/images/og-image.png" />
-</head>
+
+  </head>
 
   <body>
     <!-- Announcement Banner -->
@@ -89,10 +91,10 @@ const nav = [
 
           <!-- Social icons -->
           <div class="nav__socials">
-            <a href="http://instagram.com/liesofpo.rn" target="_blank" rel="noopener" aria-label="Instagram">
+            <a href="https://www.instagram.com/ever_accountable/" target="_blank" rel="noopener" aria-label="Instagram">
               <i class="fa-brands fa-instagram" aria-hidden="true"></i>
             </a>
-            <a href="http://facebook.com/liesofporn" target="_blank" rel="noopener" aria-label="Facebook">
+            <a href="https://www.facebook.com/EverAccountable/" target="_blank" rel="noopener" aria-label="Facebook">
               <i class="fa-brands fa-facebook" aria-hidden="true"></i>
             </a>
           </div>
@@ -128,10 +130,10 @@ const nav = [
         <a href={href} class={currentPage === href ? 'active' : ''}>{label}</a>
       ))}
       <div class="nav__mobile-socials">
-        <a href="http://instagram.com/liesofpo.rn" target="_blank" rel="noopener" aria-label="Instagram">
+        <a href="https://www.instagram.com/ever_accountable/" target="_blank" rel="noopener" aria-label="Instagram">
           <i class="fa-brands fa-instagram" aria-hidden="true"></i>
         </a>
-        <a href="http://facebook.com/liesofporn" target="_blank" rel="noopener" aria-label="Facebook">
+        <a href="https://www.facebook.com/EverAccountable/" target="_blank" rel="noopener" aria-label="Facebook">
           <i class="fa-brands fa-facebook" aria-hidden="true"></i>
         </a>
       </div>
@@ -152,7 +154,7 @@ const nav = [
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer section--dark">
       <div class="container">
         <p class="footer__text">
           Copyright {new Date().getFullYear()} Ever Accountable.
@@ -217,9 +219,11 @@ const nav = [
             }
           });
         },
+        // generous rootMargin so elements near top of page still animate in
         { threshold: 0.05, rootMargin: '0px 0px 0px 0px' }
       );
       reveals.forEach(el => observer.observe(el));
     </script>
+
   </body>
 </html>

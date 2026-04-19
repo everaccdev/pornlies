@@ -51,9 +51,9 @@ const stories = [
   currentPage="/stories"
 >
   <!-- Page Hero -->
-  <section class="page-hero section section--textured">
+  <section class="page-hero section">
     <div class="container">
-      <h1 class="page-hero__title">Stories of <span class="text-red">Freedom</span></h1>
+      <h1 class="page-hero__title stories-title">Stories of <span class="text-tan">Freedom</span></h1>
       <p class="page-hero__subtitle"><em>You can be free, too.</em></p>
     </div>
   </section>
@@ -81,9 +81,9 @@ const stories = [
   <!-- Newsletter -->
   <section class="section" aria-labelledby="stories-newsletter">
     <div class="container">
-      <div style="max-width: 520px; margin-inline: auto; text-align: center;">
+      <div style="max-width: 760px; margin-inline: auto; text-align: center;">
         <p class="cta-block__eyebrow" id="stories-newsletter">Want to Stay Connected?</p>
-        <h2 class="cta-block__title" style="margin-bottom: 2rem;">Sign up to receive<br />news and updates</h2>
+        <h2 class="cta-block__title" style="margin-bottom: 2rem;">Sign up to receive news and updates</h2>
         <LeadForm id="stories-newsletter-form" submitLabel="Sign Up" />
       </div>
     </div>
@@ -98,15 +98,5 @@ const stories = [
     .story-card--featured {
       grid-column: span 1;
     }
-  }
-
-  h2.cta-block__title {
-  margin-bottom: 1rem;
-  font-family: 'Crimson Pro', Georgia, serif;
-  font-size: clamp(2rem, 3vw, 2.5rem);
-  color: var(--color-white);
-  font-style: italic;
-  margin-bottom: 2.5rem;
-  font-weight: 400;
   }
 </style>

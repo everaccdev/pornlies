@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import LieCard from '../../components/LieCard.astro';
-import LeadForm from '../../components/LeadForm.astro';
 
 // All 12 lies — matches current site exactly
 // Colors follow an irregular pattern matching the Figma design
@@ -26,7 +25,7 @@ const lies = [
   description="Porn tells you lies. Here they all are — with the truth behind each one."
   currentPage="/lies"
 >
-  <div class="page-hero section section--textured">
+  <div class="page-hero section ">
     <div class="container">
       <h1 class="page-hero__title">
         Porn <span class="text-red">lies.</span> A lot.
@@ -54,21 +53,4 @@ const lies = [
       </div>
     </div>
   </section>
-
-  <!-- Guide download CTA -->
-  <section class="section  section--dark" aria-labelledby="videos-guide">
-    <div class="container">
-      <div class="cta-block">
-        <p class="cta-block__eyebrow">Download the Guide</p>
-        <h2 class="cta-block__title" id="videos-guide">
-          Ways to Kick Porn to the Curb Today
-        </h2>
-        <p class="cta-block__body">
-          Free — delivered straight to your inbox.
-        </p>
-        <LeadForm id="videos-guide-form" submitLabel="Get the Free Guide" />
-      </div>
-    </div>
-  </section>
-
 </BaseLayout>

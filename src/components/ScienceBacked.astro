@@ -3,213 +3,230 @@ interface Props {
   ctaHref?: string;
   ctaLabel?: string;
 }
-
 const {
   ctaHref = 'https://everaccountable.com/fighting-porn-together/',
   ctaLabel = 'Get Free From the Lies',
 } = Astro.props;
 
 const testimonials = [
-  {
-    name: 'David R.',
-    location: 'Virginia',
-    quote: "I'd never be here today without Ever Accountable.",
-    avatar: '/images/avatar1.png',
-  },
-  {
-    name: 'Mariah E.',
-    location: 'California',
-    quote: "My husband is so much happier. Our marriage is far stronger now.",
-    avatar: '/images/avatar2.png',
-  },
-  {
-    name: 'Devon B.',
-    location: 'Texas',
-    quote: "I was so ashamed and felt so alone. Now I'm totally free.",
-    avatar: '/images/avatar3.png',
-  },
+  { name: 'David R.',  location: 'Virginia',   quote: "I'd never be here today without Ever Accountable.",               avatar: '/images/avatar1.png' },
+  { name: 'Mariah E.', location: 'California', quote: "My husband is so much happier. Our marriage is far stronger now.", avatar: '/images/avatar2.png' },
+  { name: 'Devon B.',  location: 'Texas',       quote: "I was so ashamed and felt so alone. Now I'm totally free.",       avatar: '/images/avatar3.png' },
 ];
 ---
 
 <!--
-  The section itself has standard padding.
-  .science-testimonials-col extends 30px above and below the section
-  via negative margin + padding trick, so the cards visually overflow.
+  Layout:
+  .science-outer  — full-width, no bg (transparent)
+    .science-bg-wrap — the dark background div that clips normally
+    .science-inner   — the content grid, z-index above bg-wrap
+      .science-left  — text col
+      .science-testimonials-col — cards overflow 50px above/below bg-wrap via negative margin
 -->
-<section class="science-section" aria-labelledby="science-heading">
+<div class="science-outer">
 
-  <!-- bg image layer with color-dodge blend 
-  <div class="science-bg" aria-hidden="true"></div> -->
+  <!-- Dark bg — cards bleed 50px above/below this -->
+  <div class="science-bg-wrap" aria-hidden="true">
+    <div class="science-bg-texture"></div>
+  </div>
+  <div class="science-inner-wrap">
+    <div class="science-inner container">
 
-  <div class="science-inner container">
-    <div class="science-inner-content">
-    <!-- Left: headline + stat + CTA -->
-    <div class="science-left">
-      <h2 class="science-heading" id="science-heading">
-        Scientifically-backed software that dramatically reduces porn usage.
-      </h2>
-      <p class="science-stat">
-        In fact, 63% of users reported <strong>zero porn usage</strong> after just one month.
-        We guarantee significantly less porn usage or your money back.
-      </p>
-      <a href={ctaHref} target="_blank" rel="noopener" class="btn btn--primary">
-        {ctaLabel}
-      </a>
-    </div>
+      <!-- Left -->
+      <div class="science-left">
+        <h2 class="science-heading" id="science-heading">
+          Scientifically-backed software that dramatically reduces porn usage.
+        </h2>
+        <p class="science-stat">
+          In fact, 63% of users reported <strong>zero porn usage</strong> after just one month.
+          We guarantee significantly less porn usage or your money back.
+        </p>
+        <a href={ctaHref} target="_blank" rel="noopener" class="btn btn--primary">
+          {ctaLabel}
+        </a>
+      </div>
 
-    <!-- Right: testimonials — overflow 30px above/below section -->
-    <div class="science-testimonials-col">
-      {testimonials.map((t, i) => (
-        <div class={`science-card science-card--${i + 1}`}>
-          <div class="science-card__avatar">
-            <img src={t.avatar} alt="" width="80" height="80" />
+      <!-- Right: stacked testimonial cards, overflow bg by 50px -->
+      <div class="science-testimonials-col">
+        {testimonials.map((t, i) => (
+          <div class={`science-card science-card--${i + 1}`}>
+            <div class="science-card__avatar">
+              <img src={t.avatar} alt="" width="80" height="80" loading="lazy" />
+            </div>
+            <div class="science-card__divider" aria-hidden="true"></div>
+            <div class="science-card__body">
+              <p class="science-card__quote">"{t.quote}"</p>
+              <p class="science-card__author">{t.name} · {t.location}</p>
+            </div>
           </div>
-          <!-- Vertical dashed divider -->
-          <div class="science-card__divider" aria-hidden="true"></div>
-          <div class="science-card__body">
-            <p class="science-card__quote">"{t.quote}"</p>
-            <p class="science-card__author">{t.name} <span aria-hidden="true">·</span> {t.location}</p>
-          </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+
     </div>
   </div>
-</section>
+</div>
+
+<!-- Mobile slider (≤640px) with dot nav -->
+<div class="science-mobile" aria-label="Testimonials">
+  <div class="science-slides" id="scienceSlides">
+    {testimonials.map((t, i) => (
+      <div class="science-slide" id={`slide-${i}`}>
+        <div class="science-card science-card--mobile">
+          <div class="science-card__body">
+            <p class="science-card__quote">"{t.quote}"</p>
+            <p class="science-card__author">{t.name} · {t.location}</p>
+          </div>
+          <div class="science-card__hdivider" aria-hidden="true"></div>
+          <div class="science-card__avatar science-card__avatar--sm">
+            <img src={t.avatar} alt="" width="48" height="48" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+  <div class="science-dots" role="tablist">
+    {testimonials.map((_, i) => (
+      <button
+        class={`science-dot${i === 0 ? ' active' : ''}`}
+        data-index={String(i)}
+        role="tab"
+        aria-label={`Testimonial ${i + 1}`}
+        aria-selected={i === 0 ? 'true' : 'false'}
+      ></button>
+    ))}
+  </div>
+</div>
+
+<script>
+  const slider = document.getElementById('scienceSlides');
+  const dots = document.querySelectorAll<HTMLButtonElement>('.science-dot');
+  if (slider && dots.length) {
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const idx = parseInt(dot.dataset.index ?? '0');
+        const slide = document.getElementById(`slide-${idx}`);
+        slide?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+      });
+    });
+    const slides = slider.querySelectorAll<HTMLElement>('.science-slide');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const idx = parseInt(e.target.id.split('-')[1]);
+          dots.forEach((d, i) => {
+            d.classList.toggle('active', i === idx);
+            d.setAttribute('aria-selected', i === idx ? 'true' : 'false');
+          });
+        }
+      });
+    }, { root: slider, threshold: 0.6 });
+    slides.forEach(s => obs.observe(s));
+  }
+</script>
 
 <style>
-  /* ── Section wrapper ─────────────────────────────────────────────────────── */
-  .science-section {
+  /* ─────────────────────────────────────────────────────────────────────────
+     OUTER wrapper — full width, transparent, gives space for card bleed
+  ───────────────────────────────────────────────────────────────────────── */
+  .science-outer {
     position: relative;
-    padding-block: clamp(4rem, 9vw, 7rem);
-    overflow: visible; /* allow testimonials col to bleed out */
-    isolation: isolate;
+    /* Add 50px padding top/bottom so cards can bleed outside bg-wrap */
+    padding-block: 50px;
   }
 
-  /* ── Background: texture-paint.png with color-dodge blend ───────────────── */
-  .science-bg {
+  /* The actual dark background — sits in normal flow, 50px inset from outer */
+  .science-bg-wrap {
+    position: absolute;
+    inset: 50px 0;          /* 50px gap top and bottom = cards bleed outside */
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  /* Texture overlay inside bg-wrap */
+  /*.science-bg-texture {
     position: absolute;
     inset: 0;
-    background-color: #2a0e0e;
     background-image: url('/images/bg-science.jpg');
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
     mix-blend-mode: color-dodge;
     opacity: 0.18;
-    z-index: -1;
+  }*/
+
+  .science-inner-wrap {
+    background-color: #2a0e0e;
+    width:100%;
+    padding:0;
   }
 
-  /* Dark base behind the blend */
-  .science-section::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-color: transparent;
-    z-index: -2;
-  }
-
-  /* ── Inner grid ──────────────────────────────────────────────────────────── */
+  /* Content grid sits above the bg */
   .science-inner {
     background-color: #2a0e0e;
-    margin:0 0 0 0;
-    max-width:100%;
-    justify-items:center;
-    padding:.5rem;
-  }
-
-  .science-inner-content {
+    position: relative;
+    z-index: 1;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(3rem, 6vw, 6rem);
+    grid-template-columns: 3fr 2fr;
+    gap: clamp(3rem, 6vw, 5rem);
     align-items: center;
-    max-width:1200px;
+    /* Match the inner section's padding */
+    padding-block: clamp(1.5rem, 3vw, 2.5rem);
   }
 
-  @media (max-width: 860px) {
-    .science-inner {
-      grid-template-columns: 1fr;
-      gap: 3rem;
-    }
-  }
-
-  /* ── Left: text ─────────────────────────────────────────────────────────── */
-  /* Figma: Crimson Pro 500, 40px, line-height 1, letter-spacing -0.5px, #F5EDD7 */
+  /* ── Left copy ── */
   .science-heading {
     font-family: 'Crimson Pro', Georgia, serif;
     font-size: clamp(1.75rem, 3.2vw, 2.5rem);
     font-weight: 500;
     color: #F5EDD7;
-    line-height: 1;
+    line-height: 1.1;
     letter-spacing: -0.5px;
     margin-bottom: 1.25rem;
   }
-
   .science-stat {
     font-size: clamp(0.9rem, 1.4vw, 1rem);
-    color: rgba(245, 237, 224, 0.75);
+    color: rgba(245,237,224,0.75);
     line-height: 1.75;
     margin-bottom: 2rem;
   }
+  .science-stat strong { color: #F5EDD7; font-weight: 700; }
 
-  .science-stat strong {
-    color: #F5EDD7;
-    font-weight: 700;
-  }
-
-  /* ── Right: testimonials column with 30px vertical overflow ─────────────── */
+  /* ── Testimonials column — bleeds 50px above/below bg-wrap ── */
   .science-testimonials-col {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    /* Extend above and below the section */
-    margin-block: -90px;
-    padding-block: 70px;
+    /* Negative margins let cards extend outside the bg-wrap */
+    margin-block: -50px;
+    padding-block: 0;
   }
 
-  /* ── Individual testimonial card ─────────────────────────────────────────── */
-  /* Skinnier & thicker than before — more landscape ratio */
+  /* ── Card base ── */
   .science-card {
     display: flex;
-    align-items: center;        /* vertically center avatar */
-    gap: 0;                   
+    align-items: center;
     background-color: #593230;
     border-radius: 3px;
-    padding: 1.5rem 1.8rem;
+    padding: 1rem 1.5rem;
     min-height: 88px;
     transition: transform 0.3s ease;
   }
 
-  /* Card slant */
-  .science-card--1 { transform: rotate(-1.8deg) translateY(0); }
-  .science-card--2 { transform: rotate(1.4deg)  translateY(0); }
-  .science-card--3 { transform: rotate(-1.2deg) translateY(0); }
+  /* Staggered widths + slant (desktop) */
+  .science-card--1 { width: 90%; margin-left: auto; margin-right: 3%; transform: rotate(-1.8deg); }
+  .science-card--2 { width: 100%;                                      transform: rotate(1.4deg);  }
+  .science-card--3 { width: 86%; margin-left: auto; margin-right: 5%; transform: rotate(-1.2deg); }
+  .science-card:hover { transform: rotate(0deg) scale(1.01); }
 
-  .science-card:hover {
-    transform: rotate(0deg) scale(1.01) translateY(0);
-  }
-
-  /* Avatar: 80×80, centered vertically */
+  /* Avatar */
   .science-card__avatar {
-    width: 80px;
-    height: 80px;
+    width: 80px; height: 80px;
     border-radius: 50%;
     flex-shrink: 0;
     overflow: hidden;
-    background: rgba(0,0,0,0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
+  .science-card__avatar img { width: 80px; height: 80px; object-fit: cover; display: block; }
 
-  .science-card__avatar img {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    display: block;
-  }
-
-  /* Vertical dashed divider between avatar and text */
+  /* Vertical dashed divider */
   .science-card__divider {
     width: 1px;
     align-self: stretch;
@@ -217,37 +234,146 @@ const testimonials = [
     flex-shrink: 0;
     background-image: repeating-linear-gradient(
       to bottom,
-      rgba(245, 237, 224, 0.3) 0px,
-      rgba(245, 237, 224, 0.3) 4px,
-      transparent 4px,
-      transparent 10px
+      rgba(245,237,224,0.3) 0px, rgba(245,237,224,0.3) 4px,
+      transparent 4px, transparent 10px
     );
   }
 
-  /* Body */
-  .science-card__body {
-    flex: 1;
-    min-width: 0;
-  }
-
-  /* Quote — Crimson Pro */
+  .science-card__body { flex: 1; min-width: 0; }
   .science-card__quote {
     font-family: 'Crimson Pro', Georgia, serif;
-    font-size: 1.1rem;
-    font-style: normal;
-    font-weight: 400;
+    font-size: 1.05rem;
     color: #F5EDD7;
     line-height: 1.5;
     margin-bottom: 0.4rem;
   }
-
-  /* Author — uppercase gold */
   .science-card__author {
-    font-family: var(--font-body);
     font-size: 0.65rem;
     font-weight: 700;
     letter-spacing: 0.13em;
     text-transform: uppercase;
     color: #FFBE00;
   }
+
+  /* Mobile slider hidden on desktop/tablet */
+  .science-mobile { display: none; }
+
+  /* ─────────────────────────────────────────────────────────────────────────
+     TABLET (641–1024px): keep 2 columns, smaller avatars, slant preserved
+  ───────────────────────────────────────────────────────────────────────── */
+  @media (max-width: 1024px) and (min-width: 641px) {
+      .science-inner {
+        /* Keep 2 columns but narrower ratio */
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+      }
+      /* Smaller avatars on tablet */
+      .science-card__avatar { order:3; width: 36px; height: 36px; margin-bottom:.3rem; }
+      .science-card__avatar img { width: 36px; height: 36px; }
+      /* Slightly reduce padding */
+      .science-card { padding: 0.875rem 1rem; min-height: 72px; }
+      /* Keep staggered widths but less extreme */
+      .science-card--1 { width: 95%; margin-right: 1%; }
+      .science-card--2 { width: 100%; margin-right: 0; }
+      .science-card--3 { width: 92%; margin-right: 2%; }
+      /* Slant stays */
+      .science-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem;
+        min-height: auto;
+        width: 100%;
+        gap: 0;
+      }
+
+      .science-card__divider {
+        order: 2;
+        width: 100%; height: 1px;
+        margin: 0.75rem 0;
+        margin-inline: 0rem;
+        background-image: repeating-linear-gradient(
+          to right,
+          rgba(245,237,224,0.3) 0px, rgba(245,237,224,0.3) 4px,
+          transparent 4px, transparent 10px
+        );
+      }
+    }
+
+    
+
+
+  /* ─────────────────────────────────────────────────────────────────────────
+     MOBILE (≤640px): hide stacked col, show slider
+  ───────────────────────────────────────────────────────────────────────── */
+  @media (max-width: 640px) {
+    .science-outer {
+      position: relative;
+      padding-block: 50px 0;
+    }  
+    .science-inner { grid-template-columns: 1fr; gap: 1.5rem; }
+    .science-testimonials-col { display: none; }
+
+    .science-mobile {
+      display: block;
+      background-color: #2a0e0e;
+      padding-bottom: 1.5rem;
+    }
+    .science-slides {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding: 1rem 1.25rem;
+      gap: 1rem;
+    }
+    .science-slides::-webkit-scrollbar { display: none; }
+    .science-slide {
+      flex: 0 0 82vw;
+      max-width: 340px;
+      scroll-snap-align: center;
+    }
+    /* Mobile card: text → h-divider → small avatar */
+    .science-card--mobile {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 1.25rem;
+      min-height: auto;
+      width: 100%;
+      transform: none;
+      gap: 0;
+    }
+    .science-card--mobile .science-card__body { order: 1; width: 100%; margin-bottom: 0.75rem; }
+    .science-card__hdivider {
+      order: 2;
+      width: 100%; height: 1px;
+      margin-bottom: 0.75rem;
+      background-image: repeating-linear-gradient(
+        to right,
+        rgba(245,237,224,0.3) 0px, rgba(245,237,224,0.3) 4px,
+        transparent 4px, transparent 10px
+      );
+    }
+    .science-card__avatar--sm { order: 3; width: 48px; height: 48px; }
+    .science-card__avatar--sm img { width: 48px; height: 48px; }
+
+    /* Dots */
+    .science-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      padding-top: 0.75rem;
+    }
+    .science-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: rgba(245,237,224,0.25);
+      border: none; cursor: pointer; padding: 0;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .science-dot.active { background: #F5EDD7; transform: scale(1.3); }
+  }
+
+  .science-dots { display: none; }
+  @media (max-width: 640px) { .science-dots { display: flex; } }
 </style>

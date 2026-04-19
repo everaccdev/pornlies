@@ -277,29 +277,19 @@ const colorAccent: Record<string, string> = {
     </div>
   </section>
 
-  <!-- Newsletter -->
-  <section class="section section--dark">
-    <div class="container">
-      <div class="cta-block">
-        <p class="cta-block__eyebrow">Want to Stay Connected?</p>
-        <h2 class="cta-block__title">Sign up for news and updates</h2>
-        <LeadForm id={`lie-newsletter-${lie.slug}`} submitLabel="Sign Up" />
-      </div>
-    </div>
-  </section>
-
 </BaseLayout>
 
 <style>
   .lie-detail-hero {
     padding-block: clamp(3rem, 8vw, 6rem);
+    padding-bottom: 0;
     text-align: center;
     border-bottom: 1px solid rgba(255,255,255,0.06);
   }
   .lie-detail-hero__number {
     font-family: var(--font-serif);
     font-style: italic;
-    font-size: 0.9rem;
+    font-size: 1.2rem;
     color: var(--color-accent-red);
     letter-spacing: 0.1em;
     margin-bottom: 1rem;
@@ -309,8 +299,8 @@ const colorAccent: Record<string, string> = {
     font-family: var(--font-serif);
     font-size: clamp(2rem, 5vw, 3.5rem);
     font-style: italic;
-    font-weight: 700;
-    color: var(--color-white);
+    font-weight: 400;
+    color: #F5EDD7;
     max-width: 800px;
     margin-inline: auto;
     line-height: 1.15;
@@ -366,7 +356,7 @@ const colorAccent: Record<string, string> = {
     max-width: 240px;
     text-decoration: none;
   }
-  .lie-nav-link:hover { color: var(--color-white); }
+  .lie-nav-link:hover { color: var(--color-text); }
   .lie-nav-link span {
     display: flex;
     flex-direction: column;
@@ -383,7 +373,6 @@ const colorAccent: Record<string, string> = {
     font-weight: 600;
   }
   .lie-nav-link--next {
-    flex-direction: row-reverse;
     text-align: right;
   }
   .lie-nav-link--next span { align-items: flex-end; }

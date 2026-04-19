@@ -57,12 +57,12 @@ const lies = [
 
     <!-- Guide CTA below video -->
     <div class="hero__cta container animate-fadeup animate-fadeup--delay-3">
-      <p class="hero__cta-label">Download the guide:</p>
+      <p class="guide-label">Download the guide:</p>
       <a href="#download" class="btn btn--red hero__cta-btn">
         5 Things You Can Do Today to Kick Porn to the Curb
       </a>
-      <a href="#videos" class="btn btn--outline hero__cta-ghost">
-        View More <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
+      <a href="/videos" class="btn btn--outline hero__cta-ghost">
+        View All Videos <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
       </a>
     </div>
 
@@ -72,7 +72,7 @@ const lies = [
   <ScienceBacked />
 
   <!-- ── More Videos: 2+2 ──────────────────────────────────────────────── -->
-  <section id="videos" class="section">
+  <section class="section">
     <div class="container">
       <div class="video-grid">
         <VideoEmbed youtubeId={videos[1].youtubeId} title={videos[1].title} />
@@ -83,22 +83,20 @@ const lies = [
         <VideoEmbed youtubeId={videos[4].youtubeId} title={videos[4].title} />
       </div>
       <div class="text-center mt-lg">
-        <a href="/videos" class="btn btn--outline">
-          View All Videos <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+        <a href="https://everaccountable.com/fighting-porn-together/" target="_blank" rel="noopener" class="btn btn--primary">
+          Get Free From Lies
         </a>
       </div>
     </div>
   </section>
 
-   <!-- Guide download CTA -->
-  <section class="section  section--dark" aria-labelledby="videos-guide">
-    <div class="container">
-      <div class="cta-block">
-        <p class="cta-block__eyebrow">Download the Guide</p>
-        <h2 class="cta-block__title" id="videos-guide">
-          Ways to Kick Porn to the Curb Today
-        </h2>
-        <LeadForm id="videos-guide-form" submitLabel="Get the Free Guide" />
+  <!-- ── Download Guide form ───────────────────────────────────────────── -->
+  <section class="section section--dark" id="download" aria-labelledby="guide-heading">
+    <div class="container" style="max-width: 800px;">
+      <div class="text-center">
+        <p class="cta-block__eyebrow">Download the Guide:</p>
+        <h2 class="cta-block__title" id="guide-heading">Ways to Kick Porn to the Curb Today</h2>
+        <LeadForm id="guide-form" submitLabel="Get the Free Guide" />
       </div>
     </div>
   </section>
@@ -154,7 +152,7 @@ const lies = [
     height: 100%;
     min-height: 700px;
     background-image: url('/images/textures/texture-grain.png');
-    background-size:contain;
+    background-size: cover;
     background-position: top center;
     background-repeat: no-repeat;
     mix-blend-mode: screen;
@@ -166,17 +164,19 @@ const lies = [
   .hero__content {
     position: relative;
     z-index: 1;
+    padding-top: clamp(0.5rem, 2vw, 1.5rem);   /* minimal — hero starts near top */
     padding-bottom: 2rem;
   }
 
   /* Title: 120px desktop */
   :global(.hero__title) {
-    font-size: clamp(3.5rem, 10vw, 7.5rem) !important; /* 120px at 1600px wide */
+    font-size: clamp(3.5rem, 10vw, 7.5rem) !important;
     line-height: 1.0 !important;
     white-space: nowrap;
     color: #F5EDD7 !important;
     font-weight: 700 !important;
     margin-bottom: 0.5rem !important;
+    letter-spacing: -0.03em !important;
   }
 
   @media (max-width: 700px) {
@@ -201,7 +201,7 @@ const lies = [
   .hero__video {
     position: relative;
     z-index: 1;
-    width: min(920px, 90%);
+    width: min(760px, 90%);
     margin-inline: auto;
     margin-bottom: 2.5rem;
   }
@@ -238,5 +238,23 @@ const lies = [
   .hero__cta-ghost {
     width: 100%;
     padding: 0.85rem 1.5rem;
+  }
+  .guide-form-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #FFBE00;
+    margin-bottom: 0.4rem;
+  }
+  .guide-form-title {
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 500;
+    font-style: italic;
+    color: #F5EDD7;
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+    line-height: 1.2;
   }
 </style>
