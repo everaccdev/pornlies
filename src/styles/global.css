@@ -321,6 +321,14 @@ em, i {
   opacity: 0.9;
 }
 
+@media (max-width: 690px) {
+    .announcement-banner {
+      display:flow-root;
+      padding:.2rem 1.2rem;
+      height:100%;
+    }
+  }
+
 /* --- Navigation --- */
 .nav {
   position: sticky;
