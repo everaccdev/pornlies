@@ -3,10 +3,9 @@ type CardColor = 'cream' | 'red' | 'yellow' | 'dark';
 
 // Truly irregular pattern — no two same adjacent colors
 const COLOR_PATTERN: CardColor[] = [
-  'cream', 'red',    'dark',   'yellow',
-  'red',   'yellow', 'cream',  'dark',
-  'dark',  'cream',  'yellow', 'red',
-  'yellow','dark',   'red',    'cream',
+  'cream',  'red',    'dark',   'yellow',
+  'red',    'dark',   'yellow', 'cream',
+  'yellow', 'cream',  'red',    'dark',
 ];
 
 interface Props {
@@ -97,15 +96,21 @@ const color: CardColor = Astro.props.color ?? COLOR_PATTERN[index % COLOR_PATTER
     right: 0.875rem;
     background: none;
     border: none;
-    color: rgba(245, 237, 224, 0.55);
+    color: rgba(245, 237, 224, 0.6);
     font-size: 1rem;
     cursor: pointer;
     padding: 0.35rem;
-    z-index: 10;     /* above ::before texture overlay */
+    z-index: 10;
     line-height: 1;
-    display: flex;
+    display: none;        /* hidden on desktop/mouse */
     align-items: center;
     justify-content: center;
+  }
+  /* Only show X on touchscreen devices */
+  @media (hover: none) {
+    .lie-card__close {
+      display: flex;
+    }
   }
   .lie-card__close:hover { color: #F5EDD7; }
 
@@ -116,18 +121,18 @@ const color: CardColor = Astro.props.color ?? COLOR_PATTERN[index % COLOR_PATTER
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: #FFBE00;            /* gold for "The Lie" */
+    color: #DB0F00;            /* red for "The Lie" */
     margin-bottom: 0.3rem;
   }
 
   .lie-card__back-lie-title {
     font-family: 'Crimson Pro', Georgia, serif;
-    font-size: 1rem;
+    font-size: 1.05rem;
     font-weight: 400;          /* not bold */
     font-style: italic;
     color: #F5EDD7;            /* tan — no white */
     line-height: 1.3;
-    margin-bottom: 0.75rem;
+    margin-bottom: 1.25rem;
   }
 
   .lie-card__back-truth-label {
@@ -136,7 +141,8 @@ const color: CardColor = Astro.props.color ?? COLOR_PATTERN[index % COLOR_PATTER
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: #DB0F00;            /* red for "The Truth" */
+    color: #FFBE00;           /* gold */
+    margin-top: 0.25rem;
     margin-bottom: 0.25rem;
   }
 </style>
